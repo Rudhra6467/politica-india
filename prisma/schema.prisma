@@ -1,0 +1,114 @@
+// Politica India - Core Data Model
+// Source of truth for declarations: ECI Form 26 affidavits
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Party {
+  id          String      @id @default(cuid())
+  name        String
+  abbreviation String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  candidates  Candidate[]
+}
+
+model Candidate {
+  id            String     @id @default(cuid())
+  name          String
+  partyId       String?
+  party         Party?     @relation(fields: [partyId], references: [id])
+  constituency  String
+  state         String
+  electionType  String     // "Lok Sabha" | "Assembly" | etc.
+  electionYear  Int?
+  photoUrl      String?
+  age           Int?
+  education     String?
+  profession    String?
+  // Affidavit summary fields (from ECI Form 26)
+  totalAssets   BigInt?
+  totalLiabilities BigInt?
+  criminalCases Int        @default(0)
+  affidavitPdfUrl String?  // Link to original ECI Form 26 PDF
+  affidavitSource String?  // "ECI Affidavit Portal" etc.
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  promises      Promise[]
+  likes         Like[]
+  comments      Comment[]
+}
+
+model Promise {
+  id          String   @id @default(cuid())
+  candidateId String
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  sourceUrl   String?  // News article, speech, manifesto link
+  sourceNote  String?
+  status      PromiseStatus @default(NOT_STARTED)
+  claimedDate DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  likes       Like[]
+  comments    Comment[]
+}
+
+enum PromiseStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  DISPUTED
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String?  @unique
+  phone         String?  @unique
+  name          String?
+  isVerified    Boolean  @default(false)  // Dual / stronger verification flag
+  verificationMethod String? // "offline_aadhaar" | "document" | etc.
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  likes         Like[]
+  comments      Comment[]
+}
+
+model Like {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  candidateId String?
+  candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  promiseId   String?
+  promise     Promise? @relation(fields: [promiseId], references: [id], onDelete: Cascade)
+  isLike      Boolean  // true = like, false = dislike
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, candidateId])
+  @@unique([userId, promiseId])
+}
+
+model Comment {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  candidateId String?
+  candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  promiseId   String?
+  promise     Promise? @relation(fields: [promiseId], references: [id], onDelete: Cascade)
+  content     String
+  isHidden    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
