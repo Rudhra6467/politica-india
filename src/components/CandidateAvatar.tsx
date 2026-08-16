@@ -56,14 +56,14 @@ export default function CandidateAvatar({
       <img
         src={photoUrl}
         alt={name}
-        className={`${classes} rounded-full object-cover ring-2 ring-white shadow`}
+        className={`${classes} rounded-2xl object-cover ring-2 ring-white/10 shadow-lg`}
       />
     );
   }
 
   return (
     <div
-      className={`${classes} ${getColor(name)} rounded-full flex items-center justify-center font-semibold text-white ring-2 ring-white shadow`}
+      className={`${classes} ${getColor(name)} rounded-2xl flex items-center justify-center font-semibold text-white ring-2 ring-white/10 shadow-lg`}
       title={name}
     >
       {getInitials(name)}

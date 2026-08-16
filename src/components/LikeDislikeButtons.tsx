@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 
 interface LikeDislikeButtonsProps {
-  id: string; // unique key for localStorage (e.g. "cand-001" or "p-003")
+  id: string;
   initialLikes: number;
   initialDislikes: number;
   size?: "sm" | "md";
+  dark?: boolean;
 }
 
 type StoredVote = {
@@ -21,9 +22,7 @@ function loadVote(id: string, initialLikes: number, initialDislikes: number): St
   }
   try {
     const raw = localStorage.getItem(`politica-vote-${id}`);
-    if (raw) {
-      return JSON.parse(raw) as StoredVote;
-    }
+    if (raw) return JSON.parse(raw) as StoredVote;
   } catch {
     // ignore
   }
@@ -43,13 +42,13 @@ export default function LikeDislikeButtons({
   initialLikes,
   initialDislikes,
   size = "md",
+  dark = false,
 }: LikeDislikeButtonsProps) {
   const [likes, setLikes] = useState(initialLikes);
   const [dislikes, setDislikes] = useState(initialDislikes);
   const [userVote, setUserVote] = useState<"like" | "dislike" | null>(null);
   const [hydrated, setHydrated] = useState(false);
 
-  // Load from localStorage after mount (avoid hydration mismatch)
   useEffect(() => {
     const stored = loadVote(id, initialLikes, initialDislikes);
     setLikes(stored.likes);
@@ -85,13 +84,12 @@ export default function LikeDislikeButtons({
 
   const btnBase =
     size === "sm"
-      ? "flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-sm transition"
-      : "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm transition";
+      ? "flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-sm transition"
+      : "flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-sm transition";
 
-  // Prevent flash of wrong numbers before hydration
   if (!hydrated) {
     return (
-      <div className="flex items-center gap-3 opacity-60">
+      <div className="flex items-center gap-2.5 opacity-50">
         <div className={btnBase}>
           <span>👍</span>
           <span className="font-medium">{initialLikes.toLocaleString()}</span>
@@ -100,6 +98,37 @@ export default function LikeDislikeButtons({
           <span>👎</span>
           <span className="font-medium">{initialDislikes.toLocaleString()}</span>
         </div>
+      </div>
+    );
+  }
+
+  if (dark) {
+    return (
+      <div className="flex items-center gap-2.5">
+        <button
+          onClick={handleLike}
+          className={`${btnBase} ${
+            userVote === "like"
+              ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300"
+              : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
+          }`}
+          title="Like"
+        >
+          <span>👍</span>
+          <span className="font-medium">{likes.toLocaleString()}</span>
+        </button>
+        <button
+          onClick={handleDislike}
+          className={`${btnBase} ${
+            userVote === "dislike"
+              ? "bg-rose-500/20 border-rose-500/50 text-rose-300"
+              : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
+          }`}
+          title="Dislike"
+        >
+          <span>👎</span>
+          <span className="font-medium">{dislikes.toLocaleString()}</span>
+        </button>
       </div>
     );
   }
@@ -118,7 +147,6 @@ export default function LikeDislikeButtons({
         <span>👍</span>
         <span className="font-medium">{likes.toLocaleString()}</span>
       </button>
-
       <button
         onClick={handleDislike}
         className={`${btnBase} ${

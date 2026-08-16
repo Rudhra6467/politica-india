@@ -1,18 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useVerification } from "./VerificationBanner";
 
 interface Comment {
   id: string;
   name: string;
   text: string;
+  verified: boolean;
   createdAt: string;
-  isVerified: boolean;
 }
 
 interface CommentSectionProps {
   promiseId: string;
+  dark?: boolean;
 }
 
 function loadComments(promiseId: string): Comment[] {
@@ -34,137 +34,138 @@ function saveComments(promiseId: string, comments: Comment[]) {
   }
 }
 
-export default function CommentSection({ promiseId }: CommentSectionProps) {
-  const { isVerified } = useVerification();
+function isVerified(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem("politica-verified") === "true";
+}
+
+export default function CommentSection({ promiseId, dark = false }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
+  const [verified, setVerified] = useState(false);
   const [hydrated, setHydrated] = useState(false);
-  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     setComments(loadComments(promiseId));
+    setVerified(isVerified());
     setHydrated(true);
   }, [promiseId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !text.trim()) return;
+    if (!text.trim() || !name.trim()) return;
 
     const newComment: Comment = {
-      id: `c-${Date.now()}`,
+      id: `${Date.now()}`,
       name: name.trim(),
       text: text.trim(),
+      verified,
       createdAt: new Date().toISOString(),
-      isVerified: isVerified,
     };
 
-    const updated = [newComment, ...comments];
-    setComments(updated);
-    saveComments(promiseId, updated);
+    const next = [newComment, ...comments];
+    setComments(next);
+    saveComments(promiseId, next);
     setText("");
-    setShowForm(false);
   };
 
-  if (!hydrated) {
+  if (!hydrated) return null;
+
+  if (dark) {
     return (
-      <div className="mt-4 pt-4 border-t text-sm text-slate-400">
-        Loading comments...
+      <div className="space-y-4">
+        {comments.length > 0 && (
+          <div className="space-y-3">
+            {comments.map((c) => (
+              <div key={c.id} className="rounded-xl bg-zinc-950/50 border border-white/5 px-3.5 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-zinc-300">{c.name}</span>
+                  {c.verified && (
+                    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      Verified
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1 text-sm text-zinc-400 leading-relaxed">{c.text}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-2.5">
+          <input
+            type="text"
+            placeholder="Display name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full rounded-xl border border-white/10 bg-zinc-950/60 px-3.5 py-2.5 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30"
+          />
+          <textarea
+            placeholder={verified ? "Write a comment…" : "Comments require dual verification (mock toggle available on page)"}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={2}
+            disabled={!verified}
+            className="w-full rounded-xl border border-white/10 bg-zinc-950/60 px-3.5 py-2.5 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+          />
+          <button
+            type="submit"
+            disabled={!verified || !text.trim() || !name.trim()}
+            className="rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-2 text-sm font-medium text-white transition"
+          >
+            Post comment
+          </button>
+        </form>
       </div>
     );
   }
 
+  // Light mode (default)
   return (
-    <div className="mt-4 pt-4 border-t">
-      <div className="flex items-center justify-between mb-3">
-        <h4 className="text-sm font-medium text-slate-700">
-          Comments ({comments.length})
-        </h4>
-        {!showForm && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
-          >
-            + Add comment
-          </button>
-        )}
-      </div>
-
-      {/* Form */}
-      {showForm && (
-        <form onSubmit={handleSubmit} className="mb-4 space-y-3 rounded-xl bg-slate-50 p-4">
-          {!isVerified && (
-            <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-              You are currently a <strong>basic user</strong>. Toggle “Simulate dual verification” at the top of the page to post as a verified user and receive the Verified badge.
-            </div>
-          )}
-
-          {isVerified && (
-            <div className="text-xs text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2">
-              Posting as <strong>Verified</strong> user. Your comment will show a Verified badge.
-            </div>
-          )}
-
-          <input
-            type="text"
-            placeholder="Your display name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            maxLength={40}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-            required
-          />
-
-          <textarea
-            placeholder="Write a factual comment about this promise..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={3}
-            maxLength={500}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"
-            required
-          />
-
-          <div className="flex items-center gap-3">
-            <button
-              type="submit"
-              className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
-            >
-              Post comment
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowForm(false)}
-              className="text-sm text-slate-500 hover:text-slate-700"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      )}
-
-      {/* Comment list */}
-      {comments.length === 0 ? (
-        <p className="text-sm text-slate-400">No comments yet. Be the first.</p>
-      ) : (
-        <div className="space-y-3">
+    <div className="space-y-3">
+      {comments.length > 0 && (
+        <div className="space-y-2">
           {comments.map((c) => (
-            <div key={c.id} className="rounded-lg bg-slate-50 px-3 py-2.5">
-              <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
-                <span className="font-medium text-slate-700">{c.name}</span>
-                {c.isVerified && (
-                  <span className="rounded-full bg-indigo-100 px-1.5 py-0.5 text-[10px] font-medium text-indigo-700">
+            <div key={c.id} className="rounded-lg bg-slate-50 border px-3 py-2">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-slate-800">{c.name}</span>
+                {c.verified && (
+                  <span className="text-[10px] font-medium px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700">
                     Verified
                   </span>
                 )}
-                <span>·</span>
-                <span>{new Date(c.createdAt).toLocaleDateString()}</span>
               </div>
-              <p className="text-sm text-slate-800 whitespace-pre-wrap">{c.text}</p>
+              <p className="mt-0.5 text-sm text-slate-600">{c.text}</p>
             </div>
           ))}
         </div>
       )}
+
+      <form onSubmit={handleSubmit} className="space-y-2">
+        <input
+          type="text"
+          placeholder="Display name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <textarea
+          placeholder={verified ? "Write a comment…" : "Comments require dual verification"}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          rows={2}
+          disabled={!verified}
+          className="w-full rounded-lg border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
+        />
+        <button
+          type="submit"
+          disabled={!verified || !text.trim() || !name.trim()}
+          className="rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 px-4 py-2 text-sm font-medium text-white"
+        >
+          Post comment
+        </button>
+      </form>
     </div>
   );
 }
