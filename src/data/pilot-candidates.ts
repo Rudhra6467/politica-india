@@ -29,7 +29,7 @@ export interface PilotCandidate {
   age?: number;
   education?: string;
   profession?: string;
-  totalAssets?: string; // human readable for now
+  totalAssets?: string;
   totalLiabilities?: string;
   criminalCases: number;
   affidavitPdfUrl?: string;
@@ -238,4 +238,56 @@ export const pilotCandidates: PilotCandidate[] = [
 
 export function getCandidateById(id: string): PilotCandidate | undefined {
   return pilotCandidates.find((c) => c.id === id);
+}
+
+export function getAllStates(): string[] {
+  return Array.from(new Set(pilotCandidates.map((c) => c.state))).sort();
+}
+
+export function getPartiesInState(state: string) {
+  const map = new Map<string, { name: string; abbr: string; count: number }>();
+  pilotCandidates
+    .filter((c) => c.state === state)
+    .forEach((c) => {
+      const existing = map.get(c.partyAbbr);
+      if (existing) {
+        existing.count += 1;
+      } else {
+        map.set(c.partyAbbr, { name: c.party, abbr: c.partyAbbr, count: 1 });
+      }
+    });
+  return Array.from(map.values()).sort((a, b) => b.count - a.count);
+}
+
+export function getNationalParties() {
+  const map = new Map<string, { name: string; abbr: string; count: number }>();
+  pilotCandidates.forEach((c) => {
+    const existing = map.get(c.partyAbbr);
+    if (existing) {
+      existing.count += 1;
+    } else {
+      map.set(c.partyAbbr, { name: c.party, abbr: c.partyAbbr, count: 1 });
+    }
+  });
+  return Array.from(map.values()).sort((a, b) => b.count - a.count);
+}
+
+export function getCandidatesByPartyAndState(partyAbbr: string, state: string) {
+  return pilotCandidates.filter((c) => c.partyAbbr === partyAbbr && c.state === state);
+}
+
+export function getOtherCandidatesInState(partyAbbr: string, state: string) {
+  // Group remaining candidates by party
+  const others = pilotCandidates.filter((c) => c.state === state && c.partyAbbr !== partyAbbr);
+  const grouped = new Map<string, PilotCandidate[]>();
+  others.forEach((c) => {
+    const list = grouped.get(c.partyAbbr) || [];
+    list.push(c);
+    grouped.set(c.partyAbbr, list);
+  });
+  return Array.from(grouped.entries()).map(([abbr, candidates]) => ({
+    partyAbbr: abbr,
+    partyName: candidates[0].party,
+    candidates,
+  }));
 }
