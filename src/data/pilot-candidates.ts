@@ -1,7 +1,7 @@
 /**
  * Pilot data — Andhra Pradesh + Telangana
- * Real 2023/2024 ECI affidavit figures (via ADR/MyNeta) applied to major leaders.
- * Remaining still marked pending verification.
+ * Real 2023/2024 ECI affidavit figures (via ADR/MyNeta) applied to the core set.
+ * A few lower-priority entries remain pending individual verification.
  */
 
 export type PromiseStatus =
@@ -127,8 +127,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "ap-ysrcp-04", name: "Ambati Rambabu", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
     constituency: "Sattenapalle", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    age: 58, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-05", sortOrder: 4,
+    age: 66, education: "Graduate Professional", profession: "Politician",
+    totalAssets: "₹42.6 Cr (2024 affidavit)", totalLiabilities: "₹11.2 Cr", criminalCases: 2,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 4,
     likes: 650, dislikes: 190,
     promises: [{ id: "ap-p09", title: "Rural roads and drinking water focus", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-12", likes: 280, dislikes: 55 }],
   },
@@ -147,8 +148,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "ap-jsp-02", name: "Nadendla Manohar", party: "Jana Sena Party", partyAbbr: "JSP",
     constituency: "Tenali", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    age: 55, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-07", sortOrder: 2,
+    age: 60, education: "Post Graduate", profession: "Consultation / Social Service",
+    totalAssets: "₹22.9 Cr (2024 affidavit)", totalLiabilities: "₹4.4 Cr", criminalCases: 0,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 2,
     likes: 890, dislikes: 160,
     promises: [{ id: "ap-p12", title: "Local development and party organisational strength", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-21", likes: 380, dislikes: 70 }],
   },
@@ -210,8 +212,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-brs-05", name: "Talasani Srinivas Yadav", party: "Bharat Rashtra Samithi", partyAbbr: "BRS",
     constituency: "Sanathnagar", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 55, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-06", sortOrder: 5,
+    age: 58, education: "12th Pass", profession: "Politician",
+    totalAssets: "₹74.9 Cr (2023 affidavit)", totalLiabilities: "₹13.9 Cr", criminalCases: 0,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 5,
     likes: 860, dislikes: 190,
     promises: [{ id: "tg-p05", title: "Urban infrastructure and employment", sourceNote: "Campaign", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-18", likes: 360, dislikes: 60 }],
   },
@@ -236,24 +239,27 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-inc-03", name: "Uttam Kumar Reddy", party: "Indian National Congress", partyAbbr: "INC",
     constituency: "Huzurnagar", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 60, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-08", sortOrder: 3,
+    age: 59, education: "Graduate", profession: "Politician",
+    totalAssets: "₹6 Cr (2023 affidavit)", totalLiabilities: "₹86 Lakh", criminalCases: 11,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 3,
     likes: 1100, dislikes: 290,
     promises: [{ id: "tg-p08", title: "Irrigation and constituency development", sourceNote: "Campaign", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 480, dislikes: 90 }],
   },
   {
     id: "tg-inc-04", name: "Danam Nagender", party: "Indian National Congress", partyAbbr: "INC",
     constituency: "Khairatabad", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 58, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-07", sortOrder: 4,
+    age: 60, education: "Post Graduate", profession: "Politician",
+    totalAssets: "₹68.9 Cr (2023 affidavit)", totalLiabilities: "₹49.6 Cr", criminalCases: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 4,
     likes: 920, dislikes: 210,
     promises: [{ id: "tg-p09", title: "Urban civic services and local employment", sourceNote: "Campaign", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-22", likes: 380, dislikes: 70 }],
   },
   {
     id: "tg-inc-05", name: "Seethakka", party: "Indian National Congress", partyAbbr: "INC",
     constituency: "Mulug", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 50, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-06", sortOrder: 5,
+    age: 52, education: "Doctorate", profession: "Politician",
+    totalAssets: "₹83 Lakh (2023 affidavit)", totalLiabilities: "₹25 Lakh", criminalCases: 6,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 5,
     likes: 780, dislikes: 150,
     promises: [{ id: "tg-p10", title: "Tribal welfare and forest-area development", sourceNote: "Campaign", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-19", likes: 340, dislikes: 55 }],
   },
