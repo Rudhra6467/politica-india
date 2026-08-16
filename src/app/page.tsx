@@ -7,6 +7,7 @@ import {
   getNationalParties,
   getPartiesInState,
 } from "@/data/pilot-candidates";
+import PartyBadge from "@/components/PartyBadge";
 
 type ViewMode = "local" | "national";
 
@@ -51,9 +52,7 @@ export default function HomePage() {
   };
 
   if (!hydrated) {
-    return (
-      <div className="py-20 text-center text-slate-400">Loading...</div>
-    );
+    return <div className="py-20 text-center text-slate-400">Loading...</div>;
   }
 
   const states = getAllStates();
@@ -97,7 +96,7 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* ========== LOCAL VIEW ========== */}
+      {/* LOCAL VIEW */}
       {view === "local" && (
         <div className="space-y-8">
           {!selectedState ? (
@@ -126,7 +125,6 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Parties in this state */}
               <section>
                 <h2 className="text-lg font-semibold text-slate-800 mb-3">Parties</h2>
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -136,17 +134,18 @@ export default function HomePage() {
                       href={`/party/${p.abbr}?state=${encodeURIComponent(selectedState)}`}
                       className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
                     >
-                      <div>
-                        <div className="font-semibold text-slate-900">{p.abbr}</div>
-                        <div className="text-sm text-slate-500">{p.name}</div>
+                      <div className="flex items-center gap-3">
+                        <PartyBadge abbr={p.abbr} size="md" />
+                        <div>
+                          <div className="font-semibold text-slate-900">{p.name}</div>
+                          <div className="text-xs text-slate-400">{p.count} candidate{p.count > 1 ? "s" : ""}</div>
+                        </div>
                       </div>
-                      <div className="text-xs text-slate-400">{p.count} candidate{p.count > 1 ? "s" : ""}</div>
                     </Link>
                   ))}
                 </div>
               </section>
 
-              {/* Quick link to all candidates in state */}
               <div className="text-center">
                 <Link
                   href={`/candidates?state=${encodeURIComponent(selectedState)}`}
@@ -160,17 +159,14 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* ========== NATIONAL VIEW ========== */}
+      {/* NATIONAL VIEW */}
       {view === "national" && (
         <div className="space-y-8">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">National</h1>
-            <p className="text-sm text-slate-500 mt-1">
-              Major parties and all states
-            </p>
+            <p className="text-sm text-slate-500 mt-1">Major parties and all states</p>
           </div>
 
-          {/* National parties */}
           <section>
             <h2 className="text-lg font-semibold text-slate-800 mb-3">Parties</h2>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -180,17 +176,18 @@ export default function HomePage() {
                   href={`/party/${p.abbr}`}
                   className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
                 >
-                  <div>
-                    <div className="font-semibold text-slate-900">{p.abbr}</div>
-                    <div className="text-sm text-slate-500">{p.name}</div>
+                  <div className="flex items-center gap-3">
+                    <PartyBadge abbr={p.abbr} size="md" />
+                    <div>
+                      <div className="font-semibold text-slate-900">{p.name}</div>
+                      <div className="text-xs text-slate-400">{p.count} candidate{p.count > 1 ? "s" : ""}</div>
+                    </div>
                   </div>
-                  <div className="text-xs text-slate-400">{p.count} candidate{p.count > 1 ? "s" : ""}</div>
                 </Link>
               ))}
             </div>
           </section>
 
-          {/* States */}
           <section>
             <h2 className="text-lg font-semibold text-slate-800 mb-3">States</h2>
             <div className="flex flex-wrap gap-2">

@@ -3,6 +3,8 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { pilotCandidates } from "@/data/pilot-candidates";
+import CandidateAvatar from "@/components/CandidateAvatar";
+import PartyBadge from "@/components/PartyBadge";
 
 export default function CandidatesPage() {
   const [query, setQuery] = useState("");
@@ -22,15 +24,13 @@ export default function CandidatesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Candidates</h1>
         <p className="mt-1 text-slate-600 text-sm">
-          Pilot data · Affidavit fields attributed to ECI Form 26 · Promises curated for demo
+          Pilot data · Affidavit fields attributed to ECI Form 26
         </p>
       </div>
 
-      {/* Search */}
       <div className="relative">
         <input
           type="search"
@@ -54,12 +54,10 @@ export default function CandidatesPage() {
         </svg>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-slate-500">
         Showing {filtered.length} of {pilotCandidates.length} candidates
       </p>
 
-      {/* Card grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((c) => (
           <Link
@@ -67,50 +65,25 @@ export default function CandidatesPage() {
             href={`/candidates/${c.id}`}
             className="group block rounded-2xl border bg-white p-5 shadow-sm transition hover:border-indigo-300 hover:shadow-md active:scale-[0.99]"
           >
-            {/* Top row */}
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <h2 className="truncate text-lg font-semibold text-slate-900 group-hover:text-indigo-700">
+            <div className="flex items-start gap-3">
+              <CandidateAvatar name={c.name} photoUrl={c.photoUrl} size="md" />
+              <div className="min-w-0 flex-1">
+                <h2 className="truncate font-semibold text-slate-900 group-hover:text-indigo-700">
                   {c.name}
                 </h2>
-                <p className="mt-0.5 text-sm text-slate-500">
-                  {c.partyAbbr} · {c.constituency}
-                </p>
-                <p className="mt-0.5 text-xs text-slate-400">
-                  {c.state} · {c.electionYear}
+                <div className="mt-1">
+                  <PartyBadge abbr={c.partyAbbr} size="sm" />
+                </div>
+                <p className="mt-1 text-sm text-slate-500">
+                  {c.constituency}, {c.state}
                 </p>
               </div>
-
-              <span
-                className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${
-                  c.criminalCases === 0
-                    ? "bg-emerald-50 text-emerald-700"
-                    : "bg-amber-50 text-amber-700"
-                }`}
-              >
-                {c.criminalCases === 0 ? "0 cases" : `${c.criminalCases} cases`}
-              </span>
             </div>
 
-            {/* Stats row */}
             <div className="mt-4 flex items-center gap-4 text-sm">
-              <span className="font-medium text-emerald-600">
-                👍 {c.likes.toLocaleString()}
-              </span>
-              <span className="font-medium text-rose-600">
-                👎 {c.dislikes.toLocaleString()}
-              </span>
+              <span className="font-medium text-emerald-600">👍 {c.likes.toLocaleString()}</span>
+              <span className="font-medium text-rose-600">👎 {c.dislikes.toLocaleString()}</span>
               <span className="text-slate-400">{c.promises.length} promises</span>
-            </div>
-
-            {/* Affidavit preview */}
-            <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-500">
-              {c.totalAssets && (
-                <span className="rounded-md bg-slate-50 px-2 py-1">Assets: {c.totalAssets}</span>
-              )}
-              {c.education && (
-                <span className="rounded-md bg-slate-50 px-2 py-1">{c.education}</span>
-              )}
             </div>
           </Link>
         ))}
@@ -121,10 +94,6 @@ export default function CandidatesPage() {
           No candidates match “{query}”
         </div>
       )}
-
-      <p className="pt-4 text-center text-xs text-slate-400">
-        Data is pilot / illustrative. Real affidavit PDFs will be linked from the Election Commission of India.
-      </p>
     </div>
   );
 }

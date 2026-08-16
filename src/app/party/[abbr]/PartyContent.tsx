@@ -7,12 +7,13 @@ import {
   getCandidatesByPartyAndState,
   getOtherCandidatesInState,
 } from "@/data/pilot-candidates";
+import CandidateAvatar from "@/components/CandidateAvatar";
+import PartyBadge from "@/components/PartyBadge";
 
 export default function PartyContent({ abbr }: { abbr: string }) {
   const searchParams = useSearchParams();
   const state = searchParams.get("state");
 
-  // Local mode: party candidates in state + others grouped by party
   if (state) {
     const partyCandidates = getCandidatesByPartyAndState(abbr, state);
     const otherGroups = getOtherCandidatesInState(abbr, state);
@@ -24,11 +25,14 @@ export default function PartyContent({ abbr }: { abbr: string }) {
           ← Back to home
         </Link>
 
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">{partyName}</h1>
-          <p className="text-slate-500 mt-1">
-            Candidates in <span className="font-medium">{state}</span>
-          </p>
+        <div className="flex items-center gap-3">
+          <PartyBadge abbr={abbr} size="lg" />
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">{partyName}</h1>
+            <p className="text-slate-500 text-sm">
+              Candidates in <span className="font-medium">{state}</span>
+            </p>
+          </div>
         </div>
 
         <section>
@@ -50,9 +54,10 @@ export default function PartyContent({ abbr }: { abbr: string }) {
             <div className="space-y-6">
               {otherGroups.map((group) => (
                 <div key={group.partyAbbr}>
-                  <h3 className="text-sm font-medium text-slate-500 mb-2">
-                    {group.partyName} ({group.partyAbbr})
-                  </h3>
+                  <div className="flex items-center gap-2 mb-2">
+                    <PartyBadge abbr={group.partyAbbr} size="sm" />
+                    <span className="text-sm font-medium text-slate-600">{group.partyName}</span>
+                  </div>
                   <div className="space-y-3">
                     {group.candidates.map((c) => (
                       <CandidateCard key={c.id} candidate={c} />
@@ -67,7 +72,6 @@ export default function PartyContent({ abbr }: { abbr: string }) {
     );
   }
 
-  // National mode
   const allPartyCandidates = pilotCandidates.filter((c) => c.partyAbbr === abbr);
   const partyName = allPartyCandidates[0]?.party || abbr;
 
@@ -77,9 +81,12 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         ← Back to home
       </Link>
 
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">{partyName}</h1>
-        <p className="text-slate-500 mt-1">All candidates (national view)</p>
+      <div className="flex items-center gap-3">
+        <PartyBadge abbr={abbr} size="lg" />
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">{partyName}</h1>
+          <p className="text-slate-500 text-sm">All candidates (national view)</p>
+        </div>
       </div>
 
       <div className="space-y-3">
@@ -102,24 +109,24 @@ function CandidateCard({
     state: string;
     likes: number;
     dislikes: number;
+    photoUrl?: string;
   };
 }) {
   return (
     <Link
       href={`/candidates/${candidate.id}`}
-      className="block rounded-xl border bg-white p-4 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
+      className="flex items-center gap-3 rounded-xl border bg-white p-4 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
     >
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="font-semibold text-slate-900">{candidate.name}</div>
-          <div className="text-sm text-slate-500 mt-0.5">
-            {candidate.constituency}, {candidate.state}
-          </div>
+      <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="md" />
+      <div className="min-w-0 flex-1">
+        <div className="font-semibold text-slate-900">{candidate.name}</div>
+        <div className="text-sm text-slate-500">
+          {candidate.constituency}, {candidate.state}
         </div>
-        <div className="text-right text-sm">
-          <div className="text-emerald-600">👍 {candidate.likes.toLocaleString()}</div>
-          <div className="text-rose-600">👎 {candidate.dislikes.toLocaleString()}</div>
-        </div>
+      </div>
+      <div className="text-right text-sm shrink-0">
+        <div className="text-emerald-600">👍 {candidate.likes.toLocaleString()}</div>
+        <div className="text-rose-600">👎 {candidate.dislikes.toLocaleString()}</div>
       </div>
     </Link>
   );
