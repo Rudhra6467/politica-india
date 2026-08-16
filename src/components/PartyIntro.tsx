@@ -25,12 +25,22 @@ export default function PartyIntro({ info }: PartyIntroProps) {
             ))}
           </div>
 
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-800"
-          >
-            {expanded ? "Show less" : "... more"}
-          </button>
+          {/* More + like/dislike on the same row — no wasted bottom bar */}
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+            >
+              {expanded ? "Show less" : "... more"}
+            </button>
+
+            <LikeDislikeButtons
+              id={`party-${info.abbr}`}
+              initialLikes={0}
+              initialDislikes={0}
+              size="sm"
+            />
+          </div>
 
           {expanded && (
             <div className="mt-3 space-y-2 border-t border-slate-100 pt-3 text-sm text-slate-600">
@@ -56,16 +66,6 @@ export default function PartyIntro({ info }: PartyIntroProps) {
             </div>
           )}
         </div>
-      </div>
-
-      {/* Party like / dislike — bottom right of the box */}
-      <div className="mt-4 pt-3 border-t border-slate-100 flex justify-end">
-        <LikeDislikeButtons
-          id={`party-${info.abbr}`}
-          initialLikes={0}
-          initialDislikes={0}
-          size="sm"
-        />
       </div>
     </div>
   );
