@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCandidateById, type PromiseStatus } from "@/data/pilot-candidates";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
+import CommentSection from "@/components/CommentSection";
 
 const statusStyles: Record<PromiseStatus, string> = {
   NOT_STARTED: "bg-slate-100 text-slate-700",
@@ -133,10 +134,8 @@ export default async function CandidatePage({
                 </div>
               </div>
 
-              {/* Placeholder for comments */}
-              <div className="mt-4 pt-4 border-t text-sm text-slate-400">
-                Comments available for verified users only. (Coming next)
-              </div>
+              {/* Comments */}
+              <CommentSection promiseId={p.id} />
             </div>
           ))}
         </div>
