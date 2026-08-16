@@ -1,5 +1,5 @@
-// Politica India - Core Data Model
-// Source of truth for declarations: ECI Form 26 affidavits
+// Politica India — Tier 2A Canonical Data Layer
+// Keep in sync with docs/SCHEMA.md
 
 generator client {
   provider = "prisma-client-js"
@@ -10,105 +10,260 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// ─── Identity ───────────────────────────────────────────────
+
+model State {
+  id        String   @id // e.g. "andhra-pradesh"
+  name      String   @unique
+  aliases   String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  constituencies Constituency[]
+  candidates     Candidate[]
+}
+
 model Party {
-  id          String      @id @default(cuid())
-  name        String
-  abbreviation String?
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  candidates  Candidate[]
+  id         String   @id // e.g. "TDP"
+  name       String
+  abbr       String   @unique
+  aliases    String[] @default([])
+  symbolNote String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  candidates Candidate[]
+}
+
+model Constituency {
+  id        String   @id // e.g. "kuppam-ac"
+  name      String
+  stateId   String
+  state     State    @relation(fields: [stateId], references: [id])
+  type      String // "AC" | "PC"
+  aliases   String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  candidates Candidate[]
+
+  @@unique([name, stateId, type])
+  @@index([stateId])
 }
 
 model Candidate {
-  id            String     @id @default(cuid())
-  name          String
-  partyId       String?
-  party         Party?     @relation(fields: [partyId], references: [id])
-  constituency  String
-  state         String
-  electionType  String     // "Lok Sabha" | "Assembly" | etc.
-  electionYear  Int?
-  photoUrl      String?
-  age           Int?
-  education     String?
-  profession    String?
-  // Affidavit summary fields (from ECI Form 26)
-  totalAssets   BigInt?
-  totalLiabilities BigInt?
-  criminalCases Int        @default(0)
-  affidavitPdfUrl String?  // Link to original ECI Form 26 PDF
-  affidavitSource String?  // "ECI Affidavit Portal" etc.
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id             String  @id // stable pilot id e.g. "ap-tdp-01"
+  canonicalName  String
+  aliases        String[] @default([])
+  partyId        String
+  party          Party   @relation(fields: [partyId], references: [id])
+  constituencyId String
+  constituency   Constituency @relation(fields: [constituencyId], references: [id])
+  stateId        String
+  state          State   @relation(fields: [stateId], references: [id])
 
-  promises      Promise[]
-  likes         Like[]
-  comments      Comment[]
+  // Optional external keys for identity resolution
+  eciCandidateId String?
+  mynetaId       String?
+
+  electionType   String // "Assembly" | "Lok Sabha"
+  electionYear   Int
+  electionResult String? // "won" | "lost"
+  marginVotes    Int?
+  opponentId     String?
+  opponent       Candidate?  @relation("OpponentLink", fields: [opponentId], references: [id])
+  defeatedBy     Candidate[] @relation("OpponentLink")
+
+  age              Int?
+  education        String?
+  profession       String?
+  totalAssets      String? // keep human-readable for pilot; numeric later
+  totalLiabilities String?
+  criminalCases    Int     @default(0)
+  photoUrl         String?
+  sortOrder        Int     @default(99)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  affidavits Affidavit[]
+  promises   Promise[]
+  events     Event[]
+  likes      Like[]
+  comments   Comment[]
+
+  @@index([canonicalName])
+  @@index([partyId])
+  @@index([stateId])
+  @@index([constituencyId])
 }
 
-model Promise {
-  id          String   @id @default(cuid())
-  candidateId String
-  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  title       String
-  description String?
-  sourceUrl   String?  // News article, speech, manifesto link
-  sourceNote  String?
-  status      PromiseStatus @default(NOT_STARTED)
-  claimedDate DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+// ─── Provenance ─────────────────────────────────────────────
 
-  likes       Like[]
-  comments    Comment[]
+enum SourceType {
+  OFFICIAL
+  ELECTION_RECORD
+  AFFIDAVIT
+  GOVERNMENT
+  COURT
+  PARTY
+  NEWS
+  OTHER
 }
+
+enum ReliabilityClass {
+  OFFICIAL
+  REPUTABLE
+  CONFLICTING
+  UNVERIFIED
+}
+
+model Source {
+  id               String           @id @default(cuid())
+  publisher        String
+  title            String?
+  url              String?
+  sourceType       SourceType
+  publishedAt      DateTime?
+  retrievedAt      DateTime?
+  reliabilityClass ReliabilityClass  @default(UNVERIFIED)
+  contentHash      String?
+  archivedUrl      String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  affidavits Affidavit[]
+  promises   Promise[]
+  events     Event[]
+}
+
+model Affidavit {
+  id               String    @id @default(cuid())
+  candidateId      String
+  candidate        Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  electionYear     Int
+  sourceId         String?
+  source           Source?   @relation(fields: [sourceId], references: [id])
+  totalAssets      String?
+  totalLiabilities String?
+  criminalCases    Int?
+  education        String?
+  profession       String?
+  pdfUrl           String?
+  lastCheckedAt    DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([candidateId])
+}
+
+// ─── Tracked promises ───────────────────────────────────────
 
 enum PromiseStatus {
   NOT_STARTED
   IN_PROGRESS
-  COMPLETED
-  DISPUTED
+  REPORTED_COMPLETED
+  VERIFIED_COMPLETED
+  UNABLE_TO_VERIFY
+  EVIDENCE_CONFLICTING
 }
 
-model User {
-  id            String   @id @default(cuid())
-  email         String?  @unique
-  phone         String?  @unique
-  name          String?
-  isVerified    Boolean  @default(false)  // Dual / stronger verification flag
-  verificationMethod String? // "offline_aadhaar" | "document" | etc.
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+model Promise {
+  id            String        @id // stable e.g. "ap-p01"
+  candidateId   String
+  candidate     Candidate     @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  title         String
+  sourceNote    String?
+  sourceId      String?
+  source        Source?       @relation(fields: [sourceId], references: [id])
+  announcedDate String?
+  status        PromiseStatus @default(NOT_STARTED)
+  statusAsOf    DateTime?
+  lastCheckedAt DateTime?
+  evidenceNote  String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
-  likes         Like[]
-  comments      Comment[]
+  likes    Like[]
+  comments Comment[]
+
+  @@index([candidateId])
+  @@index([status])
+}
+
+// ─── Timeline events ────────────────────────────────────────
+
+enum EventType {
+  ELECTION
+  AFFIDAVIT
+  PROMISE
+  ANNOUNCEMENT
+  OFFICE
+  OTHER
+}
+
+model Event {
+  id           String    @id @default(cuid())
+  candidateId  String?
+  candidate    Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  electionYear Int?
+  type         EventType
+  title        String
+  description  String?
+  occurredAt   DateTime
+  sourceId     String?
+  source       Source?   @relation(fields: [sourceId], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([candidateId])
+  @@index([occurredAt])
+}
+
+// ─── Community (minimal) ────────────────────────────────────
+
+model User {
+  id                 String   @id @default(cuid())
+  email              String?  @unique
+  phone              String?  @unique
+  name               String?
+  isVerified         Boolean  @default(false)
+  verificationMethod String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  likes    Like[]
+  comments Comment[]
 }
 
 model Like {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String     @id @default(cuid())
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   candidateId String?
   candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
   promiseId   String?
-  promise     Promise? @relation(fields: [promiseId], references: [id], onDelete: Cascade)
-  isLike      Boolean  // true = like, false = dislike
-  createdAt   DateTime @default(now())
+  promise     Promise?   @relation(fields: [promiseId], references: [id], onDelete: Cascade)
+  isLike      Boolean
+  createdAt   DateTime   @default(now())
 
-  @@unique([userId, candidateId])
-  @@unique([userId, promiseId])
+  @@index([candidateId])
+  @@index([promiseId])
 }
 
 model Comment {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String     @id @default(cuid())
+  userId      String?
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   candidateId String?
   candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
   promiseId   String?
-  promise     Promise? @relation(fields: [promiseId], references: [id], onDelete: Cascade)
+  promise     Promise?   @relation(fields: [promiseId], references: [id], onDelete: Cascade)
   content     String
-  isHidden    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isHidden    Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([candidateId])
+  @@index([promiseId])
 }
