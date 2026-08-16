@@ -88,7 +88,6 @@ export default async function CandidatePage({
         </div>
       </section>
 
-      {/* Opponent box */}
       {(candidate.opponentName || candidate.opponentId) && (
         <section className="rounded-2xl border border-slate-200 bg-white shadow-sm px-5 py-4">
           <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400 mb-1.5">
@@ -96,14 +95,13 @@ export default async function CandidatePage({
           </div>
           <div className="flex items-center justify-between gap-3">
             <div>
-              <div className="font-semibold text-slate-900">
-                {candidate.opponentName}
+              <div className="font-semibold text-slate-900">{candidate.opponentName}</div>
+              <div className="text-xs text-slate-500 mt-0.5">
+                {candidate.opponentParty}
+                {candidate.marginVotes
+                  ? " · Margin " + candidate.marginVotes.toLocaleString() + " votes"
+                  : ""}
               </div>
-              {candidate.opponentParty && (
-                <div className="text-xs text-slate-500 mt-0.5">
-                  {candidate.opponentParty}
-                </div>
-              )}
             </div>
             {opponentHref && (
               <Link
