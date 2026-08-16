@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getCandidateById, type PromiseStatus } from "@/data/pilot-candidates";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CommentSection from "@/components/CommentSection";
+import VerificationBanner from "@/components/VerificationBanner";
 
 const statusStyles: Record<PromiseStatus, string> = {
   NOT_STARTED: "bg-slate-100 text-slate-700",
@@ -39,6 +40,9 @@ export default async function CandidatePage({
       >
         ← All candidates
       </Link>
+
+      {/* Verification mock banner */}
+      <VerificationBanner />
 
       {/* Header */}
       <section className="rounded-xl border bg-white p-6 shadow-sm">

@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useVerification } from "./VerificationBanner";
 
 interface Comment {
   id: string;
   name: string;
   text: string;
   createdAt: string;
-  isVerified?: boolean;
+  isVerified: boolean;
 }
 
 interface CommentSectionProps {
@@ -34,6 +35,7 @@ function saveComments(promiseId: string, comments: Comment[]) {
 }
 
 export default function CommentSection({ promiseId }: CommentSectionProps) {
+  const { isVerified } = useVerification();
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
@@ -54,7 +56,7 @@ export default function CommentSection({ promiseId }: CommentSectionProps) {
       name: name.trim(),
       text: text.trim(),
       createdAt: new Date().toISOString(),
-      isVerified: false, // mock — real verification comes later
+      isVerified: isVerified,
     };
 
     const updated = [newComment, ...comments];
@@ -91,9 +93,17 @@ export default function CommentSection({ promiseId }: CommentSectionProps) {
       {/* Form */}
       {showForm && (
         <form onSubmit={handleSubmit} className="mb-4 space-y-3 rounded-xl bg-slate-50 p-4">
-          <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
-            <strong>Note:</strong> Full identity verification is coming. For now you can leave a comment with a display name. In the final version only dual-verified users will be able to comment.
-          </div>
+          {!isVerified && (
+            <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+              You are currently a <strong>basic user</strong>. Toggle “Simulate dual verification” at the top of the page to post as a verified user and receive the Verified badge.
+            </div>
+          )}
+
+          {isVerified && (
+            <div className="text-xs text-indigo-700 bg-indigo-50 border border-indigo-200 rounded-lg px-3 py-2">
+              Posting as <strong>Verified</strong> user. Your comment will show a Verified badge.
+            </div>
+          )}
 
           <input
             type="text"
