@@ -1,6 +1,7 @@
 /**
  * Pilot data — Andhra Pradesh + Telangana
  * Real 2023/2024 ECI affidavit figures (via ADR/MyNeta) applied to the core set.
+ * Election opponents from ECI result publications where verified.
  */
 
 export type PromiseStatus =
@@ -34,12 +35,12 @@ export interface PilotCandidate {
   state: string;
   electionType: string;
   electionYear: number;
-  /** Default won if omitted */
   electionResult?: ElectionResult;
-  /** Linked opponent in pilot set (winner or loser) */
   opponentId?: string;
   opponentName?: string;
   opponentParty?: string;
+  /** Margin in votes when known from ECI results */
+  marginVotes?: number;
   age?: number;
   education?: string;
   profession?: string;
@@ -61,7 +62,7 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "ap-tdp-01", name: "N. Chandrababu Naidu", party: "Telugu Desam Party", partyAbbr: "TDP",
     constituency: "Kuppam", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    electionResult: "won", opponentId: "ap-ysrcp-lost-01", opponentName: "K. Chandrasekhar Reddy", opponentParty: "YSRCP",
+    electionResult: "won", opponentId: "ap-ysrcp-lost-01", opponentName: "K.R.J. Bharath", opponentParty: "YSRCP", marginVotes: 48006,
     age: 74, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹931 Cr (family, 2024 affidavit)", totalLiabilities: "₹10+ Cr", criminalCases: 19,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
@@ -74,7 +75,7 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "ap-tdp-02", name: "Nara Lokesh", party: "Telugu Desam Party", partyAbbr: "TDP",
     constituency: "Mangalagiri", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    electionResult: "won", opponentId: "ap-ysrcp-lost-02", opponentName: "Alla Rama Chandra Reddy", opponentParty: "YSRCP",
+    electionResult: "won", opponentId: "ap-ysrcp-lost-02", opponentName: "Murugudu Lavanya", opponentParty: "YSRCP", marginVotes: 91413,
     age: 41, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹542 Cr (2024 affidavit)", totalLiabilities: "₹18+ Cr", criminalCases: 17,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 2,
@@ -149,20 +150,19 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 650, dislikes: 190,
     promises: [{ id: "ap-p09", title: "Rural roads and drinking water focus", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-12", likes: 280, dislikes: 55 }],
   },
-  // Illustrative opponents (lost) — linked from winners above
   {
-    id: "ap-ysrcp-lost-01", name: "K. Chandrasekhar Reddy", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
+    id: "ap-ysrcp-lost-01", name: "K.R.J. Bharath", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
     constituency: "Kuppam", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    electionResult: "lost", opponentId: "ap-tdp-01", opponentName: "N. Chandrababu Naidu", opponentParty: "TDP",
-    age: 58, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pilot link", criminalCases: 0,
+    electionResult: "lost", opponentId: "ap-tdp-01", opponentName: "N. Chandrababu Naidu", opponentParty: "TDP", marginVotes: 48006,
+    age: 58, education: "Graduate", profession: "Politician", totalAssets: "Pending full affidavit pull", criminalCases: 0,
     affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 90,
     likes: 210, dislikes: 40, promises: [],
   },
   {
-    id: "ap-ysrcp-lost-02", name: "Alla Rama Chandra Reddy", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
+    id: "ap-ysrcp-lost-02", name: "Murugudu Lavanya", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
     constituency: "Mangalagiri", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    electionResult: "lost", opponentId: "ap-tdp-02", opponentName: "Nara Lokesh", opponentParty: "TDP",
-    age: 55, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pilot link", criminalCases: 0,
+    electionResult: "lost", opponentId: "ap-tdp-02", opponentName: "Nara Lokesh", opponentParty: "TDP", marginVotes: 91413,
+    age: 45, education: "Graduate", profession: "Politician", totalAssets: "Pending full affidavit pull", criminalCases: 0,
     affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 91,
     likes: 180, dislikes: 35, promises: [],
   },
@@ -243,7 +243,7 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-brs-04", name: "Sabitha Indra Reddy", party: "Bharat Rashtra Samithi", partyAbbr: "BRS",
     constituency: "Maheshwaram", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    electionResult: "lost", opponentName: "Kaleru Venkatesh", opponentParty: "INC",
+    electionResult: "won", opponentName: "Andela Sriramulu Yadav", opponentParty: "BJP", marginVotes: 26187,
     age: 60, education: "12th Pass", profession: "Politician / Farming",
     totalAssets: "₹9.3 Cr (2023 affidavit)", totalLiabilities: "Nil", criminalCases: 5,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 4,
