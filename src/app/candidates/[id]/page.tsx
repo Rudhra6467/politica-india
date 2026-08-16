@@ -6,6 +6,7 @@ import CommentSection from "@/components/CommentSection";
 import VerificationBanner from "@/components/VerificationBanner";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import PartyBadge from "@/components/PartyBadge";
+import LayerLegend from "@/components/LayerLegend";
 
 const statusStyles: Record<PromiseStatus, string> = {
   NOT_STARTED: "bg-slate-100 text-slate-700",
@@ -82,6 +83,9 @@ export default async function CandidatePage({
         </div>
       </section>
 
+      {/* Layer legend — teaches the information model */}
+      <LayerLegend />
+
       {/* ========== LAYER 1: VERIFIED FACT ========== */}
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="border-b border-slate-100 bg-slate-50 px-5 py-3.5 flex items-center justify-between gap-3">
@@ -132,7 +136,6 @@ export default async function CandidatePage({
             </div>
           )}
 
-          {/* Source block */}
           <div className="mt-5 rounded-xl bg-slate-50 border border-slate-100 px-4 py-3">
             <div className="text-xs font-medium text-slate-700">Source</div>
             <div className="mt-1 text-sm text-slate-600">
@@ -182,7 +185,6 @@ export default async function CandidatePage({
                       </span>
                       <h3 className="mt-2.5 font-medium text-slate-900 leading-snug">{p.title}</h3>
 
-                      {/* Meta row */}
                       <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500">
                         {p.announcedDate && <span>Announced: {p.announcedDate}</span>}
                         {p.sourceNote && <span>Source: {p.sourceNote}</span>}
@@ -207,7 +209,6 @@ export default async function CandidatePage({
                     </div>
                   </div>
 
-                  {/* LAYER 3: COMMUNITY (nested under each promise) */}
                   <div className="mt-4 pt-4 border-t border-slate-100">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />

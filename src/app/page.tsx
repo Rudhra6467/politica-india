@@ -8,6 +8,7 @@ import {
   getPartiesInState,
 } from "@/data/pilot-candidates";
 import PartyBadge from "@/components/PartyBadge";
+import LayerLegend from "@/components/LayerLegend";
 
 type ViewMode = "local" | "national";
 
@@ -61,6 +62,19 @@ export default function HomePage() {
 
   return (
     <div className="space-y-8">
+      {/* Product framing */}
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+          Politica India
+        </h1>
+        <p className="text-slate-600 max-w-2xl">
+          Structured, source-backed information on elected representatives.
+          Verified records from the Election Commission, tracked promises, and community reaction — clearly separated.
+        </p>
+      </div>
+
+      <LayerLegend compact />
+
       {/* View switcher */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex rounded-xl border bg-white p-1 shadow-sm">
@@ -119,14 +133,14 @@ export default function HomePage() {
           ) : (
             <>
               <div>
-                <h1 className="text-2xl font-bold text-slate-900">{selectedState}</h1>
+                <h2 className="text-xl font-bold text-slate-900">{selectedState}</h2>
                 <p className="text-sm text-slate-500 mt-1">
                   Parties and candidates in your state
                 </p>
               </div>
 
               <section>
-                <h2 className="text-lg font-semibold text-slate-800 mb-3">Parties</h2>
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Parties</h3>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {localParties.map((p) => (
                     <Link
@@ -163,12 +177,12 @@ export default function HomePage() {
       {view === "national" && (
         <div className="space-y-8">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">National</h1>
+            <h2 className="text-xl font-bold text-slate-900">National</h2>
             <p className="text-sm text-slate-500 mt-1">Major parties and all states</p>
           </div>
 
           <section>
-            <h2 className="text-lg font-semibold text-slate-800 mb-3">Parties</h2>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Parties</h3>
             <div className="grid gap-3 sm:grid-cols-2">
               {nationalParties.map((p) => (
                 <Link
@@ -189,7 +203,7 @@ export default function HomePage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-slate-800 mb-3">States</h2>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">States</h3>
             <div className="flex flex-wrap gap-2">
               {states.map((s) => (
                 <button
