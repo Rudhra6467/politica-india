@@ -77,39 +77,36 @@ export default function HomePage() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-          Politica India
-        </h1>
-        <p className="text-slate-600 max-w-2xl text-[15px] leading-snug">
-          For the people of India. All information from Electoral Commission and Announcements.
-        </p>
-      </div>
+      {/* No duplicate brand title — header already has logo + name */}
+      <p className="text-slate-600 text-[15px] leading-snug">
+        For the people of India.
+      </p>
 
       <VerificationBanner dismissible />
 
       <LayerLegend compact />
 
-      {/* View switcher */}
       <div className="flex items-center justify-between gap-4">
         <div className="flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
           <button
             onClick={() => setView("local")}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
-              view === "local"
+            className={
+              "rounded-lg px-4 py-2 text-sm font-medium transition " +
+              (view === "local"
                 ? "bg-indigo-600 text-white"
-                : "text-slate-600 hover:bg-slate-50"
-            }`}
+                : "text-slate-600 hover:bg-slate-50")
+            }
           >
             My State
           </button>
           <button
             onClick={() => setView("national")}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
-              view === "national"
+            className={
+              "rounded-lg px-4 py-2 text-sm font-medium transition " +
+              (view === "national"
                 ? "bg-indigo-600 text-white"
-                : "text-slate-600 hover:bg-slate-50"
-            }`}
+                : "text-slate-600 hover:bg-slate-50")
+            }
           >
             National
           </button>
@@ -122,7 +119,6 @@ export default function HomePage() {
         )}
       </div>
 
-      {/* LOCAL VIEW */}
       {view === "local" && (
         <div className="space-y-5">
           {!selectedState ? (
@@ -154,14 +150,21 @@ export default function HomePage() {
                     return (
                       <Link
                         key={p.abbr}
-                        href={`/party/${p.abbr}?state=${encodeURIComponent(selectedState)}`}
+                        href={"/party/" + p.abbr + "?state=" + encodeURIComponent(selectedState)}
                         className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
                       >
-                        <div className={`shrink-0 h-11 w-11 rounded-xl flex items-center justify-center text-xs font-bold ${color}`}>
+                        <div
+                          className={
+                            "shrink-0 h-11 w-11 rounded-xl flex items-center justify-center text-xs font-bold " +
+                            color
+                          }
+                        >
                           {p.abbr}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">{p.name}</div>
+                          <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
+                            {p.name}
+                          </div>
                           <div className="text-xs text-slate-400 mt-0.5">
                             {p.count} candidate{p.count > 1 ? "s" : ""}
                           </div>
@@ -174,7 +177,7 @@ export default function HomePage() {
 
               <div className="text-center pt-1">
                 <Link
-                  href={`/candidates?state=${encodeURIComponent(selectedState)}`}
+                  href={"/candidates?state=" + encodeURIComponent(selectedState)}
                   className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
                 >
                   View all candidates in {selectedState} →
@@ -185,7 +188,6 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* NATIONAL VIEW */}
       {view === "national" && (
         <div className="space-y-5">
           <h2 className="text-xl font-bold text-slate-900">National</h2>
@@ -200,14 +202,21 @@ export default function HomePage() {
                 return (
                   <Link
                     key={p.abbr}
-                    href={`/party/${p.abbr}`}
+                    href={"/party/" + p.abbr}
                     className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
                   >
-                    <div className={`shrink-0 h-11 w-11 rounded-xl flex items-center justify-center text-xs font-bold ${color}`}>
+                    <div
+                      className={
+                        "shrink-0 h-11 w-11 rounded-xl flex items-center justify-center text-xs font-bold " +
+                        color
+                      }
+                    >
                       {p.abbr}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">{p.name}</div>
+                      <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
+                        {p.name}
+                      </div>
                       <div className="text-xs text-slate-400 mt-0.5">
                         {p.count} candidate{p.count > 1 ? "s" : ""}
                       </div>
