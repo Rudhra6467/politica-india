@@ -9,25 +9,11 @@ import {
 } from "@/data/pilot-candidates";
 import LayerLegend from "@/components/LayerLegend";
 import VerificationBanner from "@/components/VerificationBanner";
+import PartyBadge from "@/components/PartyBadge";
 
 type ViewMode = "local" | "national";
 
 const STATE_KEY = "politica-selected-state";
-
-const PARTY_COLORS: Record<string, string> = {
-  BJP: "bg-orange-500 text-white",
-  INC: "bg-sky-600 text-white",
-  TDP: "bg-yellow-500 text-black",
-  YSRCP: "bg-blue-700 text-white",
-  JSP: "bg-red-600 text-white",
-  DMK: "bg-black text-white",
-  AIADMK: "bg-orange-600 text-white",
-  "JD(S)": "bg-green-700 text-white",
-  BRS: "bg-pink-600 text-white",
-  AITC: "bg-emerald-600 text-white",
-  SP: "bg-red-600 text-white",
-  AAP: "bg-blue-500 text-white",
-};
 
 export default function HomePage() {
   const [view, setView] = useState<ViewMode>("national");
@@ -77,7 +63,6 @@ export default function HomePage() {
 
   return (
     <div className="space-y-6">
-      {/* No duplicate brand title — header already has logo + name */}
       <p className="text-slate-600 text-[15px] leading-snug">
         For the people of India.
       </p>
@@ -145,33 +130,23 @@ export default function HomePage() {
                   Parties
                 </h3>
                 <div className="grid gap-2.5 sm:grid-cols-2">
-                  {localParties.map((p) => {
-                    const color = PARTY_COLORS[p.abbr] || "bg-slate-600 text-white";
-                    return (
-                      <Link
-                        key={p.abbr}
-                        href={"/party/" + p.abbr + "?state=" + encodeURIComponent(selectedState)}
-                        className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-                      >
-                        <div
-                          className={
-                            "shrink-0 h-11 w-11 rounded-xl flex items-center justify-center text-xs font-bold " +
-                            color
-                          }
-                        >
-                          {p.abbr}
+                  {localParties.map((p) => (
+                    <Link
+                      key={p.abbr}
+                      href={"/party/" + p.abbr + "?state=" + encodeURIComponent(selectedState)}
+                      className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
+                    >
+                      <PartyBadge abbr={p.abbr} size="lg" />
+                      <div className="min-w-0 flex-1">
+                        <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
+                          {p.name}
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
-                            {p.name}
-                          </div>
-                          <div className="text-xs text-slate-400 mt-0.5">
-                            {p.count} candidate{p.count > 1 ? "s" : ""}
-                          </div>
+                        <div className="text-xs text-slate-400 mt-0.5">
+                          {p.count} candidate{p.count > 1 ? "s" : ""}
                         </div>
-                      </Link>
-                    );
-                  })}
+                      </div>
+                    </Link>
+                  ))}
                 </div>
               </section>
 
@@ -197,33 +172,23 @@ export default function HomePage() {
               Parties
             </h3>
             <div className="grid gap-2.5 sm:grid-cols-2">
-              {nationalParties.map((p) => {
-                const color = PARTY_COLORS[p.abbr] || "bg-slate-600 text-white";
-                return (
-                  <Link
-                    key={p.abbr}
-                    href={"/party/" + p.abbr}
-                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-                  >
-                    <div
-                      className={
-                        "shrink-0 h-11 w-11 rounded-xl flex items-center justify-center text-xs font-bold " +
-                        color
-                      }
-                    >
-                      {p.abbr}
+              {nationalParties.map((p) => (
+                <Link
+                  key={p.abbr}
+                  href={"/party/" + p.abbr}
+                  className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
+                >
+                  <PartyBadge abbr={p.abbr} size="lg" />
+                  <div className="min-w-0 flex-1">
+                    <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
+                      {p.name}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
-                        {p.name}
-                      </div>
-                      <div className="text-xs text-slate-400 mt-0.5">
-                        {p.count} candidate{p.count > 1 ? "s" : ""}
-                      </div>
+                    <div className="text-xs text-slate-400 mt-0.5">
+                      {p.count} candidate{p.count > 1 ? "s" : ""}
                     </div>
-                  </Link>
-                );
-              })}
+                  </div>
+                </Link>
+              ))}
             </div>
           </section>
 
@@ -247,7 +212,8 @@ export default function HomePage() {
       )}
 
       <p className="text-center text-xs text-slate-400 pt-4">
-        Pilot data · Source attribution: Election Commission of India (Form 26)
+        Pilot data · Source attribution: Election Commission of India (Form 26).
+        Party marks are simplified ECI-style election symbols for identification only.
       </p>
     </div>
   );
