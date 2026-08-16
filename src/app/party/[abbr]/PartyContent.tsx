@@ -13,21 +13,6 @@ import { getPartyInfo } from "@/data/party-info";
 import PartyBadge from "@/components/PartyBadge";
 import PartyIntro from "@/components/PartyIntro";
 
-const PARTY_COLORS: Record<string, string> = {
-  BJP: "bg-orange-500 text-white",
-  INC: "bg-sky-600 text-white",
-  TDP: "bg-yellow-500 text-black",
-  YSRCP: "bg-blue-700 text-white",
-  JSP: "bg-red-600 text-white",
-  DMK: "bg-black text-white",
-  AIADMK: "bg-orange-600 text-white",
-  "JD(S)": "bg-green-700 text-white",
-  BRS: "bg-pink-600 text-white",
-  AITC: "bg-emerald-600 text-white",
-  SP: "bg-red-600 text-white",
-  AAP: "bg-blue-500 text-white",
-};
-
 function roleLabel(electionType: string) {
   if (electionType === "Lok Sabha") return "MP";
   if (electionType === "Assembly") return "MLA";
@@ -44,7 +29,6 @@ function CandidateRow({
   backHref: string;
 }) {
   const role = roleLabel(candidate.electionType);
-  const color = PARTY_COLORS[candidate.partyAbbr] || "bg-slate-600 text-white";
   const num = String(index + 1).padStart(2, "0");
   const profileHref =
     "/candidates/" + candidate.id + "?from=" + encodeURIComponent(backHref);
@@ -57,14 +41,7 @@ function CandidateRow({
       <span className="text-xl font-bold text-slate-200 tabular-nums w-9 shrink-0">
         {num}
       </span>
-      <div
-        className={
-          "shrink-0 h-10 w-10 rounded-xl flex items-center justify-center text-xs font-bold " +
-          color
-        }
-      >
-        {candidate.partyAbbr}
-      </div>
+      <PartyBadge abbr={candidate.partyAbbr} size="md" />
       <div className="min-w-0 flex-1">
         <div className="font-semibold text-slate-900 text-[15px]">
           {candidate.name}
