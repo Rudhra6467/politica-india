@@ -5,6 +5,7 @@ import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import PartyBadge from "@/components/PartyBadge";
 import PromiseCard from "@/components/PromiseCard";
+import ProfileTimeline from "@/components/ProfileTimeline";
 
 export default async function CandidatePage({
   params,
@@ -50,7 +51,6 @@ export default async function CandidatePage({
         <span aria-hidden>←</span> {backLabel}
       </Link>
 
-      {/* Compact hero: avatar | identity | opponent strip (~20%) */}
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="p-4 sm:p-5">
           <div className="flex gap-3 sm:gap-4 items-start">
@@ -92,14 +92,10 @@ export default async function CandidatePage({
               </div>
             </div>
 
-            {/* Right strip: opponent — no full-width card */}
             {hasOpponent && (
               <div className="hidden sm:flex shrink-0 w-[22%] max-w-[11rem] border-l border-slate-100 pl-3 flex-col justify-center min-h-[4.5rem]">
                 {opponentHref ? (
-                  <Link
-                    href={opponentHref}
-                    className="group block text-right hover:opacity-90"
-                  >
+                  <Link href={opponentHref} className="group block text-right hover:opacity-90">
                     <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
                       {opponentLabel}
                     </div>
@@ -129,7 +125,6 @@ export default async function CandidatePage({
             )}
           </div>
 
-          {/* Mobile opponent row */}
           {hasOpponent && (
             <div className="sm:hidden mt-3 pt-3 border-t border-slate-100">
               {opponentHref ? (
@@ -138,9 +133,7 @@ export default async function CandidatePage({
                     <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
                       {opponentLabel}
                     </div>
-                    <div className="text-sm font-semibold text-indigo-700">
-                      {candidate.opponentName}
-                    </div>
+                    <div className="text-sm font-semibold text-indigo-700">{candidate.opponentName}</div>
                   </div>
                   <span className="text-indigo-600 text-sm">View →</span>
                 </Link>
@@ -173,6 +166,8 @@ export default async function CandidatePage({
           warning={candidate.criminalCases > 0}
         />
       </div>
+
+      <ProfileTimeline candidate={candidate} />
 
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-slate-100 bg-slate-50/80">
