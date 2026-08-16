@@ -34,7 +34,6 @@ function roleLabel(electionType: string) {
   return electionType;
 }
 
-/** Click navigates to full candidate profile. No inline expand. */
 function CandidateRow({
   candidate,
   index,
@@ -47,21 +46,35 @@ function CandidateRow({
   const role = roleLabel(candidate.electionType);
   const color = PARTY_COLORS[candidate.partyAbbr] || "bg-slate-600 text-white";
   const num = String(index + 1).padStart(2, "0");
+  const profileHref =
+    "/candidates/" +
+    candidate.id +
+    "?from=" +
+    encodeURIComponent(backHref);
 
   return (
     <Link
-      href={`/candidates/${candidate.id}?from=${encodeURIComponent(backHref)}`}
+      href={profileHref}
       className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
     >
-      <span className="text-xl font-bold text-slate-200 tabular-nums w-9 shrink-0">{num}</span>
-      <div className={`shrink-0 h-10 w-10 rounded-xl flex items-center justify-center text-[11px] font-bold ${color}`}>
+      <span className="text-xl font-bold text-slate-200 tabular-nums w-9 shrink-0">
+        {num}
+      </span>
+      <div
+        className={
+          "shrink-0 h-10 w-10 rounded-xl flex items-center justify-center text-xs font-bold " +
+          color
+        }
+      >
         {candidate.partyAbbr}
       </div>
       <div className="min-w-0 flex-1">
-        <div className="font-semibold text-slate-900 text-[15px]">{candidate.name}</div>
+        <div className="font-semibold text-slate-900 text-[15px]">
+          {candidate.name}
+        </div>
         <div className="text-xs text-slate-500 mt-0.5">
           {role} · {candidate.constituency}
-          {candidate.state ? ` · ${candidate.state}` : ""}
+          {candidate.state ? " · " + candidate.state : ""}
         </div>
       </div>
       <span className="text-slate-300 text-lg shrink-0" aria-hidden>
@@ -98,18 +111,24 @@ function CollapsibleRoleSection({
         <div>
           <div className="text-sm font-semibold text-slate-800">{title}</div>
           <div className="text-xs text-slate-500 mt-0.5">
-            {subtitle} · {candidates.length} candidate{candidates.length > 1 ? "s" : ""}
+            {subtitle} · {candidates.length}{" "}
+            {candidates.length > 1 ? "candidates" : "candidate"}
           </div>
         </div>
         <span className="text-slate-500 text-sm font-medium shrink-0">
-          {open ? "Minimize −" : "Expand +"}
+          {open ? "Minimize -" : "Expand +"}
         </span>
       </button>
 
       {open && (
         <div className="space-y-2">
           {candidates.map((c, i) => (
-            <CandidateRow key={c.id} candidate={c} index={i} backHref={backHref} />
+            <CandidateRow
+              key={c.id}
+              candidate={c}
+              index={i}
+              backHref={backHref}
+            />
           ))}
         </div>
       )}
@@ -120,8 +139,12 @@ function CollapsibleRoleSection({
 function MetricBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm">
-      <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
-      <div className="mt-1 text-xl font-semibold text-slate-900 tracking-tight">{value}</div>
+      <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
+        {label}
+      </div>
+      <div className="mt-1 text-xl font-semibold text-slate-900 tracking-tight">
+        {value}
+      </div>
     </div>
   );
 }
@@ -139,17 +162,24 @@ export default function PartyContent({ abbr }: { abbr: string }) {
   const mlas = candidates.filter((c) => c.electionType === "Assembly");
 
   const otherGroups = state ? getOtherCandidatesInState(abbr, state) : [];
-  const totalLikes = candidates.reduce((s, c) => s + c.likes, 0);
-  const totalPromises = candidates.reduce((s, c) => s + c.promises.length, 0);
+  const totalLikes = candidates.reduce((sum, c) => sum + c.likes, 0);
+  const totalPromises = candidates.reduce((sum, c) => sum + c.promises.length, 0);
   const statesCovered = new Set(candidates.map((c) => c.state)).size;
 
   const backHref = state
-    ? `/party/${abbr}?state=${encodeURIComponent(state)}`
-    : `/party/${abbr}`;
+    ? "/party/" + abbr + "?state=" + encodeURIComponent(state)
+    : "/party/" + abbr;
+
+  const metricGridClass = state
+    ? "grid gap-3 grid-cols-3"
+    : "grid gap-3 grid-cols-2 sm:grid-cols-4";
 
   return (
     <div className="space-y-5 pb-10">
-      <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800">
+      <Link
+        href="/"
+        className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800"
+      >
         <span aria-hidden>←</span> Back to home
       </Link>
 
@@ -162,11 +192,11 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         </div>
       )}
 
-      <div className={`grid gap-3 ${state ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-4"`}>
-        <MetricBox label="Candidates" value={candidates.length.toString()} />
-        <MetricBox label="Promises" value={totalPromises.toString()} />
+      <div className={metricGridClass}>
+        <MetricBox label="Candidates" value={String(candidates.length)} />
+        <MetricBox label="Promises" value={String(totalPromises)} />
         <MetricBox label="Total likes" value={totalLikes.toLocaleString()} />
-        {!state && <MetricBox label="States" value={statesCovered.toString()} />}
+        {!state && <MetricBox label="States" value={String(statesCovered)} />}
       </div>
 
       {state && (
@@ -204,13 +234,19 @@ export default function PartyContent({ abbr }: { abbr: string }) {
             Other candidates in {state}
           </h2>
           {otherGroups.map((group) => {
-            const groupMps = group.candidates.filter((c) => c.electionType === "Lok Sabha");
-            const groupMlas = group.candidates.filter((c) => c.electionType === "Assembly");
+            const groupMps = group.candidates.filter(
+              (c) => c.electionType === "Lok Sabha"
+            );
+            const groupMlas = group.candidates.filter(
+              (c) => c.electionType === "Assembly"
+            );
             return (
               <div key={group.partyAbbr} className="space-y-3">
                 <div className="flex items-center gap-2">
                   <PartyBadge abbr={group.partyAbbr} size="sm" />
-                  <span className="text-xs font-medium text-slate-500">{group.partyName}</span>
+                  <span className="text-xs font-medium text-slate-500">
+                    {group.partyName}
+                  </span>
                 </div>
                 <CollapsibleRoleSection
                   title="MPs"
