@@ -34,7 +34,7 @@ function roleLabel(electionType: string) {
   return electionType;
 }
 
-/** Click → full profile. No expand panel. */
+/** Click navigates to full candidate profile. No inline expand. */
 function CandidateRow({
   candidate,
   index,
@@ -51,9 +51,9 @@ function CandidateRow({
   return (
     <Link
       href={`/candidates/${candidate.id}?from=${encodeURIComponent(backHref)}`}
-      className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
+      className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
     >
-      <span className="text-2xl font-bold text-slate-200 tabular-nums w-10 shrink-0">{num}</span>
+      <span className="text-xl font-bold text-slate-200 tabular-nums w-9 shrink-0">{num}</span>
       <div className={`shrink-0 h-10 w-10 rounded-xl flex items-center justify-center text-[11px] font-bold ${color}`}>
         {candidate.partyAbbr}
       </div>
@@ -64,7 +64,9 @@ function CandidateRow({
           {candidate.state ? ` · ${candidate.state}` : ""}
         </div>
       </div>
-      <span className="text-slate-300 text-lg shrink-0">→</span>
+      <span className="text-slate-300 text-lg shrink-0" aria-hidden>
+        →
+      </span>
     </Link>
   );
 }
@@ -89,6 +91,7 @@ function CollapsibleRoleSection({
   return (
     <div className="space-y-2">
       <button
+        type="button"
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left hover:bg-slate-100 transition"
       >
@@ -140,7 +143,6 @@ export default function PartyContent({ abbr }: { abbr: string }) {
   const totalPromises = candidates.reduce((s, c) => s + c.promises.length, 0);
   const statesCovered = new Set(candidates.map((c) => c.state)).size;
 
-  // So profile back button can return here
   const backHref = state
     ? `/party/${abbr}?state=${encodeURIComponent(state)}`
     : `/party/${abbr}`;
