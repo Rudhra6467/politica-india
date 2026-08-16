@@ -55,6 +55,7 @@ export default async function CandidatePage({
 
           <div className="shrink-0">
             <LikeDislikeButtons
+              id={candidate.id}
               initialLikes={candidate.likes}
               initialDislikes={candidate.dislikes}
             />
@@ -124,6 +125,7 @@ export default async function CandidatePage({
 
                 <div className="shrink-0">
                   <LikeDislikeButtons
+                    id={p.id}
                     initialLikes={p.likes}
                     initialDislikes={p.dislikes}
                     size="sm"
