@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
 export default function HeaderTagline() {
   const [open, setOpen] = useState(false);
@@ -54,10 +55,17 @@ export default function HeaderTagline() {
             This platform reflects claims and citizen reaction. It does not rank or endorse
             candidates.
           </p>
+          <Link
+            href="/methodology"
+            onClick={() => setOpen(false)}
+            className="mt-3 inline-block text-xs font-medium text-indigo-600 hover:text-indigo-800"
+          >
+            Full methodology →
+          </Link>
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-3 text-xs font-medium text-indigo-600 hover:text-indigo-800"
+            className="mt-2 block text-xs text-slate-400 hover:text-slate-600"
           >
             Close
           </button>
