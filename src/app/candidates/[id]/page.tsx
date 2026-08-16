@@ -24,6 +24,8 @@ export default async function CandidatePage({
   const role = candidate.electionType === "Lok Sabha" ? "MP" : "MLA";
   const result = resultOf(candidate);
   const won = result === "won";
+  const sourceYear = candidate.affidavitYear ?? String(candidate.electionYear);
+  const eciSource = "ECI Form 26 · " + sourceYear;
 
   const backHref = from && from.startsWith("/") ? from : "/candidates";
   const backLabel =
@@ -101,6 +103,7 @@ export default async function CandidatePage({
                 {candidate.marginVotes
                   ? " · Margin " + candidate.marginVotes.toLocaleString() + " votes"
                   : ""}
+                {" · ECI election result"}
               </div>
             </div>
             {opponentHref && (
@@ -116,12 +119,18 @@ export default async function CandidatePage({
       )}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <MetricCard label="Age" value={candidate.age?.toString() ?? "—"} />
-        <MetricCard label="Education" value={candidate.education ?? "—"} />
-        <MetricCard label="Declared Assets" value={candidate.totalAssets ?? "—"} accent />
+        <MetricCard label="Age" value={candidate.age?.toString() ?? "—"} source={eciSource} />
+        <MetricCard label="Education" value={candidate.education ?? "—"} source={eciSource} />
+        <MetricCard
+          label="Declared Assets"
+          value={candidate.totalAssets ?? "—"}
+          source={eciSource}
+          accent
+        />
         <MetricCard
           label="Criminal Cases"
           value={candidate.criminalCases.toString()}
+          source={eciSource}
           warning={candidate.criminalCases > 0}
         />
       </div>
@@ -146,12 +155,14 @@ export default async function CandidatePage({
               <div className="rounded-xl bg-slate-50 border border-slate-100 px-4 py-3">
                 <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Profession</div>
                 <div className="mt-1 text-sm font-medium text-slate-800">{candidate.profession}</div>
+                <div className="mt-1 text-[10px] text-slate-400">{eciSource}</div>
               </div>
             )}
             {candidate.totalLiabilities && (
               <div className="rounded-xl bg-slate-50 border border-slate-100 px-4 py-3">
                 <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Liabilities</div>
                 <div className="mt-1 text-sm font-medium text-slate-800">{candidate.totalLiabilities}</div>
+                <div className="mt-1 text-[10px] text-slate-400">{eciSource}</div>
               </div>
             )}
           </div>
@@ -162,6 +173,10 @@ export default async function CandidatePage({
               Election Commission of India · Form 26 Affidavit
               {candidate.affidavitYear ? " · " + candidate.affidavitYear : ""}
             </div>
+            <p className="mt-1 text-[11px] text-slate-400 leading-relaxed">
+              Assets, liabilities, education and declared cases are taken from the candidate&apos;s
+              public affidavit. Allegations are not treated as convictions.
+            </p>
             {candidate.affidavitPdfUrl && (
               <a
                 href={candidate.affidavitPdfUrl}
@@ -210,11 +225,13 @@ export default async function CandidatePage({
 function MetricCard({
   label,
   value,
+  source,
   accent,
   warning,
 }: {
   label: string;
   value: string;
+  source?: string;
   accent?: boolean;
   warning?: boolean;
 }) {
@@ -229,6 +246,7 @@ function MetricCard({
       >
         {value}
       </div>
+      {source && <div className="mt-1.5 text-[10px] text-slate-400 leading-snug">{source}</div>}
     </div>
   );
 }
