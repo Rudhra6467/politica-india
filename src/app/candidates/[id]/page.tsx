@@ -42,7 +42,6 @@ export default async function CandidatePage({
   return (
     <div className="-mx-4 -mt-8 min-h-screen bg-[#0b0d12] text-zinc-100 pb-16">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 pt-6 space-y-6">
-        {/* Back */}
         <Link
           href="/candidates"
           className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-300 transition"
@@ -50,7 +49,7 @@ export default async function CandidatePage({
           <span aria-hidden>←</span> All candidates
         </Link>
 
-        <VerificationBanner />
+        <VerificationBanner dark />
 
         {/* ========== HERO ========== */}
         <section className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-b from-zinc-900/80 to-zinc-950/90 shadow-2xl">
@@ -204,7 +203,6 @@ export default async function CandidatePage({
                       </div>
                     </div>
 
-                    {/* Community layer */}
                     <div className="mt-5 pt-5 border-t border-white/5">
                       <div className="flex items-center gap-2 mb-3">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
