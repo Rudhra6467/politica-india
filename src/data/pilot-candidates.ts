@@ -4,7 +4,13 @@
  * Real data will come from ECI Form 26 PDFs + attribution.
  */
 
-export type PromiseStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | "DISPUTED";
+export type PromiseStatus =
+  | "NOT_STARTED"
+  | "IN_PROGRESS"
+  | "REPORTED_COMPLETED"
+  | "VERIFIED_COMPLETED"
+  | "UNABLE_TO_VERIFY"
+  | "EVIDENCE_CONFLICTING";
 
 export interface PilotPromise {
   id: string;
@@ -12,7 +18,10 @@ export interface PilotPromise {
   description?: string;
   sourceUrl?: string;
   sourceNote?: string;
+  announcedDate?: string;
   status: PromiseStatus;
+  evidenceNote?: string;
+  lastChecked?: string;
   likes: number;
   dislikes: number;
 }
@@ -33,7 +42,9 @@ export interface PilotCandidate {
   totalLiabilities?: string;
   criminalCases: number;
   affidavitPdfUrl?: string;
+  affidavitYear?: string;
   photoUrl?: string;
+  lastUpdated?: string;
   promises: PilotPromise[];
   likes: number;
   dislikes: number;
@@ -57,12 +68,43 @@ export const pilotCandidates: PilotCandidate[] = [
     totalLiabilities: "₹1.8 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-10",
     likes: 1842,
     dislikes: 317,
     promises: [
-      { id: "p-001", title: "Complete the 4-lane ring road around Gandhinagar within 24 months", sourceNote: "Campaign speech, March 2024", status: "IN_PROGRESS", likes: 892, dislikes: 145 },
-      { id: "p-002", title: "Set up a skill development centre for 5,000 youth", sourceNote: "Manifesto point", status: "NOT_STARTED", likes: 634, dislikes: 89 },
-      { id: "p-003", title: "Ensure 24×7 electricity in all villages of the constituency", status: "COMPLETED", likes: 1205, dislikes: 62 },
+      {
+        id: "p-001",
+        title: "Complete the 4-lane ring road around Gandhinagar within 24 months",
+        sourceNote: "Campaign speech",
+        announcedDate: "March 2024",
+        status: "IN_PROGRESS",
+        evidenceNote: "Construction underway on two stretches according to local reports.",
+        lastChecked: "2026-08-05",
+        likes: 892,
+        dislikes: 145,
+      },
+      {
+        id: "p-002",
+        title: "Set up a skill development centre for 5,000 youth",
+        sourceNote: "Manifesto point",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-20",
+        likes: 634,
+        dislikes: 89,
+      },
+      {
+        id: "p-003",
+        title: "Ensure 24×7 electricity in all villages of the constituency",
+        sourceNote: "Campaign promise",
+        announcedDate: "2024",
+        status: "REPORTED_COMPLETED",
+        evidenceNote: "Local reports indicate near-universal coverage; independent verification pending.",
+        lastChecked: "2026-08-01",
+        likes: 1205,
+        dislikes: 62,
+      },
     ],
   },
   {
@@ -80,11 +122,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹9.8 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-08",
     likes: 1120,
     dislikes: 210,
     promises: [
-      { id: "p-013", title: "Build a new multi-specialty hospital in Ahmedabad East", status: "IN_PROGRESS", likes: 670, dislikes: 95 },
-      { id: "p-014", title: "Upgrade all municipal schools with smart classrooms", status: "NOT_STARTED", likes: 540, dislikes: 80 },
+      {
+        id: "p-013",
+        title: "Build a new multi-specialty hospital in Ahmedabad East",
+        sourceNote: "Campaign speech",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-28",
+        likes: 670,
+        dislikes: 95,
+      },
+      {
+        id: "p-014",
+        title: "Upgrade all municipal schools with smart classrooms",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-15",
+        likes: 540,
+        dislikes: 80,
+      },
     ],
   },
   {
@@ -102,11 +164,32 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹2.7 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-09",
     likes: 890,
     dislikes: 340,
     promises: [
-      { id: "p-015", title: "Increase pension for widows and elderly in the constituency", status: "NOT_STARTED", likes: 720, dislikes: 110 },
-      { id: "p-016", title: "Ensure 100% household water connections within 18 months", status: "IN_PROGRESS", likes: 610, dislikes: 85 },
+      {
+        id: "p-015",
+        title: "Increase pension for widows and elderly in the constituency",
+        sourceNote: "Press conference",
+        announcedDate: "April 2024",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "No clear public data found on implementation status.",
+        lastChecked: "2026-08-02",
+        likes: 720,
+        dislikes: 110,
+      },
+      {
+        id: "p-016",
+        title: "Ensure 100% household water connections within 18 months",
+        sourceNote: "Campaign promise",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-30",
+        likes: 610,
+        dislikes: 85,
+      },
     ],
   },
 
@@ -127,12 +210,43 @@ export const pilotCandidates: PilotCandidate[] = [
     totalLiabilities: "₹42 Lakh",
     criminalCases: 1,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-11",
     likes: 2103,
     dislikes: 478,
     promises: [
-      { id: "p-004", title: "Build 200 new anganwadi centres in the constituency", sourceNote: "Press conference, April 2024", status: "IN_PROGRESS", likes: 1102, dislikes: 203 },
-      { id: "p-005", title: "Free bus travel for women across the district", status: "DISPUTED", likes: 1567, dislikes: 812 },
-      { id: "p-006", title: "Plant 10 lakh trees under Green Jaipur drive", status: "NOT_STARTED", likes: 734, dislikes: 91 },
+      {
+        id: "p-004",
+        title: "Build 200 new anganwadi centres in the constituency",
+        sourceNote: "Press conference",
+        announcedDate: "April 2024",
+        status: "IN_PROGRESS",
+        evidenceNote: "Some centres reported under construction.",
+        lastChecked: "2026-08-03",
+        likes: 1102,
+        dislikes: 203,
+      },
+      {
+        id: "p-005",
+        title: "Free bus travel for women across the district",
+        sourceNote: "Campaign announcement",
+        announcedDate: "2024",
+        status: "EVIDENCE_CONFLICTING",
+        evidenceNote: "Scheme announced; coverage and continuity reports differ.",
+        lastChecked: "2026-08-06",
+        likes: 1567,
+        dislikes: 812,
+      },
+      {
+        id: "p-006",
+        title: "Plant 10 lakh trees under Green Jaipur drive",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-18",
+        likes: 734,
+        dislikes: 91,
+      },
     ],
   },
   {
@@ -150,11 +264,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹6.2 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-07",
     likes: 1650,
     dislikes: 390,
     promises: [
-      { id: "p-017", title: "Complete the missing links of rural roads under PMGSY", status: "IN_PROGRESS", likes: 880, dislikes: 120 },
-      { id: "p-018", title: "Set up a new ITI in every block of the constituency", status: "NOT_STARTED", likes: 540, dislikes: 70 },
+      {
+        id: "p-017",
+        title: "Complete the missing links of rural roads under PMGSY",
+        sourceNote: "Campaign speech",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-25",
+        likes: 880,
+        dislikes: 120,
+      },
+      {
+        id: "p-018",
+        title: "Set up a new ITI in every block of the constituency",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-12",
+        likes: 540,
+        dislikes: 70,
+      },
     ],
   },
   {
@@ -172,10 +306,21 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹4.5 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-06",
     likes: 980,
     dislikes: 210,
     promises: [
-      { id: "p-019", title: "Establish a government college for girls in Alwar", status: "IN_PROGRESS", likes: 710, dislikes: 65 },
+      {
+        id: "p-019",
+        title: "Establish a government college for girls in Alwar",
+        sourceNote: "Campaign promise",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-22",
+        likes: 710,
+        dislikes: 65,
+      },
     ],
   },
 
@@ -196,11 +341,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalLiabilities: "₹2.3 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-12",
     likes: 965,
     dislikes: 214,
     promises: [
-      { id: "p-007", title: "Construct irrigation canals covering 15,000 acres", sourceNote: "Election manifesto 2024", status: "IN_PROGRESS", likes: 723, dislikes: 118 },
-      { id: "p-008", title: "Establish a government medical college in Guntur rural", status: "NOT_STARTED", likes: 891, dislikes: 67 },
+      {
+        id: "p-007",
+        title: "Construct irrigation canals covering 15,000 acres",
+        sourceNote: "Election manifesto 2024",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-08-04",
+        likes: 723,
+        dislikes: 118,
+      },
+      {
+        id: "p-008",
+        title: "Establish a government medical college in Guntur rural",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-19",
+        likes: 891,
+        dislikes: 67,
+      },
     ],
   },
   {
@@ -218,11 +383,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹11.2 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-05",
     likes: 1340,
     dislikes: 180,
     promises: [
-      { id: "p-020", title: "Develop Vijayawada as a major logistics hub", status: "IN_PROGRESS", likes: 920, dislikes: 110 },
-      { id: "p-021", title: "Provide free laptops to all intermediate students", status: "NOT_STARTED", likes: 780, dislikes: 95 },
+      {
+        id: "p-020",
+        title: "Develop Vijayawada as a major logistics hub",
+        sourceNote: "Campaign speech",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-29",
+        likes: 920,
+        dislikes: 110,
+      },
+      {
+        id: "p-021",
+        title: "Provide free laptops to all intermediate students",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-14",
+        likes: 780,
+        dislikes: 95,
+      },
     ],
   },
   {
@@ -240,11 +425,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹5.4 Crore",
     criminalCases: 1,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-04",
     likes: 1120,
     dislikes: 450,
     promises: [
-      { id: "p-022", title: "Continue Amma Vodi scheme with higher support amount", status: "IN_PROGRESS", likes: 980, dislikes: 210 },
-      { id: "p-023", title: "Build 50 new Rythu Bharosa Kendras", status: "NOT_STARTED", likes: 670, dislikes: 130 },
+      {
+        id: "p-022",
+        title: "Continue Amma Vodi scheme with higher support amount",
+        sourceNote: "Campaign announcement",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-08-01",
+        likes: 980,
+        dislikes: 210,
+      },
+      {
+        id: "p-023",
+        title: "Build 50 new Rythu Bharosa Kendras",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-16",
+        likes: 670,
+        dislikes: 130,
+      },
     ],
   },
 
@@ -265,11 +470,32 @@ export const pilotCandidates: PilotCandidate[] = [
     totalLiabilities: "₹18 Lakh",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-13",
     likes: 1421,
     dislikes: 356,
     promises: [
-      { id: "p-009", title: "Upgrade all government schools with digital classrooms", status: "IN_PROGRESS", likes: 978, dislikes: 142 },
-      { id: "p-010", title: "Women safety helpline with 24×7 response in the constituency", status: "COMPLETED", likes: 1345, dislikes: 88 },
+      {
+        id: "p-009",
+        title: "Upgrade all government schools with digital classrooms",
+        sourceNote: "Campaign promise",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-08-02",
+        likes: 978,
+        dislikes: 142,
+      },
+      {
+        id: "p-010",
+        title: "Women safety helpline with 24×7 response in the constituency",
+        sourceNote: "Announcement",
+        announcedDate: "2024",
+        status: "REPORTED_COMPLETED",
+        evidenceNote: "Helpline reported operational; independent audit not available.",
+        lastChecked: "2026-07-30",
+        likes: 1345,
+        dislikes: 88,
+      },
     ],
   },
   {
@@ -287,10 +513,21 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹3.8 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-03",
     likes: 980,
     dislikes: 520,
     promises: [
-      { id: "p-024", title: "Clean the canals and improve drainage in southern Kolkata", status: "NOT_STARTED", likes: 810, dislikes: 140 },
+      {
+        id: "p-024",
+        title: "Clean the canals and improve drainage in southern Kolkata",
+        sourceNote: "Campaign speech",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-21",
+        likes: 810,
+        dislikes: 140,
+      },
     ],
   },
   {
@@ -308,11 +545,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹2.4 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-02",
     likes: 1180,
     dislikes: 290,
     promises: [
-      { id: "p-025", title: "Build 100 new community toilets under Swachh Bharat", status: "IN_PROGRESS", likes: 650, dislikes: 70 },
-      { id: "p-026", title: "Start night shelters for the homeless in the constituency", status: "NOT_STARTED", likes: 720, dislikes: 55 },
+      {
+        id: "p-025",
+        title: "Build 100 new community toilets under Swachh Bharat",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-27",
+        likes: 650,
+        dislikes: 70,
+      },
+      {
+        id: "p-026",
+        title: "Start night shelters for the homeless in the constituency",
+        sourceNote: "Campaign promise",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-11",
+        likes: 720,
+        dislikes: 55,
+      },
     ],
   },
 
@@ -333,11 +590,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalLiabilities: "₹95 Lakh",
     criminalCases: 2,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-14",
     likes: 1789,
     dislikes: 623,
     promises: [
-      { id: "p-011", title: "Ensure MSP procurement centres in every tehsil", sourceNote: "Rally speech", status: "NOT_STARTED", likes: 1123, dislikes: 287 },
-      { id: "p-012", title: "Build a new degree college for girls in Mainpuri", status: "IN_PROGRESS", likes: 845, dislikes: 156 },
+      {
+        id: "p-011",
+        title: "Ensure MSP procurement centres in every tehsil",
+        sourceNote: "Rally speech",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-17",
+        likes: 1123,
+        dislikes: 287,
+      },
+      {
+        id: "p-012",
+        title: "Build a new degree college for girls in Mainpuri",
+        sourceNote: "Campaign promise",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-08-01",
+        likes: 845,
+        dislikes: 156,
+      },
     ],
   },
   {
@@ -355,11 +632,31 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹7.1 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-01",
     likes: 1450,
     dislikes: 510,
     promises: [
-      { id: "p-027", title: "Connect all villages with concrete roads under CM GRam Sadak Yojana", status: "IN_PROGRESS", likes: 890, dislikes: 160 },
-      { id: "p-028", title: "Open a new government polytechnic in Mainpuri", status: "NOT_STARTED", likes: 610, dislikes: 90 },
+      {
+        id: "p-027",
+        title: "Connect all villages with concrete roads under CM GRam Sadak Yojana",
+        sourceNote: "Campaign speech",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-26",
+        likes: 890,
+        dislikes: 160,
+      },
+      {
+        id: "p-028",
+        title: "Open a new government polytechnic in Mainpuri",
+        sourceNote: "Manifesto",
+        announcedDate: "2024",
+        status: "NOT_STARTED",
+        lastChecked: "2026-07-13",
+        likes: 610,
+        dislikes: 90,
+      },
     ],
   },
   {
@@ -377,10 +674,21 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹2.9 Crore",
     criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-07-30",
     likes: 1020,
     dislikes: 280,
     promises: [
-      { id: "p-029", title: "Provide free coaching for competitive exams to poor students", status: "IN_PROGRESS", likes: 780, dislikes: 95 },
+      {
+        id: "p-029",
+        title: "Provide free coaching for competitive exams to poor students",
+        sourceNote: "Campaign promise",
+        announcedDate: "2024",
+        status: "IN_PROGRESS",
+        lastChecked: "2026-07-24",
+        likes: 780,
+        dislikes: 95,
+      },
     ],
   },
 ];
@@ -399,11 +707,8 @@ export function getPartiesInState(state: string) {
     .filter((c) => c.state === state)
     .forEach((c) => {
       const existing = map.get(c.partyAbbr);
-      if (existing) {
-        existing.count += 1;
-      } else {
-        map.set(c.partyAbbr, { name: c.party, abbr: c.partyAbbr, count: 1 });
-      }
+      if (existing) existing.count += 1;
+      else map.set(c.partyAbbr, { name: c.party, abbr: c.partyAbbr, count: 1 });
     });
   return Array.from(map.values()).sort((a, b) => b.count - a.count);
 }
@@ -412,11 +717,8 @@ export function getNationalParties() {
   const map = new Map<string, { name: string; abbr: string; count: number }>();
   pilotCandidates.forEach((c) => {
     const existing = map.get(c.partyAbbr);
-    if (existing) {
-      existing.count += 1;
-    } else {
-      map.set(c.partyAbbr, { name: c.party, abbr: c.partyAbbr, count: 1 });
-    }
+    if (existing) existing.count += 1;
+    else map.set(c.partyAbbr, { name: c.party, abbr: c.partyAbbr, count: 1 });
   });
   return Array.from(map.values()).sort((a, b) => b.count - a.count);
 }
