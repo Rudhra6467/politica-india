@@ -7,6 +7,7 @@ import {
   pilotCandidates,
   getCandidatesByPartyAndState,
   getOtherCandidatesInState,
+  type PilotCandidate,
 } from "@/data/pilot-candidates";
 import { getPartyInfo } from "@/data/party-info";
 import PartyBadge from "@/components/PartyBadge";
@@ -38,20 +39,7 @@ function ExpandableCandidate({
   candidate,
   index,
 }: {
-  candidate: {
-    id: string;
-    name: string;
-    partyAbbr: string;
-    constituency: string;
-    state: string;
-    electionType: string;
-    likes: number;
-    dislikes: number;
-    education?: string;
-    totalAssets?: string;
-    criminalCases: number;
-    promises: { id: string; title: string }[];
-  };
+  candidate: PilotCandidate;
   index: number;
 }) {
   const [open, setOpen] = useState(false);
@@ -73,13 +61,14 @@ function ExpandableCandidate({
           <div className="font-semibold text-slate-900 text-[15px]">{candidate.name}</div>
           <div className="text-xs text-slate-500 mt-0.5">
             {role} · {candidate.constituency}
+            {candidate.state ? ` · ${candidate.state}` : ""}
           </div>
         </div>
         <span className="text-slate-400 text-sm shrink-0">{open ? "−" : "+"}</span>
       </button>
 
       {open && (
-        <div className="px-4 pb-4 pt-0 border-t border-slate-100">
+        <div className="px-4 pb-4 border-t border-slate-100">
           <div className="pt-4 space-y-3">
             <div className="grid grid-cols-2 gap-2 text-sm">
               {candidate.education && (
@@ -132,6 +121,49 @@ function ExpandableCandidate({
   );
 }
 
+function CollapsibleRoleSection({
+  title,
+  subtitle,
+  candidates,
+  defaultOpen = true,
+}: {
+  title: string;
+  subtitle: string;
+  candidates: PilotCandidate[];
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  if (candidates.length === 0) return null;
+
+  return (
+    <div className="space-y-2">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left hover:bg-slate-100 transition"
+      >
+        <div>
+          <div className="text-sm font-semibold text-slate-800">{title}</div>
+          <div className="text-xs text-slate-500 mt-0.5">
+            {subtitle} · {candidates.length} candidate{candidates.length > 1 ? "s" : ""}
+          </div>
+        </div>
+        <span className="text-slate-500 text-sm font-medium shrink-0">
+          {open ? "Minimize −" : "Expand +"}
+        </span>
+      </button>
+
+      {open && (
+        <div className="space-y-2">
+          {candidates.map((c, i) => (
+            <ExpandableCandidate key={c.id} candidate={c} index={i} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function MetricBox({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm">
@@ -150,6 +182,9 @@ export default function PartyContent({ abbr }: { abbr: string }) {
     ? getCandidatesByPartyAndState(abbr, state)
     : pilotCandidates.filter((c) => c.partyAbbr === abbr);
 
+  const mps = candidates.filter((c) => c.electionType === "Lok Sabha");
+  const mlas = candidates.filter((c) => c.electionType === "Assembly");
+
   const otherGroups = state ? getOtherCandidatesInState(abbr, state) : [];
   const totalLikes = candidates.reduce((s, c) => s + c.likes, 0);
   const totalPromises = candidates.reduce((s, c) => s + c.promises.length, 0);
@@ -161,7 +196,6 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         <span aria-hidden>←</span> Back to home
       </Link>
 
-      {/* Party intro / claims header */}
       {info ? (
         <PartyIntro info={info} />
       ) : (
@@ -171,7 +205,6 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         </div>
       )}
 
-      {/* Metrics */}
       <div className={`grid gap-3 ${state ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-4"}`}>
         <MetricBox label="Candidates" value={candidates.length.toString()} />
         <MetricBox label="Promises" value={totalPromises.toString()} />
@@ -185,42 +218,57 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         </p>
       )}
 
-      {/* Candidates as first primary list — expandable boxes */}
-      <section>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-400">
-          Candidates
-        </h2>
+      {/* MPs first, then MLAs — each section minimizable */}
+      <section className="space-y-4">
         {candidates.length === 0 ? (
           <p className="text-sm text-slate-500">No candidates found.</p>
         ) : (
-          <div className="space-y-2">
-            {candidates.map((c, i) => (
-              <ExpandableCandidate key={c.id} candidate={c} index={i} />
-            ))}
-          </div>
+          <>
+            <CollapsibleRoleSection
+              title="Members of Parliament (MPs)"
+              subtitle="Lok Sabha"
+              candidates={mps}
+              defaultOpen={true}
+            />
+            <CollapsibleRoleSection
+              title="Members of Legislative Assembly (MLAs)"
+              subtitle="State Assembly"
+              candidates={mlas}
+              defaultOpen={true}
+            />
+          </>
         )}
       </section>
 
       {otherGroups.length > 0 && (
-        <section className="border-t border-slate-100 pt-5">
-          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-400">
+        <section className="border-t border-slate-100 pt-5 space-y-4">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
             Other candidates in {state}
           </h2>
-          <div className="space-y-5">
-            {otherGroups.map((group) => (
-              <div key={group.partyAbbr}>
-                <div className="mb-2 flex items-center gap-2">
+          {otherGroups.map((group) => {
+            const groupMps = group.candidates.filter((c) => c.electionType === "Lok Sabha");
+            const groupMlas = group.candidates.filter((c) => c.electionType === "Assembly");
+            return (
+              <div key={group.partyAbbr} className="space-y-3">
+                <div className="flex items-center gap-2">
                   <PartyBadge abbr={group.partyAbbr} size="sm" />
                   <span className="text-xs font-medium text-slate-500">{group.partyName}</span>
                 </div>
-                <div className="space-y-2">
-                  {group.candidates.map((c, i) => (
-                    <ExpandableCandidate key={c.id} candidate={c} index={i} />
-                  ))}
-                </div>
+                <CollapsibleRoleSection
+                  title="MPs"
+                  subtitle="Lok Sabha"
+                  candidates={groupMps}
+                  defaultOpen={false}
+                />
+                <CollapsibleRoleSection
+                  title="MLAs"
+                  subtitle="State Assembly"
+                  candidates={groupMlas}
+                  defaultOpen={false}
+                />
               </div>
-            ))}
-          </div>
+            );
+          })}
         </section>
       )}
     </div>
