@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -10,6 +11,7 @@ import {
 import { getPartyInfo } from "@/data/party-info";
 import PartyBadge from "@/components/PartyBadge";
 import PartyIntro from "@/components/PartyIntro";
+import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 
 const PARTY_COLORS: Record<string, string> = {
   BJP: "bg-orange-500 text-white",
@@ -32,8 +34,9 @@ function roleLabel(electionType: string) {
   return electionType;
 }
 
-function CandidateRow({
+function ExpandableCandidate({
   candidate,
+  index,
 }: {
   candidate: {
     id: string;
@@ -44,31 +47,88 @@ function CandidateRow({
     electionType: string;
     likes: number;
     dislikes: number;
+    education?: string;
+    totalAssets?: string;
+    criminalCases: number;
+    promises: { id: string; title: string }[];
   };
+  index: number;
 }) {
+  const [open, setOpen] = useState(false);
   const role = roleLabel(candidate.electionType);
   const color = PARTY_COLORS[candidate.partyAbbr] || "bg-slate-600 text-white";
+  const num = String(index + 1).padStart(2, "0");
 
   return (
-    <Link
-      href={`/candidates/${candidate.id}`}
-      className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-    >
-      <div className={`shrink-0 h-10 w-10 rounded-xl flex items-center justify-center text-[11px] font-bold ${color}`}>
-        {candidate.partyAbbr}
-      </div>
-      <div className="min-w-0 flex-1">
-        <div className="truncate text-[15px] font-semibold text-slate-900">{candidate.name}</div>
-        <div className="truncate text-xs text-slate-500 mt-0.5">
-          {role} · {candidate.constituency}
-          {candidate.state ? ` · ${candidate.state}` : ""}
+    <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center gap-4 px-4 py-4 text-left hover:bg-slate-50/80 transition"
+      >
+        <span className="text-2xl font-bold text-slate-200 tabular-nums w-10 shrink-0">{num}</span>
+        <div className={`shrink-0 h-10 w-10 rounded-xl flex items-center justify-center text-[11px] font-bold ${color}`}>
+          {candidate.partyAbbr}
         </div>
-      </div>
-      <div className="shrink-0 text-right text-xs space-y-0.5">
-        <div className="text-emerald-600 font-medium">👍 {candidate.likes.toLocaleString()}</div>
-        <div className="text-rose-500 font-medium">👎 {candidate.dislikes.toLocaleString()}</div>
-      </div>
-    </Link>
+        <div className="min-w-0 flex-1">
+          <div className="font-semibold text-slate-900 text-[15px]">{candidate.name}</div>
+          <div className="text-xs text-slate-500 mt-0.5">
+            {role} · {candidate.constituency}
+          </div>
+        </div>
+        <span className="text-slate-400 text-sm shrink-0">{open ? "−" : "+"}</span>
+      </button>
+
+      {open && (
+        <div className="px-4 pb-4 pt-0 border-t border-slate-100">
+          <div className="pt-4 space-y-3">
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              {candidate.education && (
+                <div className="rounded-xl bg-slate-50 px-3 py-2 border border-slate-100">
+                  <div className="text-[10px] uppercase tracking-wider text-slate-400">Education</div>
+                  <div className="font-medium text-slate-800 mt-0.5">{candidate.education}</div>
+                </div>
+              )}
+              <div className="rounded-xl bg-slate-50 px-3 py-2 border border-slate-100">
+                <div className="text-[10px] uppercase tracking-wider text-slate-400">Cases</div>
+                <div className="font-medium text-slate-800 mt-0.5">{candidate.criminalCases}</div>
+              </div>
+              {candidate.totalAssets && (
+                <div className="rounded-xl bg-slate-50 px-3 py-2 border border-slate-100 col-span-2">
+                  <div className="text-[10px] uppercase tracking-wider text-slate-400">Assets</div>
+                  <div className="font-medium text-slate-800 mt-0.5">{candidate.totalAssets}</div>
+                </div>
+              )}
+            </div>
+
+            {candidate.promises.length > 0 && (
+              <div>
+                <div className="text-[10px] uppercase tracking-wider text-slate-400 mb-1.5">Promises</div>
+                <ul className="space-y-1">
+                  {candidate.promises.map((p) => (
+                    <li key={p.id} className="text-sm text-slate-700">· {p.title}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between gap-3 pt-1">
+              <LikeDislikeButtons
+                id={candidate.id}
+                initialLikes={candidate.likes}
+                initialDislikes={candidate.dislikes}
+                size="sm"
+              />
+              <Link
+                href={`/candidates/${candidate.id}`}
+                className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
+              >
+                Full profile →
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -86,81 +146,14 @@ export default function PartyContent({ abbr }: { abbr: string }) {
   const state = searchParams.get("state");
   const info = getPartyInfo(abbr);
 
-  // Local mode
-  if (state) {
-    const partyCandidates = getCandidatesByPartyAndState(abbr, state);
-    const otherGroups = getOtherCandidatesInState(abbr, state);
-    const totalLikes = partyCandidates.reduce((s, c) => s + c.likes, 0);
-    const totalPromises = partyCandidates.reduce((s, c) => s + c.promises.length, 0);
+  const candidates = state
+    ? getCandidatesByPartyAndState(abbr, state)
+    : pilotCandidates.filter((c) => c.partyAbbr === abbr);
 
-    return (
-      <div className="space-y-5 pb-10">
-        <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800">
-          <span aria-hidden>←</span> Back to home
-        </Link>
-
-        {info ? (
-          <PartyIntro info={info} />
-        ) : (
-          <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <PartyBadge abbr={abbr} size="lg" />
-            <h1 className="text-2xl font-bold text-slate-900">{abbr}</h1>
-          </div>
-        )}
-
-        {/* Party metrics */}
-        <div className="grid grid-cols-3 gap-3">
-          <MetricBox label="Candidates" value={partyCandidates.length.toString()} />
-          <MetricBox label="Promises" value={totalPromises.toString()} />
-          <MetricBox label="Total likes" value={totalLikes.toLocaleString()} />
-        </div>
-
-        <p className="text-xs text-slate-400">
-          In <span className="font-medium text-slate-600">{state}</span>
-        </p>
-
-        <section>
-          <h2 className="mb-2.5 text-sm font-semibold text-slate-800">{abbr} candidates</h2>
-          {partyCandidates.length === 0 ? (
-            <p className="text-sm text-slate-500">No candidates found for this party in {state}.</p>
-          ) : (
-            <div className="space-y-2">
-              {partyCandidates.map((c) => (
-                <CandidateRow key={c.id} candidate={c} />
-              ))}
-            </div>
-          )}
-        </section>
-
-        {otherGroups.length > 0 && (
-          <section className="border-t border-slate-100 pt-5">
-            <h2 className="mb-3 text-sm font-semibold text-slate-800">Other candidates in {state}</h2>
-            <div className="space-y-5">
-              {otherGroups.map((group) => (
-                <div key={group.partyAbbr}>
-                  <div className="mb-2 flex items-center gap-2">
-                    <PartyBadge abbr={group.partyAbbr} size="sm" />
-                    <span className="text-xs font-medium text-slate-500">{group.partyName}</span>
-                  </div>
-                  <div className="space-y-2">
-                    {group.candidates.map((c) => (
-                      <CandidateRow key={c.id} candidate={c} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
-    );
-  }
-
-  // National mode
-  const allPartyCandidates = pilotCandidates.filter((c) => c.partyAbbr === abbr);
-  const totalLikes = allPartyCandidates.reduce((s, c) => s + c.likes, 0);
-  const totalPromises = allPartyCandidates.reduce((s, c) => s + c.promises.length, 0);
-  const statesCovered = new Set(allPartyCandidates.map((c) => c.state)).size;
+  const otherGroups = state ? getOtherCandidatesInState(abbr, state) : [];
+  const totalLikes = candidates.reduce((s, c) => s + c.likes, 0);
+  const totalPromises = candidates.reduce((s, c) => s + c.promises.length, 0);
+  const statesCovered = new Set(candidates.map((c) => c.state)).size;
 
   return (
     <div className="space-y-5 pb-10">
@@ -168,6 +161,7 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         <span aria-hidden>←</span> Back to home
       </Link>
 
+      {/* Party intro / claims header */}
       {info ? (
         <PartyIntro info={info} />
       ) : (
@@ -177,21 +171,58 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         </div>
       )}
 
-      {/* Party metrics */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <MetricBox label="Candidates" value={allPartyCandidates.length.toString()} />
+      {/* Metrics */}
+      <div className={`grid gap-3 ${state ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-4"}`}>
+        <MetricBox label="Candidates" value={candidates.length.toString()} />
         <MetricBox label="Promises" value={totalPromises.toString()} />
         <MetricBox label="Total likes" value={totalLikes.toLocaleString()} />
-        <MetricBox label="States" value={statesCovered.toString()} />
+        {!state && <MetricBox label="States" value={statesCovered.toString()} />}
       </div>
 
-      <p className="text-xs text-slate-400">All candidates · national view</p>
+      {state && (
+        <p className="text-xs text-slate-400">
+          In <span className="font-medium text-slate-600">{state}</span>
+        </p>
+      )}
 
-      <div className="space-y-2">
-        {allPartyCandidates.map((c) => (
-          <CandidateRow key={c.id} candidate={c} />
-        ))}
-      </div>
+      {/* Candidates as first primary list — expandable boxes */}
+      <section>
+        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-400">
+          Candidates
+        </h2>
+        {candidates.length === 0 ? (
+          <p className="text-sm text-slate-500">No candidates found.</p>
+        ) : (
+          <div className="space-y-2">
+            {candidates.map((c, i) => (
+              <ExpandableCandidate key={c.id} candidate={c} index={i} />
+            ))}
+          </div>
+        )}
+      </section>
+
+      {otherGroups.length > 0 && (
+        <section className="border-t border-slate-100 pt-5">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-400">
+            Other candidates in {state}
+          </h2>
+          <div className="space-y-5">
+            {otherGroups.map((group) => (
+              <div key={group.partyAbbr}>
+                <div className="mb-2 flex items-center gap-2">
+                  <PartyBadge abbr={group.partyAbbr} size="sm" />
+                  <span className="text-xs font-medium text-slate-500">{group.partyName}</span>
+                </div>
+                <div className="space-y-2">
+                  {group.candidates.map((c, i) => (
+                    <ExpandableCandidate key={c.id} candidate={c} index={i} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

@@ -1,28 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCandidateById, type PromiseStatus } from "@/data/pilot-candidates";
+import { getCandidateById } from "@/data/pilot-candidates";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
-import CommentSection from "@/components/CommentSection";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import PartyBadge from "@/components/PartyBadge";
-
-const statusStyles: Record<PromiseStatus, string> = {
-  NOT_STARTED: "bg-slate-100 text-slate-600 border border-slate-200",
-  IN_PROGRESS: "bg-amber-50 text-amber-700 border border-amber-200",
-  REPORTED_COMPLETED: "bg-emerald-50 text-emerald-700 border border-emerald-200",
-  VERIFIED_COMPLETED: "bg-emerald-100 text-emerald-800 border border-emerald-300",
-  UNABLE_TO_VERIFY: "bg-slate-100 text-slate-500 border border-slate-200",
-  EVIDENCE_CONFLICTING: "bg-orange-50 text-orange-700 border border-orange-200",
-};
-
-const statusLabel: Record<PromiseStatus, string> = {
-  NOT_STARTED: "Not Started",
-  IN_PROGRESS: "In Progress",
-  REPORTED_COMPLETED: "Reported Completed",
-  VERIFIED_COMPLETED: "Verified Completed",
-  UNABLE_TO_VERIFY: "Unable to Verify",
-  EVIDENCE_CONFLICTING: "Evidence Conflicting",
-};
+import PromiseCard from "@/components/PromiseCard";
 
 export default async function CandidatePage({
   params,
@@ -145,14 +127,14 @@ export default async function CandidatePage({
         </div>
       </section>
 
-      {/* ========== PROMISES ========== */}
+      {/* ========== PROMISES / ANNOUNCEMENTS ========== */}
       <section>
         <div className="flex items-center gap-2.5 mb-1">
           <span className="h-2 w-2 rounded-full bg-amber-500" />
           <h2 className="text-sm font-semibold text-slate-800 tracking-wide">Promises & Announcements</h2>
         </div>
         <p className="text-xs text-slate-500 mb-4">
-          Tracked information · Source, status and last-checked where available
+          Tracked information · Like/dislike on the right · Comments expand below
         </p>
 
         {candidate.promises.length === 0 ? (
@@ -162,50 +144,7 @@ export default async function CandidatePage({
         ) : (
           <div className="space-y-3">
             {candidate.promises.map((p) => (
-              <div key={p.id} className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-                <div className="p-5">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <span className={`inline-flex text-[11px] font-medium px-2.5 py-1 rounded-full ${statusStyles[p.status]}`}>
-                        {statusLabel[p.status]}
-                      </span>
-                      <h3 className="mt-2.5 text-base font-medium text-slate-900 leading-snug">{p.title}</h3>
-
-                      <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
-                        {p.announcedDate && <span>Announced {p.announcedDate}</span>}
-                        {p.sourceNote && <span>Source · {p.sourceNote}</span>}
-                        {p.lastChecked && <span>Checked {p.lastChecked}</span>}
-                      </div>
-
-                      {p.evidenceNote && (
-                        <p className="mt-3 text-sm text-slate-600 bg-slate-50 rounded-xl px-3.5 py-2.5 border border-slate-100">
-                          <span className="font-medium text-slate-700">Evidence · </span>
-                          {p.evidenceNote}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="shrink-0">
-                      <LikeDislikeButtons
-                        id={p.id}
-                        initialLikes={p.likes}
-                        initialDislikes={p.dislikes}
-                        size="sm"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mt-5 pt-4 border-t border-slate-100">
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                      <span className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
-                        Community
-                      </span>
-                    </div>
-                    <CommentSection promiseId={p.id} />
-                  </div>
-                </div>
-              </div>
+              <PromiseCard key={p.id} promise={p} />
             ))}
           </div>
         )}
