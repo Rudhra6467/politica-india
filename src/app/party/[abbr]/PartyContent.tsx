@@ -101,15 +101,6 @@ function CollapsibleRoleSection({
   );
 }
 
-function MetricBox({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm text-center">
-      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
-      <div className="mt-0.5 text-lg font-semibold text-slate-900 tabular-nums">{value}</div>
-    </div>
-  );
-}
-
 /** Pilot alliance counts — informational only until curated */
 const ALLIANCE_HINT: Record<string, number> = {
   TDP: 2,
@@ -139,6 +130,13 @@ export default function PartyContent({ abbr }: { abbr: string }) {
   const statesCovered = new Set(allForParty.map((c) => c.state)).size;
   const alliances = ALLIANCE_HINT[abbr] ?? 0;
 
+  const metrics = {
+    mps: mps.length,
+    mlas: mlas.length,
+    states: statesCovered,
+    alliances: alliances > 0 ? alliances : null,
+  };
+
   const backHref = state
     ? "/party/" + abbr + "?state=" + encodeURIComponent(state)
     : "/party/" + abbr;
@@ -153,21 +151,35 @@ export default function PartyContent({ abbr }: { abbr: string }) {
       </Link>
 
       {info ? (
-        <PartyIntro info={info} />
+        <PartyIntro info={info} metrics={metrics} />
       ) : (
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <PartyBadge abbr={abbr} size="lg" />
-          <h1 className="text-2xl font-bold text-slate-900">{abbr}</h1>
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm space-y-3">
+          <div className="flex items-center gap-3">
+            <PartyBadge abbr={abbr} size="lg" />
+            <h1 className="text-2xl font-bold text-slate-900">{abbr}</h1>
+          </div>
+          <div className="grid grid-cols-4 gap-1 rounded-xl border border-slate-100 bg-slate-50/80 px-1 py-2 text-center">
+            <div>
+              <div className="text-[10px] uppercase text-slate-400">MPs</div>
+              <div className="font-semibold text-slate-900">{metrics.mps}</div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase text-slate-400">MLAs</div>
+              <div className="font-semibold text-slate-900">{metrics.mlas}</div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase text-slate-400">States</div>
+              <div className="font-semibold text-slate-900">{metrics.states}</div>
+            </div>
+            <div>
+              <div className="text-[10px] uppercase text-slate-400">Alliances</div>
+              <div className="font-semibold text-slate-900">
+                {metrics.alliances != null ? metrics.alliances : "—"}
+              </div>
+            </div>
+          </div>
         </div>
       )}
-
-      {/* Header metrics: MPs · MLAs · States · Alliances */}
-      <div className="grid grid-cols-4 gap-2">
-        <MetricBox label="MPs" value={String(mps.length)} />
-        <MetricBox label="MLAs" value={String(mlas.length)} />
-        <MetricBox label="States" value={String(statesCovered)} />
-        <MetricBox label="Alliances" value={alliances > 0 ? String(alliances) : "—"} />
-      </div>
 
       {state && (
         <p className="text-xs text-slate-400">
