@@ -93,11 +93,11 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "ap-tdp-04", name: "Kollu Ravindra", party: "Telugu Desam Party", partyAbbr: "TDP",
     constituency: "Machilipatnam", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    electionResult: "won",
+    electionResult: "won", opponentName: "Perni Krishnamurthy (Kittu)", opponentParty: "YSRCP", marginVotes: 50242,
     age: 52, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-07", sortOrder: 4,
     likes: 760, dislikes: 150,
-    promises: [{ id: "ap-p05", title: "Coastal development and fisheries support", sourceNote: "Campaign", announcedDate: "2024", status: "NOT_STARTED", lastChecked: "2026-07-18", likes: 320, dislikes: 60 }],
+    promises: [{ id: "ap-p05", title: "Coastal development and fisheries support", sourceNote: "Campaign statements 2024", announcedDate: "2024-04", status: "UNABLE_TO_VERIFY", evidenceNote: "No clear public implementation update located for this pilot check.", lastChecked: "2026-08-16", likes: 320, dislikes: 60 }],
   },
   {
     id: "ap-tdp-05", name: "K. Ram Mohan Naidu", party: "Telugu Desam Party", partyAbbr: "TDP",
@@ -126,7 +126,7 @@ export const pilotCandidates: PilotCandidate[] = [
     age: 48, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-08", sortOrder: 2,
     likes: 980, dislikes: 340,
-    promises: [{ id: "ap-p07", title: "Strengthen local health and education infrastructure", sourceNote: "Campaign", announcedDate: "2024", status: "NOT_STARTED", lastChecked: "2026-07-20", likes: 420, dislikes: 95 }],
+    promises: [{ id: "ap-p07", title: "Strengthen local health and education infrastructure", sourceNote: "Campaign 2024", announcedDate: "2024-04", status: "UNABLE_TO_VERIFY", evidenceNote: "Candidate lost the seat; constituency-level tracking deferred.", lastChecked: "2026-08-16", likes: 420, dislikes: 95 }],
   },
   {
     id: "ap-ysrcp-03", name: "Botcha Satyanarayana", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
@@ -194,12 +194,12 @@ export const pilotCandidates: PilotCandidate[] = [
     age: 48, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-06", sortOrder: 3,
     likes: 710, dislikes: 120,
-    promises: [{ id: "ap-p13", title: "Urban civic issues and employment", sourceNote: "Campaign", announcedDate: "2024", status: "NOT_STARTED", lastChecked: "2026-07-16", likes: 290, dislikes: 45 }],
+    promises: [{ id: "ap-p13", title: "Urban civic issues and employment", sourceNote: "Campaign statements 2024", announcedDate: "2024-04", status: "UNABLE_TO_VERIFY", evidenceNote: "Insufficient independent progress reporting for this pilot entry.", lastChecked: "2026-08-16", likes: 290, dislikes: 45 }],
   },
   {
     id: "ap-bjp-01", name: "Daggubati Purandeswari", party: "Bharatiya Janata Party", partyAbbr: "BJP",
     constituency: "Rajahmundry", state: "Andhra Pradesh", electionType: "Lok Sabha", electionYear: 2024,
-    electionResult: "won",
+    electionResult: "won", opponentName: "Dr. Guduri Srinivas", opponentParty: "YSRCP", marginVotes: 239139,
     age: 67, education: "Graduate", profession: "Politician",
     totalAssets: "₹62.5 Cr (2024 affidavit)", totalLiabilities: "₹7 Cr", criminalCases: 1,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
@@ -269,7 +269,7 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-inc-02", name: "Bhatti Vikramarka", party: "Indian National Congress", partyAbbr: "INC",
     constituency: "Madhira", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    electionResult: "won",
+    electionResult: "won", opponentName: "Lingala Kamal Raju", opponentParty: "BRS", marginVotes: 35452,
     age: 63, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹8.13 Cr (2023 affidavit)", totalLiabilities: "Nil", criminalCases: 3,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 2,
@@ -287,9 +287,9 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [{ id: "tg-p08", title: "Irrigation and constituency development", sourceNote: "Campaign", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 480, dislikes: 90 }],
   },
   {
-    id: "tg-inc-04", name: "Danam Nagender", party: "Indian National Congress", partyAbbr: "INC",
+    id: "tg-inc-04", name: "Danam Nagender", party: "Bharat Rashtra Samithi", partyAbbr: "BRS",
     constituency: "Khairatabad", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    electionResult: "won",
+    electionResult: "won", opponentName: "P. Vijaya Reddy", opponentParty: "INC", marginVotes: 22010,
     age: 60, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹68.9 Cr (2023 affidavit)", totalLiabilities: "₹49.6 Cr", criminalCases: 1,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 4,
@@ -309,7 +309,7 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-bjp-01", name: "Bandi Sanjay Kumar", party: "Bharatiya Janata Party", partyAbbr: "BJP",
     constituency: "Karimnagar", state: "Telangana", electionType: "Lok Sabha", electionYear: 2024,
-    electionResult: "won",
+    electionResult: "won", opponentName: "Velchala Rajender Rao", opponentParty: "INC", marginVotes: 225209,
     age: 52, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹1.13 Cr (2024 affidavit)", totalLiabilities: "₹13 Lakh", criminalCases: 42,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
