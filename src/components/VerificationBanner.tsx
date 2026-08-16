@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const STORAGE_KEY = "politica-user-verified";
+const STORAGE_KEY = "politica-verified";
 
 export function useVerification() {
   const [isVerified, setIsVerified] = useState(false);
@@ -31,10 +31,55 @@ export function useVerification() {
   return { isVerified, hydrated, toggle };
 }
 
-export default function VerificationBanner() {
+export default function VerificationBanner({ dark = false }: { dark?: boolean }) {
   const { isVerified, hydrated, toggle } = useVerification();
 
   if (!hydrated) return null;
+
+  if (dark) {
+    return (
+      <div
+        className={`rounded-2xl border px-4 py-3.5 text-sm ${
+          isVerified
+            ? "border-indigo-500/30 bg-indigo-500/10 text-indigo-200"
+            : "border-white/10 bg-zinc-900/60 text-zinc-400"
+        }`}
+      >
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            {isVerified ? (
+              <>
+                <span className="font-medium text-indigo-200">You are marked as Verified</span>
+                <span className="ml-2 text-indigo-300/70">· Comments will show a Verified badge</span>
+              </>
+            ) : (
+              <>
+                <span className="font-medium text-zinc-300">Basic user</span>
+                <span className="ml-2 text-zinc-500">
+                  · Like/dislike available. Toggle to simulate dual-verification for comments.
+                </span>
+              </>
+            )}
+          </div>
+
+          <button
+            onClick={toggle}
+            className={`shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition ${
+              isVerified
+                ? "bg-zinc-800 border border-white/10 text-zinc-300 hover:bg-zinc-700"
+                : "bg-indigo-600 text-white hover:bg-indigo-500"
+            }`}
+          >
+            {isVerified ? "Remove verification" : "Simulate dual verification"}
+          </button>
+        </div>
+
+        <p className="mt-2 text-xs text-zinc-500">
+          Temporary mock for MVP. Real dual verification (offline Aadhaar e-KYC) will replace this later.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div
