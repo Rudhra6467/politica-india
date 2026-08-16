@@ -1,5 +1,6 @@
 /**
- * Pilot seed data — South India focus (Andhra Pradesh, Tamil Nadu, Karnataka)
+ * Pilot seed data — South India focus
+ * Andhra Pradesh · Tamil Nadu · Karnataka · Telangana
  * Illustrative placeholders for UI/feel testing.
  * Real data will come from ECI Form 26 + attribution.
  *
@@ -47,7 +48,7 @@ export interface PilotCandidate {
   affidavitYear?: string;
   photoUrl?: string;
   lastUpdated?: string;
-  sortOrder?: number; // lower = higher priority (leaders first)
+  sortOrder?: number;
   promises: PilotPromise[];
   likes: number;
   dislikes: number;
@@ -55,7 +56,6 @@ export interface PilotCandidate {
 
 export const pilotCandidates: PilotCandidate[] = [
   // ==================== ANDHRA PRADESH ====================
-  // TDP
   {
     id: "ap-tdp-01",
     name: "N. Chandrababu Naidu",
@@ -77,27 +77,8 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 4200,
     dislikes: 980,
     promises: [
-      {
-        id: "ap-p-01",
-        title: "Rebuild Amaravati as the capital with renewed focus",
-        sourceNote: "Campaign & public statements",
-        announcedDate: "2024",
-        status: "IN_PROGRESS",
-        evidenceNote: "Multiple public statements and early administrative steps reported.",
-        lastChecked: "2026-08-01",
-        likes: 2100,
-        dislikes: 640,
-      },
-      {
-        id: "ap-p-02",
-        title: "Strengthen irrigation and farmer support systems",
-        sourceNote: "Manifesto themes",
-        announcedDate: "2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-28",
-        likes: 1850,
-        dislikes: 310,
-      },
+      { id: "ap-p-01", title: "Rebuild Amaravati as the capital with renewed focus", sourceNote: "Campaign & public statements", announcedDate: "2024", status: "IN_PROGRESS", evidenceNote: "Multiple public statements and early administrative steps reported.", lastChecked: "2026-08-01", likes: 2100, dislikes: 640 },
+      { id: "ap-p-02", title: "Strengthen irrigation and farmer support systems", sourceNote: "Manifesto themes", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-28", likes: 1850, dislikes: 310 },
     ],
   },
   {
@@ -121,19 +102,9 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 3100,
     dislikes: 720,
     promises: [
-      {
-        id: "ap-p-03",
-        title: "Skill development and employment push for youth",
-        sourceNote: "Campaign focus",
-        announcedDate: "2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-30",
-        likes: 1420,
-        dislikes: 210,
-      },
+      { id: "ap-p-03", title: "Skill development and employment push for youth", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-30", likes: 1420, dislikes: 210 },
     ],
   },
-  // YSRCP
   {
     id: "ap-ysrcp-01",
     name: "Y.S. Jagan Mohan Reddy",
@@ -155,16 +126,7 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 3800,
     dislikes: 2100,
     promises: [
-      {
-        id: "ap-p-04",
-        title: "Continue major welfare schemes with strengthened delivery",
-        sourceNote: "Campaign announcements",
-        announcedDate: "2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-08-02",
-        likes: 1950,
-        dislikes: 880,
-      },
+      { id: "ap-p-04", title: "Continue major welfare schemes with strengthened delivery", sourceNote: "Campaign announcements", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-08-02", likes: 1950, dislikes: 880 },
     ],
   },
   {
@@ -188,19 +150,9 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 980,
     dislikes: 340,
     promises: [
-      {
-        id: "ap-p-05",
-        title: "Strengthen local health and education infrastructure",
-        sourceNote: "Campaign themes",
-        announcedDate: "2024",
-        status: "NOT_STARTED",
-        lastChecked: "2026-07-20",
-        likes: 420,
-        dislikes: 95,
-      },
+      { id: "ap-p-05", title: "Strengthen local health and education infrastructure", sourceNote: "Campaign themes", announcedDate: "2024", status: "NOT_STARTED", lastChecked: "2026-07-20", likes: 420, dislikes: 95 },
     ],
   },
-  // Jana Sena
   {
     id: "ap-jsp-01",
     name: "Pawan Kalyan",
@@ -222,29 +174,10 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 5100,
     dislikes: 890,
     promises: [
-      {
-        id: "ap-p-06",
-        title: "Focus on social justice and transparent governance",
-        sourceNote: "Public statements & campaign",
-        announcedDate: "2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-08-03",
-        likes: 2400,
-        dislikes: 320,
-      },
-      {
-        id: "ap-p-07",
-        title: "Support for farmers and youth employment",
-        sourceNote: "Campaign themes",
-        announcedDate: "2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-29",
-        likes: 1980,
-        dislikes: 270,
-      },
+      { id: "ap-p-06", title: "Focus on social justice and transparent governance", sourceNote: "Public statements & campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-08-03", likes: 2400, dislikes: 320 },
+      { id: "ap-p-07", title: "Support for farmers and youth employment", sourceNote: "Campaign themes", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-29", likes: 1980, dislikes: 270 },
     ],
   },
-  // BJP (AP)
   {
     id: "ap-bjp-01",
     name: "Daggubati Purandeswari",
@@ -266,21 +199,109 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 1450,
     dislikes: 410,
     promises: [
-      {
-        id: "ap-p-08",
-        title: "Push central schemes implementation in the constituency",
-        sourceNote: "Campaign focus",
-        announcedDate: "2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-25",
-        likes: 680,
-        dislikes: 140,
-      },
+      { id: "ap-p-08", title: "Push central schemes implementation in the constituency", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 680, dislikes: 140 },
+    ],
+  },
+
+  // ==================== TELANGANA ====================
+  {
+    id: "tg-brs-01",
+    name: "K. Chandrashekar Rao",
+    party: "Bharat Rashtra Samithi",
+    partyAbbr: "BRS",
+    constituency: "Gajwel",
+    state: "Telangana",
+    electionType: "Assembly",
+    electionYear: 2023,
+    age: 70,
+    education: "Graduate",
+    profession: "Politician",
+    totalAssets: "₹50+ Crore (illustrative)",
+    criminalCases: 0,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2023",
+    lastUpdated: "2026-08-10",
+    sortOrder: 1,
+    likes: 3600,
+    dislikes: 1400,
+    promises: [
+      { id: "tg-p-01", title: "Continue focus on irrigation and farm support legacy schemes", sourceNote: "Party platform", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-28", likes: 1600, dislikes: 480 },
+    ],
+  },
+  {
+    id: "tg-brs-02",
+    name: "K.T. Rama Rao",
+    party: "Bharat Rashtra Samithi",
+    partyAbbr: "BRS",
+    constituency: "Sircilla",
+    state: "Telangana",
+    electionType: "Assembly",
+    electionYear: 2023,
+    age: 47,
+    education: "MBA",
+    profession: "Politician",
+    totalAssets: "₹25+ Crore (illustrative)",
+    criminalCases: 0,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2023",
+    lastUpdated: "2026-08-09",
+    sortOrder: 2,
+    likes: 2900,
+    dislikes: 780,
+    promises: [
+      { id: "tg-p-02", title: "Urban development and IT/industry growth focus", sourceNote: "Public positions", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-07-30", likes: 1250, dislikes: 290 },
+    ],
+  },
+  {
+    id: "tg-inc-01",
+    name: "A. Revanth Reddy",
+    party: "Indian National Congress",
+    partyAbbr: "INC",
+    constituency: "Kodangal",
+    state: "Telangana",
+    electionType: "Assembly",
+    electionYear: 2023,
+    age: 55,
+    education: "Graduate",
+    profession: "Politician",
+    totalAssets: "₹20+ Crore (illustrative)",
+    criminalCases: 0,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2023",
+    lastUpdated: "2026-08-11",
+    sortOrder: 1,
+    likes: 3100,
+    dislikes: 920,
+    promises: [
+      { id: "tg-p-03", title: "Implement six guarantees and welfare delivery", sourceNote: "Government agenda", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-08-02", likes: 1550, dislikes: 410 },
+    ],
+  },
+  {
+    id: "tg-bjp-01",
+    name: "Bandi Sanjay Kumar",
+    party: "Bharatiya Janata Party",
+    partyAbbr: "BJP",
+    constituency: "Karimnagar",
+    state: "Telangana",
+    electionType: "Lok Sabha",
+    electionYear: 2024,
+    age: 53,
+    education: "Graduate",
+    profession: "Politician",
+    totalAssets: "₹10+ Crore (illustrative)",
+    criminalCases: 0,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/",
+    affidavitYear: "2024",
+    lastUpdated: "2026-08-07",
+    sortOrder: 2,
+    likes: 1750,
+    dislikes: 560,
+    promises: [
+      { id: "tg-p-04", title: "Strengthen central scheme reach and local development", sourceNote: "Campaign themes", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 720, dislikes: 180 },
     ],
   },
 
   // ==================== TAMIL NADU ====================
-  // DMK
   {
     id: "tn-dmk-01",
     name: "M.K. Stalin",
@@ -302,16 +323,7 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 3900,
     dislikes: 1200,
     promises: [
-      {
-        id: "tn-p-01",
-        title: "Strengthen social welfare and education schemes",
-        sourceNote: "Government & party agenda",
-        announcedDate: "2021–2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-08-01",
-        likes: 1800,
-        dislikes: 420,
-      },
+      { id: "tn-p-01", title: "Strengthen social welfare and education schemes", sourceNote: "Government & party agenda", announcedDate: "2021–2024", status: "IN_PROGRESS", lastChecked: "2026-08-01", likes: 1800, dislikes: 420 },
     ],
   },
   {
@@ -335,19 +347,9 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 2700,
     dislikes: 890,
     promises: [
-      {
-        id: "tn-p-02",
-        title: "Youth and sports development initiatives",
-        sourceNote: "Public statements",
-        announcedDate: "2023–2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-28",
-        likes: 1100,
-        dislikes: 260,
-      },
+      { id: "tn-p-02", title: "Youth and sports development initiatives", sourceNote: "Public statements", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-07-28", likes: 1100, dislikes: 260 },
     ],
   },
-  // AIADMK
   {
     id: "tn-aiadmk-01",
     name: "Edappadi K. Palaniswami",
@@ -369,19 +371,9 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 2500,
     dislikes: 980,
     promises: [
-      {
-        id: "tn-p-03",
-        title: "Focus on agriculture and rural development",
-        sourceNote: "Party platform",
-        announcedDate: "2021–2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-26",
-        likes: 980,
-        dislikes: 310,
-      },
+      { id: "tn-p-03", title: "Focus on agriculture and rural development", sourceNote: "Party platform", announcedDate: "2021–2024", status: "IN_PROGRESS", lastChecked: "2026-07-26", likes: 980, dislikes: 310 },
     ],
   },
-  // BJP TN
   {
     id: "tn-bjp-01",
     name: "K. Annamalai",
@@ -403,21 +395,11 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 3200,
     dislikes: 1100,
     promises: [
-      {
-        id: "tn-p-04",
-        title: "Anti-corruption and governance reform focus",
-        sourceNote: "Public campaign themes",
-        announcedDate: "2021–2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-30",
-        likes: 1600,
-        dislikes: 480,
-      },
+      { id: "tn-p-04", title: "Anti-corruption and governance reform focus", sourceNote: "Public campaign themes", announcedDate: "2021–2024", status: "IN_PROGRESS", lastChecked: "2026-07-30", likes: 1600, dislikes: 480 },
     ],
   },
 
   // ==================== KARNATAKA ====================
-  // BJP
   {
     id: "ka-bjp-01",
     name: "B.S. Yediyurappa",
@@ -439,19 +421,9 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 2100,
     dislikes: 760,
     promises: [
-      {
-        id: "ka-p-01",
-        title: "Support for farmers and rural infrastructure",
-        sourceNote: "Long-standing political positions",
-        announcedDate: "2023",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-22",
-        likes: 890,
-        dislikes: 210,
-      },
+      { id: "ka-p-01", title: "Support for farmers and rural infrastructure", sourceNote: "Long-standing political positions", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-22", likes: 890, dislikes: 210 },
     ],
   },
-  // INC
   {
     id: "ka-inc-01",
     name: "Siddaramaiah",
@@ -473,19 +445,9 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 3400,
     dislikes: 980,
     promises: [
-      {
-        id: "ka-p-02",
-        title: "Guarantee schemes implementation and welfare delivery",
-        sourceNote: "Government agenda",
-        announcedDate: "2023–2024",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-08-02",
-        likes: 1700,
-        dislikes: 390,
-      },
+      { id: "ka-p-02", title: "Guarantee schemes implementation and welfare delivery", sourceNote: "Government agenda", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-08-02", likes: 1700, dislikes: 390 },
     ],
   },
-  // JD(S)
   {
     id: "ka-jds-01",
     name: "H.D. Kumaraswamy",
@@ -507,16 +469,7 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 1800,
     dislikes: 620,
     promises: [
-      {
-        id: "ka-p-03",
-        title: "Focus on agriculture and regional development",
-        sourceNote: "Party platform",
-        announcedDate: "2023",
-        status: "IN_PROGRESS",
-        lastChecked: "2026-07-19",
-        likes: 760,
-        dislikes: 180,
-      },
+      { id: "ka-p-03", title: "Focus on agriculture and regional development", sourceNote: "Party platform", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-19", likes: 760, dislikes: 180 },
     ],
   },
 ];
