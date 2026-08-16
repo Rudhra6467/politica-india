@@ -62,46 +62,52 @@ export default function HomePage() {
   const localParties = selectedState ? getPartiesInState(selectedState) : [];
 
   return (
-    <div className="space-y-6">
-      <p className="text-slate-600 text-[15px] leading-snug">
-        For the people of India.
-      </p>
-
+    <div className="space-y-5">
       <VerificationBanner dismissible />
 
-      <LayerLegend compact />
-
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
-          <button
-            onClick={() => setView("local")}
-            className={
-              "rounded-lg px-4 py-2 text-sm font-medium transition " +
-              (view === "local"
-                ? "bg-indigo-600 text-white"
-                : "text-slate-600 hover:bg-slate-50")
-            }
-          >
-            My State
-          </button>
-          <button
-            onClick={() => setView("national")}
-            className={
-              "rounded-lg px-4 py-2 text-sm font-medium transition " +
-              (view === "national"
-                ? "bg-indigo-600 text-white"
-                : "text-slate-600 hover:bg-slate-50")
-            }
-          >
-            National
-          </button>
+      {/* Title + legend left · My State / National right */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 space-y-1.5">
+          <p className="text-slate-600 text-[15px] leading-snug">
+            For the people of India.
+          </p>
+          <LayerLegend compact />
         </div>
 
-        {selectedState && view === "local" && (
-          <button onClick={clearState} className="text-sm text-slate-500 hover:text-slate-700">
-            Change state
-          </button>
-        )}
+        <div className="shrink-0 flex flex-col items-end gap-1.5">
+          <div className="flex rounded-xl border border-slate-200 bg-white p-0.5 shadow-sm">
+            <button
+              onClick={() => setView("local")}
+              className={
+                "rounded-lg px-3 py-1.5 text-sm font-medium transition " +
+                (view === "local"
+                  ? "bg-indigo-600 text-white"
+                  : "text-slate-600 hover:bg-slate-50")
+              }
+            >
+              My State
+            </button>
+            <button
+              onClick={() => setView("national")}
+              className={
+                "rounded-lg px-3 py-1.5 text-sm font-medium transition " +
+                (view === "national"
+                  ? "bg-indigo-600 text-white"
+                  : "text-slate-600 hover:bg-slate-50")
+              }
+            >
+              National
+            </button>
+          </div>
+          {selectedState && view === "local" && (
+            <button
+              onClick={clearState}
+              className="text-xs text-slate-500 hover:text-slate-700"
+            >
+              Change state
+            </button>
+          )}
+        </div>
       </div>
 
       {view === "local" && (
