@@ -8,10 +8,13 @@ import PromiseCard from "@/components/PromiseCard";
 
 export default async function CandidatePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ from?: string }>;
 }) {
   const { id } = await params;
+  const { from } = await searchParams;
   const candidate = getCandidateById(id);
 
   if (!candidate) {
@@ -20,13 +23,20 @@ export default async function CandidatePage({
 
   const role = candidate.electionType === "Lok Sabha" ? "MP" : "MLA";
 
+  // Back: prefer the page user came from (party list), else all candidates
+  const backHref = from && from.startsWith("/") ? from : "/candidates";
+  const backLabel =
+    from && from.startsWith("/party/")
+      ? "Back to party"
+      : "All candidates";
+
   return (
     <div className="space-y-5 pb-12">
       <Link
-        href="/candidates"
+        href={backHref}
         className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition"
       >
-        <span aria-hidden>←</span> All candidates
+        <span aria-hidden>←</span> {backLabel}
       </Link>
 
       {/* ========== HERO ========== */}
@@ -127,7 +137,7 @@ export default async function CandidatePage({
         </div>
       </section>
 
-      {/* ========== PROMISES / ANNOUNCEMENTS ========== */}
+      {/* ========== PROMISES ========== */}
       <section>
         <div className="flex items-center gap-2.5 mb-1">
           <span className="h-2 w-2 rounded-full bg-amber-500" />
