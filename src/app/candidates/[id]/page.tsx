@@ -4,6 +4,8 @@ import { getCandidateById, type PromiseStatus } from "@/data/pilot-candidates";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CommentSection from "@/components/CommentSection";
 import VerificationBanner from "@/components/VerificationBanner";
+import CandidateAvatar from "@/components/CandidateAvatar";
+import PartyBadge from "@/components/PartyBadge";
 
 const statusStyles: Record<PromiseStatus, string> = {
   NOT_STARTED: "bg-slate-100 text-slate-700",
@@ -32,8 +34,8 @@ export default async function CandidatePage({
   }
 
   return (
-    <div className="space-y-8">
-      {/* Back link */}
+    <div className="space-y-6">
+      {/* Back */}
       <Link
         href="/candidates"
         className="inline-flex items-center text-sm text-indigo-600 hover:text-indigo-800"
@@ -41,113 +43,151 @@ export default async function CandidatePage({
         ← All candidates
       </Link>
 
-      {/* Verification mock banner */}
+      {/* Verification mock */}
       <VerificationBanner />
 
-      {/* Header */}
-      <section className="rounded-xl border bg-white p-6 shadow-sm">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-slate-900">{candidate.name}</h1>
-            <p className="mt-1 text-lg text-slate-600">
-              {candidate.party} ({candidate.partyAbbr})
-            </p>
-            <p className="mt-1 text-slate-500">
-              {candidate.constituency}, {candidate.state} · {candidate.electionType}{" "}
-              {candidate.electionYear}
-            </p>
-          </div>
+      {/* ========== HERO ========== */}
+      <section className="rounded-2xl border bg-white overflow-hidden shadow-sm">
+        {/* Top accent bar */}
+        <div className="h-2 bg-gradient-to-r from-indigo-600 to-violet-500" />
 
-          <div className="shrink-0">
-            <LikeDislikeButtons
-              id={candidate.id}
-              initialLikes={candidate.likes}
-              initialDislikes={candidate.dislikes}
-            />
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row gap-6">
+            {/* Avatar */}
+            <div className="shrink-0">
+              <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="xl" />
+            </div>
+
+            {/* Identity */}
+            <div className="flex-1 min-w-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                {candidate.name}
+              </h1>
+
+              <div className="mt-2 flex flex-wrap items-center gap-2">
+                <PartyBadge abbr={candidate.partyAbbr} name={candidate.party} showName size="md" />
+              </div>
+
+              <p className="mt-2 text-slate-600">
+                {candidate.constituency}, {candidate.state}
+              </p>
+              <p className="text-sm text-slate-400">
+                {candidate.electionType} · {candidate.electionYear}
+              </p>
+
+              {/* Like / Dislike */}
+              <div className="mt-5">
+                <LikeDislikeButtons
+                  id={candidate.id}
+                  initialLikes={candidate.likes}
+                  initialDislikes={candidate.dislikes}
+                />
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Affidavit summary */}
-        <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 border-t pt-6">
-          <div>
-            <div className="text-xs text-slate-500">Age</div>
-            <div className="font-medium">{candidate.age ?? "—"}</div>
-          </div>
-          <div>
-            <div className="text-xs text-slate-500">Education</div>
-            <div className="font-medium">{candidate.education ?? "—"}</div>
-          </div>
-          <div>
-            <div className="text-xs text-slate-500">Declared Assets</div>
-            <div className="font-medium">{candidate.totalAssets ?? "—"}</div>
-          </div>
-          <div>
-            <div className="text-xs text-slate-500">Criminal Cases</div>
-            <div className="font-medium">{candidate.criminalCases}</div>
-          </div>
-        </div>
-
-        {candidate.affidavitPdfUrl && (
-          <div className="mt-4 text-sm">
-            <a
-              href={candidate.affidavitPdfUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-indigo-600 hover:underline"
-            >
-              View original ECI Affidavit (Form 26) →
-            </a>
-            <span className="ml-2 text-slate-400">Source: Election Commission of India</span>
-          </div>
-        )}
       </section>
 
-      {/* Promises */}
+      {/* ========== VERIFIED RECORD ========== */}
+      <section className="rounded-2xl border bg-white shadow-sm">
+        <div className="border-b px-6 py-4">
+          <h2 className="text-lg font-semibold text-slate-900">Verified Record</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Sourced from Election Commission of India · Form 26 Affidavit
+          </p>
+        </div>
+
+        <div className="p-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            <div>
+              <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Age</div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">{candidate.age ?? "—"}</div>
+            </div>
+            <div>
+              <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Education</div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">{candidate.education ?? "—"}</div>
+            </div>
+            <div>
+              <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Declared Assets</div>
+              <div className="mt-1 text-lg font-semibold text-slate-900">{candidate.totalAssets ?? "—"}</div>
+            </div>
+            <div>
+              <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Criminal Cases</div>
+              <div className={`mt-1 text-lg font-semibold ${candidate.criminalCases > 0 ? "text-amber-600" : "text-slate-900"}`}>
+                {candidate.criminalCases}
+              </div>
+            </div>
+          </div>
+
+          {candidate.profession && (
+            <div className="mt-6 pt-5 border-t">
+              <div className="text-xs font-medium uppercase tracking-wide text-slate-400">Profession</div>
+              <div className="mt-1 text-slate-800">{candidate.profession}</div>
+            </div>
+          )}
+
+          {candidate.affidavitPdfUrl && (
+            <div className="mt-6">
+              <a
+                href={candidate.affidavitPdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-800"
+              >
+                View original ECI Affidavit (Form 26)
+                <span aria-hidden>→</span>
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ========== PROMISES ========== */}
       <section>
-        <h2 className="text-xl font-semibold text-slate-900 mb-4">
-          Promises & Announcements
-        </h2>
+        <div className="mb-4">
+          <h2 className="text-lg font-semibold text-slate-900">Promises & Announcements</h2>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Tracked individually · Status and public reaction shown separately
+          </p>
+        </div>
 
         <div className="space-y-4">
           {candidate.promises.map((p) => (
-            <div key={p.id} className="rounded-xl border bg-white p-5 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
+            <div key={p.id} className="rounded-2xl border bg-white shadow-sm overflow-hidden">
+              <div className="p-5">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                  <div className="flex-1">
                     <span
-                      className={`text-xs font-medium px-2.5 py-1 rounded-full ${
-                        statusStyles[p.status]
-                      }`}
+                      className={`inline-flex text-xs font-medium px-2.5 py-1 rounded-full ${statusStyles[p.status]}`}
                     >
                       {statusLabel[p.status]}
                     </span>
+                    <h3 className="mt-2.5 font-medium text-slate-900 leading-snug">{p.title}</h3>
+                    {p.sourceNote && (
+                      <p className="mt-1.5 text-sm text-slate-500">Source: {p.sourceNote}</p>
+                    )}
                   </div>
-                  <h3 className="font-medium text-slate-900">{p.title}</h3>
-                  {p.sourceNote && (
-                    <p className="mt-1 text-sm text-slate-500">Source: {p.sourceNote}</p>
-                  )}
+
+                  <div className="shrink-0">
+                    <LikeDislikeButtons
+                      id={p.id}
+                      initialLikes={p.likes}
+                      initialDislikes={p.dislikes}
+                      size="sm"
+                    />
+                  </div>
                 </div>
 
-                <div className="shrink-0">
-                  <LikeDislikeButtons
-                    id={p.id}
-                    initialLikes={p.likes}
-                    initialDislikes={p.dislikes}
-                    size="sm"
-                  />
-                </div>
+                <CommentSection promiseId={p.id} />
               </div>
-
-              {/* Comments */}
-              <CommentSection promiseId={p.id} />
             </div>
           ))}
         </div>
       </section>
 
-      <p className="text-xs text-slate-400 text-center">
-        Neutrality note: This platform shows declared data and public reaction counts. It does not
-        rank or endorse any candidate.
+      {/* Neutrality footer */}
+      <p className="text-center text-xs text-slate-400 pb-6">
+        This page shows declared data and public reaction. It does not rank or endorse any candidate.
       </p>
     </div>
   );
