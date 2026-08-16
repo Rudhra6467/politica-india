@@ -7,9 +7,14 @@
 const PARTY_COLORS: Record<string, string> = {
   BJP: "bg-orange-500 text-white",
   INC: "bg-sky-600 text-white",
-  AITC: "bg-emerald-600 text-white",
   TDP: "bg-yellow-500 text-black",
   YSRCP: "bg-blue-700 text-white",
+  JSP: "bg-red-600 text-white",
+  DMK: "bg-black text-white",
+  AIADMK: "bg-orange-600 text-white",
+  "JD(S)": "bg-green-700 text-white",
+  BRS: "bg-pink-600 text-white",
+  AITC: "bg-emerald-600 text-white",
   SP: "bg-red-600 text-white",
   AAP: "bg-blue-500 text-white",
 };
