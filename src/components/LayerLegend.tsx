@@ -1,23 +1,18 @@
 /**
- * Explains the three information layers used across Politica India.
- * This is a trust-building component — keep it simple and visible.
+ * Explains the information layers used across Politica India.
  */
 
 export default function LayerLegend({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
-      <div className="flex flex-wrap gap-3 text-xs text-slate-500">
+      <div className="flex flex-wrap gap-4 text-xs text-slate-500">
         <span className="inline-flex items-center gap-1.5">
           <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-          Verified Record
+          Verified
         </span>
         <span className="inline-flex items-center gap-1.5">
           <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
           Tracked
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          Community
         </span>
       </div>
     );

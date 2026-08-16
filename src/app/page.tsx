@@ -61,15 +61,14 @@ export default function HomePage() {
   const localParties = selectedState ? getPartiesInState(selectedState) : [];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Product framing */}
-      <div className="space-y-2">
+      <div className="space-y-1">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
           Politica India
         </h1>
-        <p className="text-slate-600 max-w-2xl">
-          Structured, source-backed information on elected representatives.
-          Verified records from the Election Commission, tracked promises, and community reaction — clearly separated.
+        <p className="text-slate-600 max-w-2xl text-[15px] leading-snug">
+          For the people of India. All information from Electoral Commission and Announcements.
         </p>
       </div>
 
@@ -112,12 +111,10 @@ export default function HomePage() {
 
       {/* LOCAL VIEW */}
       {view === "local" && (
-        <div className="space-y-8">
+        <div className="space-y-5">
           {!selectedState ? (
             <div className="rounded-xl border border-dashed bg-white p-8 text-center">
-              <p className="text-slate-600 mb-4">
-                Select your state to see local parties and candidates
-              </p>
+              <p className="text-slate-600 mb-4">Select your state</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {states.map((s) => (
                   <button
@@ -134,25 +131,26 @@ export default function HomePage() {
             <>
               <div>
                 <h2 className="text-xl font-bold text-slate-900">{selectedState}</h2>
-                <p className="text-sm text-slate-500 mt-1">
-                  Parties and candidates in your state
-                </p>
               </div>
 
               <section>
-                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Parties</h3>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-2">
+                  Parties
+                </h3>
+                <div className="grid gap-2.5 sm:grid-cols-2">
                   {localParties.map((p) => (
                     <Link
                       key={p.abbr}
                       href={`/party/${p.abbr}?state=${encodeURIComponent(selectedState)}`}
-                      className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
+                      className="flex items-center justify-between rounded-xl border bg-white p-3.5 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
                     >
                       <div className="flex items-center gap-3">
                         <PartyBadge abbr={p.abbr} size="md" />
                         <div>
                           <div className="font-semibold text-slate-900">{p.name}</div>
-                          <div className="text-xs text-slate-400">{p.count} candidate{p.count > 1 ? "s" : ""}</div>
+                          <div className="text-xs text-slate-400">
+                            {p.count} candidate{p.count > 1 ? "s" : ""}
+                          </div>
                         </div>
                       </div>
                     </Link>
@@ -160,7 +158,7 @@ export default function HomePage() {
                 </div>
               </section>
 
-              <div className="text-center">
+              <div className="text-center pt-1">
                 <Link
                   href={`/candidates?state=${encodeURIComponent(selectedState)}`}
                   className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
@@ -175,26 +173,29 @@ export default function HomePage() {
 
       {/* NATIONAL VIEW */}
       {view === "national" && (
-        <div className="space-y-8">
+        <div className="space-y-5">
           <div>
             <h2 className="text-xl font-bold text-slate-900">National</h2>
-            <p className="text-sm text-slate-500 mt-1">Major parties and all states</p>
           </div>
 
           <section>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">Parties</h3>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              Parties
+            </h3>
+            <div className="grid gap-2.5 sm:grid-cols-2">
               {nationalParties.map((p) => (
                 <Link
                   key={p.abbr}
                   href={`/party/${p.abbr}`}
-                  className="flex items-center justify-between rounded-xl border bg-white p-4 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
+                  className="flex items-center justify-between rounded-xl border bg-white p-3.5 shadow-sm hover:border-indigo-300 hover:shadow-md transition"
                 >
                   <div className="flex items-center gap-3">
                     <PartyBadge abbr={p.abbr} size="md" />
                     <div>
                       <div className="font-semibold text-slate-900">{p.name}</div>
-                      <div className="text-xs text-slate-400">{p.count} candidate{p.count > 1 ? "s" : ""}</div>
+                      <div className="text-xs text-slate-400">
+                        {p.count} candidate{p.count > 1 ? "s" : ""}
+                      </div>
                     </div>
                   </div>
                 </Link>
@@ -203,7 +204,9 @@ export default function HomePage() {
           </section>
 
           <section>
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-3">States</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              States
+            </h3>
             <div className="flex flex-wrap gap-2">
               {states.map((s) => (
                 <button
