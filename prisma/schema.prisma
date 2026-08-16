@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // Build/generate only needs a valid URL shape; real DB required for push/seed/runtime.
   url      = env("DATABASE_URL")
 }
 
@@ -62,7 +63,6 @@ model Candidate {
   stateId        String
   state          State   @relation(fields: [stateId], references: [id])
 
-  // Optional external keys for identity resolution
   eciCandidateId String?
   mynetaId       String?
 
@@ -77,7 +77,7 @@ model Candidate {
   age              Int?
   education        String?
   profession       String?
-  totalAssets      String? // keep human-readable for pilot; numeric later
+  totalAssets      String?
   totalLiabilities String?
   criminalCases    Int     @default(0)
   photoUrl         String?
