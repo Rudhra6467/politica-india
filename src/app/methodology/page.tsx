@@ -70,6 +70,17 @@ export default function MethodologyPage() {
       </section>
 
       <section className="space-y-3">
+        <h2 className="text-lg font-semibold text-slate-900">Timeline</h2>
+        <p className="text-sm text-slate-600 leading-relaxed">
+          Each candidate profile includes a short timeline built from election
+          outcomes, Form 26 affidavits, and tracked announcements. It is a
+          reading aid — not a complete political biography. When the evidence
+          layer is fully wired, timeline entries will point at stored events and
+          sources rather than only pilot fields.
+        </p>
+      </section>
+
+      <section className="space-y-3">
         <h2 className="text-lg font-semibold text-slate-900">What Politica does</h2>
         <ul className="list-disc pl-5 space-y-2 text-sm text-slate-600 leading-relaxed">
           <li>Surfaces public election affidavit data with clear attribution.</li>

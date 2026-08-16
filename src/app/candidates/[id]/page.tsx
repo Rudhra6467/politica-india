@@ -41,6 +41,7 @@ export default async function CandidatePage({
 
   const opponentLabel = won ? "Won against" : "Lost to";
   const hasOpponent = Boolean(candidate.opponentName || candidate.opponentId);
+  const partyHref = "/party/" + candidate.partyAbbr + "?state=" + encodeURIComponent(candidate.state);
 
   return (
     <div className="space-y-4 pb-12">
@@ -60,7 +61,9 @@ export default async function CandidatePage({
 
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-2 mb-1">
-                <PartyBadge abbr={candidate.partyAbbr} size="sm" />
+                <Link href={partyHref} className="hover:opacity-80 transition" title={candidate.party}>
+                  <PartyBadge abbr={candidate.partyAbbr} size="sm" />
+                </Link>
                 <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wide">
                   {role} · {candidate.electionYear}
                 </span>
@@ -81,6 +84,10 @@ export default async function CandidatePage({
               </h1>
               <p className="mt-0.5 text-sm text-slate-500">
                 {candidate.constituency}, {candidate.state}
+                <span className="text-slate-300"> · </span>
+                <Link href={partyHref} className="text-indigo-600 hover:text-indigo-800 font-medium">
+                  {candidate.partyAbbr}
+                </Link>
               </p>
 
               <div className="mt-3">
