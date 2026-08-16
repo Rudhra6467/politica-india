@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { PartyInfo } from "@/data/party-info";
 import PartyBadge from "./PartyBadge";
+import LikeDislikeButtons from "./LikeDislikeButtons";
 
 interface PartyIntroProps {
   info: PartyInfo;
@@ -12,20 +13,18 @@ export default function PartyIntro({ info }: PartyIntroProps) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="rounded-2xl border bg-white p-5 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-start gap-3">
         <PartyBadge abbr={info.abbr} size="lg" />
         <div className="min-w-0 flex-1">
           <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">{info.name}</h1>
 
-          {/* Always-visible short lines */}
           <div className="mt-2 space-y-0.5 text-sm text-slate-600">
             {info.short.map((line, i) => (
               <p key={i}>{line}</p>
             ))}
           </div>
 
-          {/* Expand / collapse */}
           <button
             onClick={() => setExpanded(!expanded)}
             className="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-800"
@@ -34,7 +33,7 @@ export default function PartyIntro({ info }: PartyIntroProps) {
           </button>
 
           {expanded && (
-            <div className="mt-3 space-y-2 border-t pt-3 text-sm text-slate-600">
+            <div className="mt-3 space-y-2 border-t border-slate-100 pt-3 text-sm text-slate-600">
               {info.founded && (
                 <p>
                   <span className="font-medium text-slate-800">Founded:</span> {info.founded}
@@ -57,6 +56,16 @@ export default function PartyIntro({ info }: PartyIntroProps) {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Party like / dislike — bottom right of the box */}
+      <div className="mt-4 pt-3 border-t border-slate-100 flex justify-end">
+        <LikeDislikeButtons
+          id={`party-${info.abbr}`}
+          initialLikes={0}
+          initialDislikes={0}
+          size="sm"
+        />
       </div>
     </div>
   );
