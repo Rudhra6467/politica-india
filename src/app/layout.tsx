@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import TrishulMark from "@/components/TrishulMark";
+import VelMark from "@/components/VelMark";
 import HeaderTagline from "@/components/HeaderTagline";
 import "./globals.css";
 
@@ -22,9 +22,9 @@ export default function RootLayout({
           <div className="mx-auto max-w-6xl px-4 py-3.5 flex items-center justify-between gap-4">
             <Link
               href="/"
-              className="flex items-center gap-2 shrink-0 hover:opacity-80 transition"
+              className="flex items-center gap-2.5 shrink-0 hover:opacity-80 transition"
             >
-              <TrishulMark className="h-7 w-auto" />
+              <VelMark className="h-8 w-auto" />
               <span className="font-bold text-xl tracking-tight leading-none">
                 <span className="text-[#C41E3A]">P</span>
                 <span className="text-slate-900">olitica </span>
