@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { getCandidateById, type PromiseStatus } from "@/data/pilot-candidates";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CommentSection from "@/components/CommentSection";
-import VerificationBanner from "@/components/VerificationBanner";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import PartyBadge from "@/components/PartyBadge";
 
@@ -47,8 +46,6 @@ export default async function CandidatePage({
       >
         <span aria-hidden>←</span> All candidates
       </Link>
-
-      <VerificationBanner />
 
       {/* ========== HERO ========== */}
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">

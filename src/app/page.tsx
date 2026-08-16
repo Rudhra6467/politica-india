@@ -9,6 +9,7 @@ import {
 } from "@/data/pilot-candidates";
 import PartyBadge from "@/components/PartyBadge";
 import LayerLegend from "@/components/LayerLegend";
+import VerificationBanner from "@/components/VerificationBanner";
 
 type ViewMode = "local" | "national";
 
@@ -71,6 +72,9 @@ export default function HomePage() {
           For the people of India. All information from Electoral Commission and Announcements.
         </p>
       </div>
+
+      {/* Verification — homepage only, dismissible */}
+      <VerificationBanner dismissible />
 
       <LayerLegend compact />
 
