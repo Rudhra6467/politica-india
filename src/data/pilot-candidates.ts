@@ -2,8 +2,9 @@
  * Pilot data — Andhra Pradesh (15) + Telangana (15)
  * Top candidates, leader-first.
  *
- * Real 2023/2024 ECI affidavit figures (via ADR/MyNeta + news reports of affidavits)
- * applied to: Naidu, Jagan, Pawan Kalyan, Nara Lokesh, KCR, KTR, Revanth Reddy.
+ * Real 2023/2024 ECI affidavit figures applied to:
+ * Naidu, Jagan, Pawan Kalyan, Nara Lokesh, KCR, KTR, Revanth Reddy,
+ * Harish Rao, Bandi Sanjay, Bhatti Vikramarka, K. Ram Mohan Naidu.
  * Remaining still pending individual verification.
  */
 
@@ -73,15 +74,14 @@ export const pilotCandidates: PilotCandidate[] = [
     totalAssets: "₹542 Cr (2024 affidavit)", totalLiabilities: "₹18+ Cr", criminalCases: 17,
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 2,
     likes: 3100, dislikes: 720,
-    promises: [
-      { id: "ap-p03", title: "Skill development and employment push for youth", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-30", likes: 1420, dislikes: 210 },
-    ],
+    promises: [{ id: "ap-p03", title: "Skill development and employment push for youth", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-30", likes: 1420, dislikes: 210 }],
   },
   {
     id: "ap-tdp-03", name: "Kinjarapu Atchannaidu", party: "Telugu Desam Party", partyAbbr: "TDP",
     constituency: "Tekkali", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    age: 56, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-08", sortOrder: 3,
+    age: 56, education: "12th Pass", profession: "Politician / Farmer",
+    totalAssets: "₹17 Cr (2024 affidavit)", totalLiabilities: "₹3.8 Cr", criminalCases: 13,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 3,
     likes: 980, dislikes: 210,
     promises: [{ id: "ap-p04", title: "Local infrastructure and agriculture support", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-22", likes: 410, dislikes: 80 }],
   },
@@ -92,6 +92,15 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-07", sortOrder: 4,
     likes: 760, dislikes: 150,
     promises: [{ id: "ap-p05", title: "Coastal development and fisheries support", sourceNote: "Campaign", announcedDate: "2024", status: "NOT_STARTED", lastChecked: "2026-07-18", likes: 320, dislikes: 60 }],
+  },
+  {
+    id: "ap-tdp-05", name: "K. Ram Mohan Naidu", party: "Telugu Desam Party", partyAbbr: "TDP",
+    constituency: "Srikakulam", state: "Andhra Pradesh", electionType: "Lok Sabha", electionYear: 2024,
+    age: 36, education: "Post Graduate (MBA)", profession: "Public Representative",
+    totalAssets: "₹23.3 Cr (2024 affidavit)", totalLiabilities: "₹3 Cr", criminalCases: 4,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 5,
+    likes: 1680, dislikes: 320,
+    promises: [{ id: "ap-p15", title: "Youth and infrastructure focus in north coastal AP", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-24", likes: 720, dislikes: 110 }],
   },
   {
     id: "ap-ysrcp-01", name: "Y.S. Jagan Mohan Reddy", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
@@ -162,22 +171,6 @@ export const pilotCandidates: PilotCandidate[] = [
     likes: 1450, dislikes: 410,
     promises: [{ id: "ap-p14", title: "Push central schemes implementation in the constituency", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 680, dislikes: 140 }],
   },
-  {
-    id: "ap-bjp-02", name: "K. Ram Mohan Naidu", party: "Bharatiya Janata Party", partyAbbr: "BJP",
-    constituency: "Srikakulam", state: "Andhra Pradesh", electionType: "Lok Sabha", electionYear: 2024,
-    age: 36, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-06", sortOrder: 2,
-    likes: 1680, dislikes: 320,
-    promises: [{ id: "ap-p15", title: "Youth and infrastructure focus in north coastal AP", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-24", likes: 720, dislikes: 110 }],
-  },
-  {
-    id: "ap-bjp-03", name: "Dharmapuri Arvind", party: "Bharatiya Janata Party", partyAbbr: "BJP",
-    constituency: "Nizamabad (illustrative)", state: "Andhra Pradesh", electionType: "Lok Sabha", electionYear: 2024,
-    age: 42, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-05", sortOrder: 3,
-    likes: 920, dislikes: 210,
-    promises: [{ id: "ap-p16", title: "Local development and scheme delivery", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-19", likes: 350, dislikes: 65 }],
-  },
 
   // ===================== TELANGANA =====================
   {
@@ -201,8 +194,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-brs-03", name: "T. Harish Rao", party: "Bharat Rashtra Samithi", partyAbbr: "BRS",
     constituency: "Siddipet", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 52, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-08", sortOrder: 3,
+    age: 52, education: "Graduate", profession: "Agriculturalist / Politician",
+    totalAssets: "₹24.3 Cr (2023 affidavit)", totalLiabilities: "₹11.5 Cr", criminalCases: 5,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 3,
     likes: 2100, dislikes: 520,
     promises: [{ id: "tg-p03", title: "Irrigation and rural water security", sourceNote: "Party focus", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-26", likes: 980, dislikes: 180 }],
   },
@@ -234,8 +228,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-inc-02", name: "Bhatti Vikramarka", party: "Indian National Congress", partyAbbr: "INC",
     constituency: "Madhira", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 55, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-09", sortOrder: 2,
+    age: 63, education: "Post Graduate", profession: "Politician",
+    totalAssets: "₹8.13 Cr (2023 affidavit)", totalLiabilities: "Nil", criminalCases: 3,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 2,
     likes: 1450, dislikes: 380,
     promises: [{ id: "tg-p07", title: "Farm support and rural development", sourceNote: "Government focus", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-07-29", likes: 620, dislikes: 140 }],
   },
@@ -266,8 +261,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-bjp-01", name: "Bandi Sanjay Kumar", party: "Bharatiya Janata Party", partyAbbr: "BJP",
     constituency: "Karimnagar", state: "Telangana", electionType: "Lok Sabha", electionYear: 2024,
-    age: 53, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-07", sortOrder: 1,
+    age: 52, education: "Post Graduate", profession: "Politician",
+    totalAssets: "₹1.13 Cr (2024 affidavit)", totalLiabilities: "₹13 Lakh", criminalCases: 42,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
     likes: 1750, dislikes: 560,
     promises: [{ id: "tg-p11", title: "Strengthen central scheme reach and local development", sourceNote: "Campaign themes", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 720, dislikes: 180 }],
   },
