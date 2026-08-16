@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCandidateById, type PromiseStatus } from "@/data/pilot-candidates";
+import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 
 const statusStyles: Record<PromiseStatus, string> = {
   NOT_STARTED: "bg-slate-100 text-slate-700",
@@ -47,19 +48,16 @@ export default async function CandidatePage({
               {candidate.party} ({candidate.partyAbbr})
             </p>
             <p className="mt-1 text-slate-500">
-              {candidate.constituency}, {candidate.state} · {candidate.electionType} {candidate.electionYear}
+              {candidate.constituency}, {candidate.state} · {candidate.electionType}{" "}
+              {candidate.electionYear}
             </p>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-emerald-600">{candidate.likes.toLocaleString()}</div>
-              <div className="text-xs text-slate-500">Likes</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-rose-600">{candidate.dislikes.toLocaleString()}</div>
-              <div className="text-xs text-slate-500">Dislikes</div>
-            </div>
+          <div className="shrink-0">
+            <LikeDislikeButtons
+              initialLikes={candidate.likes}
+              initialDislikes={candidate.dislikes}
+            />
           </div>
         </div>
 
@@ -106,15 +104,14 @@ export default async function CandidatePage({
 
         <div className="space-y-4">
           {candidate.promises.map((p) => (
-            <div
-              key={p.id}
-              className="rounded-xl border bg-white p-5 shadow-sm"
-            >
+            <div key={p.id} className="rounded-xl border bg-white p-5 shadow-sm">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <span
-                      className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusStyles[p.status]}`}
+                      className={`text-xs font-medium px-2.5 py-1 rounded-full ${
+                        statusStyles[p.status]
+                      }`}
                     >
                       {statusLabel[p.status]}
                     </span>
@@ -125,27 +122,18 @@ export default async function CandidatePage({
                   )}
                 </div>
 
-                <div className="flex items-center gap-4 shrink-0">
-                  <button
-                    className="flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm hover:bg-emerald-50 hover:border-emerald-300 transition"
-                    title="Like (login required in full version)"
-                  >
-                    <span>👍</span>
-                    <span className="font-medium">{p.likes.toLocaleString()}</span>
-                  </button>
-                  <button
-                    className="flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm hover:bg-rose-50 hover:border-rose-300 transition"
-                    title="Dislike (login required in full version)"
-                  >
-                    <span>👎</span>
-                    <span className="font-medium">{p.dislikes.toLocaleString()}</span>
-                  </button>
+                <div className="shrink-0">
+                  <LikeDislikeButtons
+                    initialLikes={p.likes}
+                    initialDislikes={p.dislikes}
+                    size="sm"
+                  />
                 </div>
               </div>
 
               {/* Placeholder for comments */}
               <div className="mt-4 pt-4 border-t text-sm text-slate-400">
-                Comments available for verified users only. (Coming in next iteration)
+                Comments available for verified users only. (Coming next)
               </div>
             </div>
           ))}
@@ -153,8 +141,8 @@ export default async function CandidatePage({
       </section>
 
       <p className="text-xs text-slate-400 text-center">
-        Neutrality note: This platform shows declared data and public reaction counts.
-        It does not rank or endorse any candidate.
+        Neutrality note: This platform shows declared data and public reaction counts. It does not
+        rank or endorse any candidate.
       </p>
     </div>
   );
