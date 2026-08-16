@@ -20,12 +20,15 @@ export default function HeaderTagline() {
 
   return (
     <div className="relative text-right" ref={ref}>
-      <div className="text-sm text-slate-600 leading-snug inline-flex items-center gap-1.5">
-        <span>Digital Accountability Starts Here</span>
+      <div className="text-xs sm:text-sm text-slate-600 leading-snug inline-flex items-center gap-1 sm:gap-1.5">
+        <span className="hidden xs:inline sm:inline max-w-[9rem] sm:max-w-none truncate sm:whitespace-normal">
+          Digital Accountability Starts Here
+        </span>
+        <span className="sm:hidden text-slate-500">Sources</span>
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-xs font-semibold text-slate-500 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 transition"
+          className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-xs font-semibold text-slate-500 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 transition shrink-0"
           aria-label="About data sources"
           title="About data sources"
         >
@@ -34,7 +37,7 @@ export default function HeaderTagline() {
       </div>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 z-50 w-72 rounded-xl border border-slate-200 bg-white p-4 text-left shadow-lg text-sm text-slate-600 leading-relaxed">
+        <div className="absolute right-0 top-full mt-2 z-50 w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-slate-200 bg-white p-4 text-left shadow-lg text-sm text-slate-600 leading-relaxed">
           <p className="font-medium text-slate-800 mb-2">Where this information comes from</p>
           <ul className="space-y-1.5 text-xs">
             <li>

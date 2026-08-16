@@ -54,7 +54,7 @@ export default function HomePage() {
   };
 
   if (!hydrated) {
-    return <div className="py-20 text-center text-slate-400">Loading...</div>;
+    return <div className="py-16 text-center text-slate-400 text-sm">Loading…</div>;
   }
 
   const states = getAllStates();
@@ -65,12 +65,9 @@ export default function HomePage() {
     <div className="space-y-5">
       <VerificationBanner dismissible />
 
-      {/* Title + legend left · My State / National right */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 space-y-1.5">
-          <p className="text-slate-600 text-[15px] leading-snug">
-            For the people of India.
-          </p>
+          <p className="text-slate-600 text-[15px] leading-snug">For the people of India.</p>
           <LayerLegend compact />
         </div>
 
@@ -100,10 +97,7 @@ export default function HomePage() {
             </button>
           </div>
           {selectedState && view === "local" && (
-            <button
-              onClick={clearState}
-              className="text-xs text-slate-500 hover:text-slate-700"
-            >
+            <button onClick={clearState} className="text-xs text-slate-500 hover:text-slate-700">
               Change state
             </button>
           )}
@@ -113,7 +107,7 @@ export default function HomePage() {
       {view === "local" && (
         <div className="space-y-5">
           {!selectedState ? (
-            <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center">
+            <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-6 sm:p-8 text-center">
               <p className="text-slate-600 mb-4 text-sm">Select your state</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {states.map((s) => (
@@ -129,7 +123,7 @@ export default function HomePage() {
             </div>
           ) : (
             <>
-              <h2 className="text-xl font-bold text-slate-900">{selectedState}</h2>
+              <h2 className="text-xl font-bold text-slate-900 tracking-tight">{selectedState}</h2>
 
               <section>
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
@@ -171,7 +165,7 @@ export default function HomePage() {
 
       {view === "national" && (
         <div className="space-y-5">
-          <h2 className="text-xl font-bold text-slate-900">National</h2>
+          <h2 className="text-xl font-bold text-slate-900 tracking-tight">National</h2>
 
           <section>
             <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
@@ -214,11 +208,17 @@ export default function HomePage() {
               ))}
             </div>
           </section>
+
+          <div className="text-center pt-1">
+            <Link href="/candidates" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
+              View all candidates →
+            </Link>
+          </div>
         </div>
       )}
 
-      <p className="text-center text-xs text-slate-400 pt-4">
-        Pilot data · Source attribution: Election Commission of India (Form 26).
+      <p className="text-center text-xs text-slate-400 pt-4 leading-relaxed max-w-md mx-auto">
+        Pilot data · Source: Election Commission of India (Form 26).
         Party marks are simplified ECI-style election symbols for identification only.
       </p>
     </div>

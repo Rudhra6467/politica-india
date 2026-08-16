@@ -1,17 +1,25 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { pilotCandidates } from "@/data/pilot-candidates";
 import PartyBadge from "@/components/PartyBadge";
 
-export default function CandidatesPage() {
+function CandidatesContent() {
+  const searchParams = useSearchParams();
+  const stateFilter = searchParams.get("state");
   const [query, setQuery] = useState("");
+
+  const baseList = useMemo(() => {
+    if (!stateFilter) return pilotCandidates;
+    return pilotCandidates.filter((c) => c.state === stateFilter);
+  }, [stateFilter]);
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
-    if (!q) return pilotCandidates;
-    return pilotCandidates.filter(
+    if (!q) return baseList;
+    return baseList.filter(
       (c) =>
         c.name.toLowerCase().includes(q) ||
         c.party.toLowerCase().includes(q) ||
@@ -19,14 +27,28 @@ export default function CandidatesPage() {
         c.constituency.toLowerCase().includes(q) ||
         c.state.toLowerCase().includes(q)
     );
-  }, [query]);
+  }, [query, baseList]);
 
   return (
-    <div className="space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-        <div>
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+        <div className="min-w-0">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 mb-2"
+          >
+            <span aria-hidden>←</span> Home
+          </Link>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Candidates</h1>
-          <p className="mt-0.5 text-slate-500 text-sm">Pilot data · ECI Form 26 affidavits</p>
+          <p className="mt-0.5 text-slate-500 text-sm">
+            {stateFilter ? (
+              <>
+                <span className="font-medium text-slate-700">{stateFilter}</span>
+                <span className="text-slate-400"> · </span>
+              </>
+            ) : null}
+            Pilot data · ECI Form 26
+          </p>
         </div>
 
         <div className="relative w-full sm:w-72 shrink-0">
@@ -54,7 +76,15 @@ export default function CandidatesPage() {
       </div>
 
       <p className="text-xs text-slate-400">
-        Showing {filtered.length} of {pilotCandidates.length}
+        Showing {filtered.length} of {baseList.length}
+        {stateFilter ? (
+          <>
+            {" · "}
+            <Link href="/candidates" className="text-indigo-600 hover:underline">
+              Clear state filter
+            </Link>
+          </>
+        ) : null}
       </p>
 
       <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
@@ -65,7 +95,6 @@ export default function CandidatesPage() {
             className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm transition hover:border-indigo-200 hover:shadow-md active:scale-[0.99]"
           >
             <PartyBadge abbr={c.partyAbbr} name={c.party} size="lg" />
-
             <div className="min-w-0 flex-1">
               <h2 className="truncate text-[15px] font-semibold text-slate-900 group-hover:text-indigo-700 leading-tight">
                 {c.name}
@@ -83,10 +112,19 @@ export default function CandidatesPage() {
       </div>
 
       {filtered.length === 0 && (
-        <div className="rounded-xl border border-dashed py-12 text-center text-slate-500 text-sm">
-          No candidates match “{query}”
+        <div className="rounded-xl border border-dashed border-slate-200 bg-white py-12 text-center text-slate-500 text-sm">
+          No candidates match{query ? ` “${query}”` : ""}
+          {stateFilter ? ` in ${stateFilter}` : ""}.
         </div>
       )}
     </div>
+  );
+}
+
+export default function CandidatesPage() {
+  return (
+    <Suspense fallback={<div className="py-16 text-center text-slate-400 text-sm">Loading…</div>}>
+      <CandidatesContent />
+    </Suspense>
   );
 }
