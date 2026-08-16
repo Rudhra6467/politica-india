@@ -1,11 +1,7 @@
 /**
- * Pilot data — Andhra Pradesh (15) + Telangana (15)
- * Top candidates, leader-first.
- *
- * Real 2023/2024 ECI affidavit figures applied to:
- * Naidu, Jagan, Pawan Kalyan, Nara Lokesh, KCR, KTR, Revanth Reddy,
- * Harish Rao, Bandi Sanjay, Bhatti Vikramarka, K. Ram Mohan Naidu.
- * Remaining still pending individual verification.
+ * Pilot data — Andhra Pradesh + Telangana
+ * Real 2023/2024 ECI affidavit figures (via ADR/MyNeta) applied to major leaders.
+ * Remaining still marked pending verification.
  */
 
 export type PromiseStatus =
@@ -122,8 +118,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "ap-ysrcp-03", name: "Botcha Satyanarayana", party: "Yuvajana Sramika Rythu Congress Party", partyAbbr: "YSRCP",
     constituency: "Cheepurupalli", state: "Andhra Pradesh", electionType: "Assembly", electionYear: 2024,
-    age: 64, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-06", sortOrder: 3,
+    age: 66, education: "Graduate", profession: "Politician",
+    totalAssets: "₹21.2 Cr (2024 affidavit)", totalLiabilities: "₹4.2 Cr", criminalCases: 0,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 3,
     likes: 720, dislikes: 280,
     promises: [{ id: "ap-p08", title: "Constituency-level welfare delivery", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-15", likes: 310, dislikes: 70 }],
   },
@@ -166,8 +163,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "ap-bjp-01", name: "Daggubati Purandeswari", party: "Bharatiya Janata Party", partyAbbr: "BJP",
     constituency: "Rajahmundry", state: "Andhra Pradesh", electionType: "Lok Sabha", electionYear: 2024,
-    age: 64, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-07", sortOrder: 1,
+    age: 67, education: "Graduate", profession: "Politician",
+    totalAssets: "₹62.5 Cr (2024 affidavit)", totalLiabilities: "₹7 Cr", criminalCases: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
     likes: 1450, dislikes: 410,
     promises: [{ id: "ap-p14", title: "Push central schemes implementation in the constituency", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 680, dislikes: 140 }],
   },
@@ -203,8 +201,9 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-brs-04", name: "Sabitha Indra Reddy", party: "Bharat Rashtra Samithi", partyAbbr: "BRS",
     constituency: "Maheshwaram", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 58, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-07", sortOrder: 4,
+    age: 60, education: "12th Pass", profession: "Politician / Farming",
+    totalAssets: "₹9.3 Cr (2023 affidavit)", totalLiabilities: "Nil", criminalCases: 5,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 4,
     likes: 980, dislikes: 240,
     promises: [{ id: "tg-p04", title: "Education and women’s welfare focus", sourceNote: "Campaign", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-20", likes: 410, dislikes: 75 }],
   },
@@ -270,16 +269,18 @@ export const pilotCandidates: PilotCandidate[] = [
   {
     id: "tg-bjp-02", name: "Konda Vishweshwar Reddy", party: "Bharatiya Janata Party", partyAbbr: "BJP",
     constituency: "Chevella", state: "Telangana", electionType: "Lok Sabha", electionYear: 2024,
-    age: 63, education: "Graduate", profession: "Politician / Industrialist", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-06", sortOrder: 2,
+    age: 64, education: "Graduate Professional", profession: "Politician / Industrialist",
+    totalAssets: "₹4,568 Cr (family, 2024 affidavit)", totalLiabilities: "₹13.8 Cr", criminalCases: 4,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 2,
     likes: 1320, dislikes: 340,
     promises: [{ id: "tg-p12", title: "Industry and urban infrastructure focus", sourceNote: "Campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-23", likes: 580, dislikes: 120 }],
   },
   {
     id: "tg-bjp-03", name: "Etela Rajender", party: "Bharatiya Janata Party", partyAbbr: "BJP",
     constituency: "Huzurabad", state: "Telangana", electionType: "Assembly", electionYear: 2023,
-    age: 60, education: "Graduate", profession: "Politician", totalAssets: "Illustrative — pending verification", criminalCases: 0,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-05", sortOrder: 3,
+    age: 59, education: "Graduate", profession: "Agriculture / Politician",
+    totalAssets: "₹53.9 Cr (2023 affidavit)", totalLiabilities: "₹19 Cr", criminalCases: 39,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 3,
     likes: 1180, dislikes: 410,
     promises: [{ id: "tg-p13", title: "Local development and farmer issues", sourceNote: "Campaign", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-07-21", likes: 490, dislikes: 110 }],
   },
