@@ -3,21 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { pilotCandidates } from "@/data/pilot-candidates";
-
-const PARTY_COLORS: Record<string, string> = {
-  BJP: "bg-orange-500 text-white",
-  INC: "bg-sky-600 text-white",
-  TDP: "bg-yellow-500 text-black",
-  YSRCP: "bg-blue-700 text-white",
-  JSP: "bg-red-600 text-white",
-  DMK: "bg-black text-white",
-  AIADMK: "bg-orange-600 text-white",
-  "JD(S)": "bg-green-700 text-white",
-  BRS: "bg-pink-600 text-white",
-  AITC: "bg-emerald-600 text-white",
-  SP: "bg-red-600 text-white",
-  AAP: "bg-blue-500 text-white",
-};
+import PartyBadge from "@/components/PartyBadge";
 
 export default function CandidatesPage() {
   const [query, setQuery] = useState("");
@@ -37,13 +23,10 @@ export default function CandidatesPage() {
 
   return (
     <div className="space-y-5">
-      {/* Header: title left, search right */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Candidates</h1>
-          <p className="mt-0.5 text-slate-500 text-sm">
-            Pilot data · ECI Form 26 affidavits
-          </p>
+          <p className="mt-0.5 text-slate-500 text-sm">Pilot data · ECI Form 26 affidavits</p>
         </div>
 
         <div className="relative w-full sm:w-72 shrink-0">
@@ -74,39 +57,29 @@ export default function CandidatesPage() {
         Showing {filtered.length} of {pilotCandidates.length}
       </p>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {filtered.map((c) => {
-          const partyColor = PARTY_COLORS[c.partyAbbr] || "bg-slate-600 text-white";
-          return (
-            <Link
-              key={c.id}
-              href={`/candidates/${c.id}`}
-              className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm transition hover:border-indigo-200 hover:shadow-md active:scale-[0.99]"
-            >
-              {/* Party as primary visual — replaces initials avatar */}
-              <div
-                className={`shrink-0 h-11 w-11 rounded-xl flex items-center justify-center text-xs font-bold tracking-wide ${partyColor}`}
-                title={c.party}
-              >
-                {c.partyAbbr}
-              </div>
+      <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.map((c) => (
+          <Link
+            key={c.id}
+            href={`/candidates/${c.id}`}
+            className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm transition hover:border-indigo-200 hover:shadow-md active:scale-[0.99]"
+          >
+            <PartyBadge abbr={c.partyAbbr} name={c.party} size="lg" />
 
-              <div className="min-w-0 flex-1">
-                <h2 className="truncate text-[15px] font-semibold text-slate-900 group-hover:text-indigo-700 leading-tight">
-                  {c.name}
-                </h2>
-                <p className="mt-0.5 truncate text-xs text-slate-500">
-                  {c.constituency}, {c.state}
-                </p>
-                <div className="mt-1.5 flex items-center gap-3 text-xs">
-                  <span className="text-emerald-600 font-medium">👍 {c.likes.toLocaleString()}</span>
-                  <span className="text-rose-500 font-medium">👎 {c.dislikes.toLocaleString()}</span>
-                  <span className="text-slate-400">{c.promises.length} promises</span>
-                </div>
+            <div className="min-w-0 flex-1">
+              <h2 className="truncate text-[15px] font-semibold text-slate-900 group-hover:text-indigo-700 leading-tight">
+                {c.name}
+              </h2>
+              <p className="mt-0.5 truncate text-xs text-slate-500">
+                {c.constituency}, {c.state}
+              </p>
+              <div className="mt-1 flex items-center gap-3 text-xs">
+                <span className="text-emerald-600 font-medium">👍 {c.likes.toLocaleString()}</span>
+                <span className="text-rose-500 font-medium">👎 {c.dislikes.toLocaleString()}</span>
               </div>
-            </Link>
-          );
-        })}
+            </div>
+          </Link>
+        ))}
       </div>
 
       {filtered.length === 0 && (

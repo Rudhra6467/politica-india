@@ -36,16 +36,12 @@ function CandidateRow({
   return (
     <Link
       href={profileHref}
-      className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
+      className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
     >
-      <span className="text-xl font-bold text-slate-200 tabular-nums w-9 shrink-0">
-        {num}
-      </span>
+      <span className="text-lg font-bold text-slate-200 tabular-nums w-8 shrink-0">{num}</span>
       <PartyBadge abbr={candidate.partyAbbr} size="md" />
       <div className="min-w-0 flex-1">
-        <div className="font-semibold text-slate-900 text-[15px]">
-          {candidate.name}
-        </div>
+        <div className="font-semibold text-slate-900 text-[15px]">{candidate.name}</div>
         <div className="text-xs text-slate-500 mt-0.5">
           {role} · {candidate.constituency}
           {candidate.state ? " · " + candidate.state : ""}
@@ -97,12 +93,7 @@ function CollapsibleRoleSection({
       {open && (
         <div className="space-y-2">
           {candidates.map((c, i) => (
-            <CandidateRow
-              key={c.id}
-              candidate={c}
-              index={i}
-              backHref={backHref}
-            />
+            <CandidateRow key={c.id} candidate={c} index={i} backHref={backHref} />
           ))}
         </div>
       )}
@@ -112,16 +103,22 @@ function CollapsibleRoleSection({
 
 function MetricBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-sm">
-      <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
-        {label}
-      </div>
-      <div className="mt-1 text-xl font-semibold text-slate-900 tracking-tight">
-        {value}
-      </div>
+    <div className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm text-center">
+      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
+      <div className="mt-0.5 text-lg font-semibold text-slate-900 tabular-nums">{value}</div>
     </div>
   );
 }
+
+/** Pilot alliance counts — informational only until curated */
+const ALLIANCE_HINT: Record<string, number> = {
+  TDP: 2,
+  JSP: 2,
+  BJP: 2,
+  YSRCP: 0,
+  BRS: 0,
+  INC: 1,
+};
 
 export default function PartyContent({ abbr }: { abbr: string }) {
   const searchParams = useSearchParams();
@@ -139,21 +136,15 @@ export default function PartyContent({ abbr }: { abbr: string }) {
 
   const mps = winners.filter((c) => c.electionType === "Lok Sabha");
   const mlas = winners.filter((c) => c.electionType === "Assembly");
-
-  const totalLikes = allForParty.reduce((sum, c) => sum + c.likes, 0);
-  const totalPromises = allForParty.reduce((sum, c) => sum + c.promises.length, 0);
   const statesCovered = new Set(allForParty.map((c) => c.state)).size;
+  const alliances = ALLIANCE_HINT[abbr] ?? 0;
 
   const backHref = state
     ? "/party/" + abbr + "?state=" + encodeURIComponent(state)
     : "/party/" + abbr;
 
-  const metricGridClass = state
-    ? "grid gap-3 grid-cols-3"
-    : "grid gap-3 grid-cols-2 sm:grid-cols-4";
-
   return (
-    <div className="space-y-5 pb-10">
+    <div className="space-y-4 pb-10">
       <Link
         href="/"
         className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800"
@@ -170,16 +161,17 @@ export default function PartyContent({ abbr }: { abbr: string }) {
         </div>
       )}
 
-      <div className={metricGridClass}>
-        <MetricBox label="Candidates" value={String(allForParty.length)} />
-        <MetricBox label="Promises" value={String(totalPromises)} />
-        <MetricBox label="Total likes" value={totalLikes.toLocaleString()} />
-        {!state && <MetricBox label="States" value={String(statesCovered)} />}
+      {/* Header metrics: MPs · MLAs · States · Alliances */}
+      <div className="grid grid-cols-4 gap-2">
+        <MetricBox label="MPs" value={String(mps.length)} />
+        <MetricBox label="MLAs" value={String(mlas.length)} />
+        <MetricBox label="States" value={String(statesCovered)} />
+        <MetricBox label="Alliances" value={alliances > 0 ? String(alliances) : "—"} />
       </div>
 
       {state && (
         <p className="text-xs text-slate-400">
-          In <span className="font-medium text-slate-600">{state}</span>
+          Showing candidates in <span className="font-medium text-slate-600">{state}</span>
         </p>
       )}
 

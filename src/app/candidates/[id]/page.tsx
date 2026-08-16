@@ -38,8 +38,11 @@ export default async function CandidatePage({
       encodeURIComponent("/candidates/" + candidate.id)
     : null;
 
+  const opponentLabel = won ? "Won against" : "Lost to";
+  const hasOpponent = Boolean(candidate.opponentName || candidate.opponentId);
+
   return (
-    <div className="space-y-5 pb-12">
+    <div className="space-y-4 pb-12">
       <Link
         href={backHref}
         className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition"
@@ -47,17 +50,18 @@ export default async function CandidatePage({
         <span aria-hidden>←</span> {backLabel}
       </Link>
 
+      {/* Compact hero: avatar | identity | opponent strip (~20%) */}
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-        <div className="h-1.5 bg-gradient-to-r from-indigo-500 to-violet-500" />
-        <div className="p-6 sm:p-8">
-          <div className="flex flex-col sm:flex-row gap-5 sm:gap-7">
+        <div className="p-4 sm:p-5">
+          <div className="flex gap-3 sm:gap-4 items-start">
             <div className="shrink-0">
-              <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="xl" />
+              <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="lg" />
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-2.5 mb-1.5">
-                <PartyBadge abbr={candidate.partyAbbr} name={candidate.party} showName size="md" />
-                <span className="text-xs font-medium text-slate-400 tracking-wide uppercase">
+
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <PartyBadge abbr={candidate.partyAbbr} size="sm" />
+                <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wide">
                   {role} · {candidate.electionYear}
                 </span>
                 <span
@@ -71,14 +75,15 @@ export default async function CandidatePage({
                   {won ? "Won" : "Lost"}
                 </span>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 leading-snug">
                 {candidate.name}
               </h1>
-              <p className="mt-1 text-slate-500">
+              <p className="mt-0.5 text-sm text-slate-500">
                 {candidate.constituency}, {candidate.state}
               </p>
 
-              <div className="mt-5">
+              <div className="mt-3">
                 <LikeDislikeButtons
                   id={candidate.id}
                   initialLikes={candidate.likes}
@@ -86,39 +91,73 @@ export default async function CandidatePage({
                 />
               </div>
             </div>
+
+            {/* Right strip: opponent — no full-width card */}
+            {hasOpponent && (
+              <div className="hidden sm:flex shrink-0 w-[22%] max-w-[11rem] border-l border-slate-100 pl-3 flex-col justify-center min-h-[4.5rem]">
+                {opponentHref ? (
+                  <Link
+                    href={opponentHref}
+                    className="group block text-right hover:opacity-90"
+                  >
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                      {opponentLabel}
+                    </div>
+                    <div className="mt-1 text-sm font-semibold text-indigo-700 group-hover:text-indigo-900 leading-snug">
+                      {candidate.opponentName}
+                      <span className="ml-0.5" aria-hidden>
+                        →
+                      </span>
+                    </div>
+                    {candidate.marginVotes != null && (
+                      <div className="mt-0.5 text-[10px] text-slate-400">
+                        Margin {candidate.marginVotes.toLocaleString()}
+                      </div>
+                    )}
+                  </Link>
+                ) : (
+                  <div className="text-right">
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                      {opponentLabel}
+                    </div>
+                    <div className="mt-1 text-sm font-semibold text-slate-800 leading-snug">
+                      {candidate.opponentName}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+
+          {/* Mobile opponent row */}
+          {hasOpponent && (
+            <div className="sm:hidden mt-3 pt-3 border-t border-slate-100">
+              {opponentHref ? (
+                <Link href={opponentHref} className="flex items-center justify-between gap-2">
+                  <div>
+                    <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                      {opponentLabel}
+                    </div>
+                    <div className="text-sm font-semibold text-indigo-700">
+                      {candidate.opponentName}
+                    </div>
+                  </div>
+                  <span className="text-indigo-600 text-sm">View →</span>
+                </Link>
+              ) : (
+                <div>
+                  <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+                    {opponentLabel}
+                  </div>
+                  <div className="text-sm font-semibold text-slate-800">{candidate.opponentName}</div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
-      {(candidate.opponentName || candidate.opponentId) && (
-        <section className="rounded-2xl border border-slate-200 bg-white shadow-sm px-5 py-4">
-          <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400 mb-1.5">
-            {won ? "Lost to them" : "Lost to"}
-          </div>
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <div className="font-semibold text-slate-900">{candidate.opponentName}</div>
-              <div className="text-xs text-slate-500 mt-0.5">
-                {candidate.opponentParty}
-                {candidate.marginVotes
-                  ? " · Margin " + candidate.marginVotes.toLocaleString() + " votes"
-                  : ""}
-                {" · ECI election result"}
-              </div>
-            </div>
-            {opponentHref && (
-              <Link
-                href={opponentHref}
-                className="text-sm font-medium text-indigo-600 hover:text-indigo-800 shrink-0"
-              >
-                View profile →
-              </Link>
-            )}
-          </div>
-        </section>
-      )}
-
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
         <MetricCard label="Age" value={candidate.age?.toString() ?? "—"} source={eciSource} />
         <MetricCard label="Education" value={candidate.education ?? "—"} source={eciSource} />
         <MetricCard
@@ -136,7 +175,7 @@ export default async function CandidatePage({
       </div>
 
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-        <div className="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-slate-100 bg-slate-50/80">
+        <div className="flex items-center justify-between gap-3 px-4 py-3 border-b border-slate-100 bg-slate-50/80">
           <div className="flex items-center gap-2.5">
             <span className="h-2 w-2 rounded-full bg-blue-500" />
             <div>
@@ -149,17 +188,17 @@ export default async function CandidatePage({
           )}
         </div>
 
-        <div className="p-5 sm:p-6 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="p-4 sm:p-5 space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {candidate.profession && (
-              <div className="rounded-xl bg-slate-50 border border-slate-100 px-4 py-3">
+              <div className="rounded-xl bg-slate-50 border border-slate-100 px-3.5 py-2.5">
                 <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Profession</div>
                 <div className="mt-1 text-sm font-medium text-slate-800">{candidate.profession}</div>
                 <div className="mt-1 text-[10px] text-slate-400">{eciSource}</div>
               </div>
             )}
             {candidate.totalLiabilities && (
-              <div className="rounded-xl bg-slate-50 border border-slate-100 px-4 py-3">
+              <div className="rounded-xl bg-slate-50 border border-slate-100 px-3.5 py-2.5">
                 <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Liabilities</div>
                 <div className="mt-1 text-sm font-medium text-slate-800">{candidate.totalLiabilities}</div>
                 <div className="mt-1 text-[10px] text-slate-400">{eciSource}</div>
@@ -167,7 +206,7 @@ export default async function CandidatePage({
             )}
           </div>
 
-          <div className="rounded-xl bg-slate-50 border border-slate-100 px-4 py-3.5">
+          <div className="rounded-xl bg-slate-50 border border-slate-100 px-3.5 py-3">
             <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Source</div>
             <div className="mt-1 text-sm text-slate-700">
               Election Commission of India · Form 26 Affidavit
@@ -197,7 +236,7 @@ export default async function CandidatePage({
           <span className="h-2 w-2 rounded-full bg-amber-500" />
           <h2 className="text-sm font-semibold text-slate-800 tracking-wide">Promises & Announcements</h2>
         </div>
-        <p className="text-xs text-slate-500 mb-4">
+        <p className="text-xs text-slate-500 mb-3">
           Tracked information · Like/dislike on the right · Comments expand below
         </p>
 
@@ -236,17 +275,17 @@ function MetricCard({
   warning?: boolean;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
+    <div className="rounded-2xl border border-slate-200 bg-white px-3.5 py-3 shadow-sm">
       <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
       <div
         className={
-          "mt-1.5 text-lg sm:text-xl font-semibold leading-tight tracking-tight " +
+          "mt-1 text-base sm:text-lg font-semibold leading-tight tracking-tight " +
           (warning ? "text-amber-600" : accent ? "text-emerald-600" : "text-slate-900")
         }
       >
         {value}
       </div>
-      {source && <div className="mt-1.5 text-[10px] text-slate-400 leading-snug">{source}</div>}
+      {source && <div className="mt-1 text-[10px] text-slate-400 leading-snug">{source}</div>}
     </div>
   );
 }
