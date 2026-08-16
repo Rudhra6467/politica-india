@@ -6,11 +6,11 @@
 export interface PartyInfo {
   abbr: string;
   name: string;
-  short: string[]; // exactly ~2 short lines shown by default
+  short: string[];
   founded?: string;
   founder?: string;
   currentLeader?: string;
-  more?: string[]; // extra lines shown when expanded
+  more?: string[];
 }
 
 export const partyInfoMap: Record<string, PartyInfo> = {
@@ -19,7 +19,7 @@ export const partyInfoMap: Record<string, PartyInfo> = {
     name: "Bharatiya Janata Party",
     short: [
       "Founded in 1980.",
-      "Currently one of the two major national parties in India.",
+      "One of the two major national parties in India.",
     ],
     founded: "1980",
     founder: "Formed after the split of the Janata Party; key early leaders included Atal Bihari Vajpayee and L.K. Advani.",
@@ -34,7 +34,7 @@ export const partyInfoMap: Record<string, PartyInfo> = {
     name: "Indian National Congress",
     short: [
       "Founded in 1885.",
-      "One of the oldest political parties in India and a major national party.",
+      "One of the oldest political parties in India.",
     ],
     founded: "1885",
     founder: "Allan Octavian Hume along with Indian leaders; first session in Bombay.",
@@ -44,27 +44,12 @@ export const partyInfoMap: Record<string, PartyInfo> = {
       "Has been the dominant party for long periods after independence.",
     ],
   },
-  AITC: {
-    abbr: "AITC",
-    name: "All India Trinamool Congress",
-    short: [
-      "Founded in 1998.",
-      "Major regional party primarily active in West Bengal.",
-    ],
-    founded: "1998",
-    founder: "Mamata Banerjee",
-    currentLeader: "Mamata Banerjee (Chairperson)",
-    more: [
-      "Broke away from the Indian National Congress.",
-      "Currently the ruling party in West Bengal.",
-    ],
-  },
   TDP: {
     abbr: "TDP",
     name: "Telugu Desam Party",
     short: [
       "Founded in 1982.",
-      "Major regional party in Andhra Pradesh and Telangana.",
+      "Major regional party in Andhra Pradesh.",
     ],
     founded: "1982",
     founder: "N.T. Rama Rao",
@@ -89,19 +74,79 @@ export const partyInfoMap: Record<string, PartyInfo> = {
       "Focuses on welfare schemes and regional issues.",
     ],
   },
-  SP: {
-    abbr: "SP",
-    name: "Samajwadi Party",
+  JSP: {
+    abbr: "JSP",
+    name: "Jana Sena Party",
     short: [
-      "Founded in 1992.",
-      "Major party in Uttar Pradesh with socialist roots.",
+      "Founded in 2014.",
+      "Regional party in Andhra Pradesh led by Pawan Kalyan.",
     ],
-    founded: "1992",
-    founder: "Mulayam Singh Yadav",
-    currentLeader: "Akhilesh Yadav",
+    founded: "2014",
+    founder: "Pawan Kalyan",
+    currentLeader: "Pawan Kalyan",
     more: [
-      "Emerged from the Janata Dal tradition.",
-      "Has formed governments in Uttar Pradesh multiple times.",
+      "Positioned as an alternative focused on social justice and governance.",
+      "Contests mainly in Andhra Pradesh.",
+    ],
+  },
+  DMK: {
+    abbr: "DMK",
+    name: "Dravida Munnetra Kazhagam",
+    short: [
+      "Founded in 1949.",
+      "Major Dravidian party in Tamil Nadu.",
+    ],
+    founded: "1949",
+    founder: "C.N. Annadurai",
+    currentLeader: "M.K. Stalin",
+    more: [
+      "Emerged from the Dravidian movement.",
+      "Currently the ruling party in Tamil Nadu.",
+    ],
+  },
+  AIADMK: {
+    abbr: "AIADMK",
+    name: "All India Anna Dravida Munnetra Kazhagam",
+    short: [
+      "Founded in 1972.",
+      "Major Dravidian party in Tamil Nadu.",
+    ],
+    founded: "1972",
+    founder: "M.G. Ramachandran",
+    currentLeader: "Edappadi K. Palaniswami",
+    more: [
+      "Broke away from DMK.",
+      "Has alternated power with DMK in Tamil Nadu for decades.",
+    ],
+  },
+  BRS: {
+    abbr: "BRS",
+    name: "Bharat Rashtra Samithi",
+    short: [
+      "Founded in 2001 (as TRS).",
+      "Regional party focused on Telangana.",
+    ],
+    founded: "2001",
+    founder: "K. Chandrashekar Rao",
+    currentLeader: "K. Chandrashekar Rao",
+    more: [
+      "Originally Telangana Rashtra Samithi; renamed later.",
+      "Played a central role in the Telangana statehood movement.",
+    ],
+  },
+  JD_S: {
+    abbr: "JD(S)",
+    name: "Janata Dal (Secular)",
+    short: [
+      "Founded in 1999.",
+      "Regional party with strong base in Karnataka.",
+    ],
+    founded: "1999",
+    founder: "H.D. Deve Gowda",
+    currentLeader: "H.D. Kumaraswamy",
+    more: [
+      "Part of the broader Janata Dal tradition.",
+      "Has been part of coalition governments in Karnataka.",
     ],
   },
 };
