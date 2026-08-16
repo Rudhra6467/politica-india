@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCandidateById } from "@/data/pilot-candidates";
+import { getCandidateById, resultOf } from "@/data/pilot-candidates";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import PartyBadge from "@/components/PartyBadge";
@@ -22,13 +22,19 @@ export default async function CandidatePage({
   }
 
   const role = candidate.electionType === "Lok Sabha" ? "MP" : "MLA";
+  const result = resultOf(candidate);
+  const won = result === "won";
 
-  // Back: prefer the page user came from (party list), else all candidates
   const backHref = from && from.startsWith("/") ? from : "/candidates";
   const backLabel =
-    from && from.startsWith("/party/")
-      ? "Back to party"
-      : "All candidates";
+    from && from.startsWith("/party/") ? "Back to party" : "All candidates";
+
+  const opponentHref = candidate.opponentId
+    ? "/candidates/" +
+      candidate.opponentId +
+      "?from=" +
+      encodeURIComponent("/candidates/" + candidate.id)
+    : null;
 
   return (
     <div className="space-y-5 pb-12">
@@ -39,7 +45,6 @@ export default async function CandidatePage({
         <span aria-hidden>←</span> {backLabel}
       </Link>
 
-      {/* ========== HERO ========== */}
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="h-1.5 bg-gradient-to-r from-indigo-500 to-violet-500" />
         <div className="p-6 sm:p-8">
@@ -52,6 +57,16 @@ export default async function CandidatePage({
                 <PartyBadge abbr={candidate.partyAbbr} name={candidate.party} showName size="md" />
                 <span className="text-xs font-medium text-slate-400 tracking-wide uppercase">
                   {role} · {candidate.electionYear}
+                </span>
+                <span
+                  className={
+                    "text-[11px] font-medium px-2 py-0.5 rounded-full " +
+                    (won
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      : "bg-slate-100 text-slate-600 border border-slate-200")
+                  }
+                >
+                  {won ? "Won" : "Lost"}
                 </span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
@@ -73,7 +88,35 @@ export default async function CandidatePage({
         </div>
       </section>
 
-      {/* ========== METRIC CARDS ========== */}
+      {/* Opponent box */}
+      {(candidate.opponentName || candidate.opponentId) && (
+        <section className="rounded-2xl border border-slate-200 bg-white shadow-sm px-5 py-4">
+          <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400 mb-1.5">
+            {won ? "Lost to them" : "Lost to"}
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <div className="font-semibold text-slate-900">
+                {candidate.opponentName}
+              </div>
+              {candidate.opponentParty && (
+                <div className="text-xs text-slate-500 mt-0.5">
+                  {candidate.opponentParty}
+                </div>
+              )}
+            </div>
+            {opponentHref && (
+              <Link
+                href={opponentHref}
+                className="text-sm font-medium text-indigo-600 hover:text-indigo-800 shrink-0"
+              >
+                View profile →
+              </Link>
+            )}
+          </div>
+        </section>
+      )}
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <MetricCard label="Age" value={candidate.age?.toString() ?? "—"} />
         <MetricCard label="Education" value={candidate.education ?? "—"} />
@@ -85,7 +128,6 @@ export default async function CandidatePage({
         />
       </div>
 
-      {/* ========== VERIFIED RECORD ========== */}
       <section className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="flex items-center justify-between gap-3 px-5 py-3.5 border-b border-slate-100 bg-slate-50/80">
           <div className="flex items-center gap-2.5">
@@ -120,7 +162,7 @@ export default async function CandidatePage({
             <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">Source</div>
             <div className="mt-1 text-sm text-slate-700">
               Election Commission of India · Form 26 Affidavit
-              {candidate.affidavitYear ? ` · ${candidate.affidavitYear}` : ""}
+              {candidate.affidavitYear ? " · " + candidate.affidavitYear : ""}
             </div>
             {candidate.affidavitPdfUrl && (
               <a
@@ -137,7 +179,6 @@ export default async function CandidatePage({
         </div>
       </section>
 
-      {/* ========== PROMISES ========== */}
       <section>
         <div className="flex items-center gap-2.5 mb-1">
           <span className="h-2 w-2 rounded-full bg-amber-500" />
@@ -183,9 +224,10 @@ function MetricCard({
     <div className="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm">
       <div className="text-[11px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
       <div
-        className={`mt-1.5 text-lg sm:text-xl font-semibold leading-tight tracking-tight ${
-          warning ? "text-amber-600" : accent ? "text-emerald-600" : "text-slate-900"
-        }`}
+        className={
+          "mt-1.5 text-lg sm:text-xl font-semibold leading-tight tracking-tight " +
+          (warning ? "text-amber-600" : accent ? "text-emerald-600" : "text-slate-900")
+        }
       >
         {value}
       </div>

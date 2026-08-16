@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   pilotCandidates,
   getCandidatesByPartyAndState,
-  getOtherCandidatesInState,
+  resultOf,
   type PilotCandidate,
 } from "@/data/pilot-candidates";
 import { getPartyInfo } from "@/data/party-info";
@@ -47,10 +47,7 @@ function CandidateRow({
   const color = PARTY_COLORS[candidate.partyAbbr] || "bg-slate-600 text-white";
   const num = String(index + 1).padStart(2, "0");
   const profileHref =
-    "/candidates/" +
-    candidate.id +
-    "?from=" +
-    encodeURIComponent(backHref);
+    "/candidates/" + candidate.id + "?from=" + encodeURIComponent(backHref);
 
   return (
     <Link
@@ -154,17 +151,21 @@ export default function PartyContent({ abbr }: { abbr: string }) {
   const state = searchParams.get("state");
   const info = getPartyInfo(abbr);
 
-  const candidates = state
+  const allForParty = state
     ? getCandidatesByPartyAndState(abbr, state)
-    : pilotCandidates.filter((c) => c.partyAbbr === abbr);
+    : pilotCandidates
+        .filter((c) => c.partyAbbr === abbr)
+        .sort((a, b) => (a.sortOrder ?? 99) - (b.sortOrder ?? 99));
 
-  const mps = candidates.filter((c) => c.electionType === "Lok Sabha");
-  const mlas = candidates.filter((c) => c.electionType === "Assembly");
+  const winners = allForParty.filter((c) => resultOf(c) === "won");
+  const losers = allForParty.filter((c) => resultOf(c) === "lost");
 
-  const otherGroups = state ? getOtherCandidatesInState(abbr, state) : [];
-  const totalLikes = candidates.reduce((sum, c) => sum + c.likes, 0);
-  const totalPromises = candidates.reduce((sum, c) => sum + c.promises.length, 0);
-  const statesCovered = new Set(candidates.map((c) => c.state)).size;
+  const mps = winners.filter((c) => c.electionType === "Lok Sabha");
+  const mlas = winners.filter((c) => c.electionType === "Assembly");
+
+  const totalLikes = allForParty.reduce((sum, c) => sum + c.likes, 0);
+  const totalPromises = allForParty.reduce((sum, c) => sum + c.promises.length, 0);
+  const statesCovered = new Set(allForParty.map((c) => c.state)).size;
 
   const backHref = state
     ? "/party/" + abbr + "?state=" + encodeURIComponent(state)
@@ -193,7 +194,7 @@ export default function PartyContent({ abbr }: { abbr: string }) {
       )}
 
       <div className={metricGridClass}>
-        <MetricBox label="Candidates" value={String(candidates.length)} />
+        <MetricBox label="Candidates" value={String(allForParty.length)} />
         <MetricBox label="Promises" value={String(totalPromises)} />
         <MetricBox label="Total likes" value={totalLikes.toLocaleString()} />
         {!state && <MetricBox label="States" value={String(statesCovered)} />}
@@ -206,67 +207,34 @@ export default function PartyContent({ abbr }: { abbr: string }) {
       )}
 
       <section className="space-y-4">
-        {candidates.length === 0 ? (
+        {allForParty.length === 0 ? (
           <p className="text-sm text-slate-500">No candidates found.</p>
         ) : (
           <>
             <CollapsibleRoleSection
               title="Members of Parliament (MPs)"
-              subtitle="Lok Sabha"
+              subtitle="Lok Sabha · won"
               candidates={mps}
               backHref={backHref}
               defaultOpen={true}
             />
             <CollapsibleRoleSection
               title="Members of Legislative Assembly (MLAs)"
-              subtitle="State Assembly"
+              subtitle="State Assembly · won"
               candidates={mlas}
               backHref={backHref}
               defaultOpen={true}
             />
+            <CollapsibleRoleSection
+              title="Lost the election"
+              subtitle="Contested and did not win"
+              candidates={losers}
+              backHref={backHref}
+              defaultOpen={losers.length > 0 && mps.length + mlas.length === 0}
+            />
           </>
         )}
       </section>
-
-      {otherGroups.length > 0 && (
-        <section className="border-t border-slate-100 pt-5 space-y-4">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
-            Other candidates in {state}
-          </h2>
-          {otherGroups.map((group) => {
-            const groupMps = group.candidates.filter(
-              (c) => c.electionType === "Lok Sabha"
-            );
-            const groupMlas = group.candidates.filter(
-              (c) => c.electionType === "Assembly"
-            );
-            return (
-              <div key={group.partyAbbr} className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <PartyBadge abbr={group.partyAbbr} size="sm" />
-                  <span className="text-xs font-medium text-slate-500">
-                    {group.partyName}
-                  </span>
-                </div>
-                <CollapsibleRoleSection
-                  title="MPs"
-                  subtitle="Lok Sabha"
-                  candidates={groupMps}
-                  backHref={backHref}
-                  defaultOpen={false}
-                />
-                <CollapsibleRoleSection
-                  title="MLAs"
-                  subtitle="State Assembly"
-                  candidates={groupMlas}
-                  backHref={backHref}
-                  defaultOpen={false}
-                />
-              </div>
-            );
-          })}
-        </section>
-      )}
     </div>
   );
 }
