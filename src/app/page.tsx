@@ -62,11 +62,11 @@ export default function HomePage() {
   const localParties = selectedState ? getPartiesInState(selectedState) : [];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4">
       <VerificationBanner dismissible />
 
       <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0 space-y-1.5">
+        <div className="min-w-0 space-y-1">
           <p className="text-slate-600 text-[15px] leading-snug">For the people of India.</p>
           <LayerLegend compact />
         </div>
@@ -105,16 +105,16 @@ export default function HomePage() {
       </div>
 
       {view === "local" && (
-        <div className="space-y-5">
+        <div className="space-y-3">
           {!selectedState ? (
-            <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-6 sm:p-8 text-center">
-              <p className="text-slate-600 mb-4 text-sm">Select your state</p>
+            <div className="rounded-xl border border-dashed border-slate-200 bg-white p-5 text-center">
+              <p className="text-slate-600 mb-3 text-sm">Select your state</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {states.map((s) => (
                   <button
                     key={s}
                     onClick={() => chooseState(s)}
-                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium shadow-sm hover:border-indigo-400 hover:bg-indigo-50 transition"
+                    className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium shadow-sm hover:border-indigo-400 hover:bg-indigo-50 transition"
                   >
                     {s}
                   </button>
@@ -123,39 +123,36 @@ export default function HomePage() {
             </div>
           ) : (
             <>
-              <h2 className="text-xl font-bold text-slate-900 tracking-tight">{selectedState}</h2>
+              <h2 className="text-lg font-bold text-slate-900 tracking-tight">
+                {selectedState} Parties
+              </h2>
 
-              <section>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
-                  Parties
-                </h3>
-                <div className="grid gap-2.5 sm:grid-cols-2">
-                  {localParties.map((p) => (
-                    <Link
-                      key={p.abbr}
-                      href={"/party/" + p.abbr + "?state=" + encodeURIComponent(selectedState)}
-                      className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-                    >
-                      <PartyBadge abbr={p.abbr} size="lg" />
-                      <div className="min-w-0 flex-1">
-                        <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
-                          {p.name}
-                        </div>
-                        <div className="text-xs text-slate-400 mt-0.5">
-                          {p.count} candidate{p.count > 1 ? "s" : ""}
-                        </div>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {localParties.map((p) => (
+                  <Link
+                    key={p.abbr}
+                    href={"/party/" + p.abbr + "?state=" + encodeURIComponent(selectedState)}
+                    className="flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
+                  >
+                    <PartyBadge abbr={p.abbr} size="lg" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-slate-900 text-sm leading-tight truncate">
+                        {p.name}
                       </div>
-                    </Link>
-                  ))}
-                </div>
-              </section>
+                      <div className="text-[11px] text-slate-400 mt-0.5">
+                        {p.count} candidate{p.count > 1 ? "s" : ""}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
 
-              <div className="text-center pt-1">
+              <div className="text-center">
                 <Link
                   href={"/candidates?state=" + encodeURIComponent(selectedState)}
                   className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
                 >
-                  View all candidates in {selectedState} →
+                  View all in {selectedState} →
                 </Link>
               </div>
             </>
@@ -164,44 +161,39 @@ export default function HomePage() {
       )}
 
       {view === "national" && (
-        <div className="space-y-5">
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">National</h2>
+        <div className="space-y-3">
+          <h2 className="text-lg font-bold text-slate-900 tracking-tight">National Parties</h2>
 
-          <section>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
-              Parties
-            </h3>
-            <div className="grid gap-2.5 sm:grid-cols-2">
-              {nationalParties.map((p) => (
-                <Link
-                  key={p.abbr}
-                  href={"/party/" + p.abbr}
-                  className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3.5 py-3 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-                >
-                  <PartyBadge abbr={p.abbr} size="lg" />
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-slate-900 text-[15px] leading-tight truncate">
-                      {p.name}
-                    </div>
-                    <div className="text-xs text-slate-400 mt-0.5">
-                      {p.count} candidate{p.count > 1 ? "s" : ""}
-                    </div>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {nationalParties.map((p) => (
+              <Link
+                key={p.abbr}
+                href={"/party/" + p.abbr}
+                className="flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
+              >
+                <PartyBadge abbr={p.abbr} size="lg" />
+                <div className="min-w-0 flex-1">
+                  <div className="font-semibold text-slate-900 text-sm leading-tight truncate">
+                    {p.name}
                   </div>
-                </Link>
-              ))}
-            </div>
-          </section>
+                  <div className="text-[11px] text-slate-400 mt-0.5">
+                    {p.count} candidate{p.count > 1 ? "s" : ""}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
 
-          <section>
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
+          <section className="pt-1">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
               States
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {states.map((s) => (
                 <button
                   key={s}
                   onClick={() => chooseState(s)}
-                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium shadow-sm hover:border-indigo-400 hover:bg-indigo-50 transition"
+                  className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium shadow-sm hover:border-indigo-400 hover:bg-indigo-50 transition"
                 >
                   {s}
                 </button>
@@ -209,7 +201,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <div className="text-center pt-1">
+          <div className="text-center">
             <Link href="/candidates" className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
               View all candidates →
             </Link>
@@ -217,9 +209,8 @@ export default function HomePage() {
         </div>
       )}
 
-      <p className="text-center text-xs text-slate-400 pt-4 leading-relaxed max-w-md mx-auto">
-        Pilot data · Source: Election Commission of India (Form 26).
-        Party marks are simplified ECI-style election symbols for identification only.
+      <p className="text-center text-[11px] text-slate-400 pt-2 leading-relaxed max-w-md mx-auto">
+        Pilot · ECI Form 26. Party marks are simplified election symbols for identification only.
       </p>
     </div>
   );

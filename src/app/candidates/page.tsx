@@ -30,24 +30,24 @@ function CandidatesContent() {
   }, [query, baseList]);
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+    <div className="space-y-3">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5">
         <div className="min-w-0">
           <Link
             href="/"
-            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 mb-2"
+            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800 mb-1"
           >
             <span aria-hidden>←</span> Home
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Candidates</h1>
-          <p className="mt-0.5 text-slate-500 text-sm">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">Candidates</h1>
+          <p className="text-slate-500 text-xs mt-0.5">
             {stateFilter ? (
               <>
                 <span className="font-medium text-slate-700">{stateFilter}</span>
-                <span className="text-slate-400"> · </span>
+                <span className="text-slate-300"> · </span>
               </>
             ) : null}
-            Pilot data · ECI Form 26
+            Pilot · ECI Form 26
           </p>
         </div>
 
@@ -57,13 +57,16 @@ function CandidatesContent() {
             placeholder="Search name, party, place…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 pl-10 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+            className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 pl-9 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
           <svg
-            className="absolute left-3 top-2.5 h-4.5 w-4.5 text-slate-400"
+            className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400"
+            width={16}
+            height={16}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden
           >
             <path
               strokeLinecap="round"
@@ -75,34 +78,34 @@ function CandidatesContent() {
         </div>
       </div>
 
-      <p className="text-xs text-slate-400">
+      <p className="text-[11px] text-slate-400">
         Showing {filtered.length} of {baseList.length}
         {stateFilter ? (
           <>
             {" · "}
             <Link href="/candidates" className="text-indigo-600 hover:underline">
-              Clear state filter
+              Clear filter
             </Link>
           </>
         ) : null}
       </p>
 
-      <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {filtered.map((c) => (
           <Link
             key={c.id}
             href={`/candidates/${c.id}`}
-            className="group flex items-center gap-3 rounded-2xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm transition hover:border-indigo-200 hover:shadow-md active:scale-[0.99]"
+            className="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white px-2.5 py-2 shadow-sm transition hover:border-indigo-200 hover:shadow-md active:scale-[0.99]"
           >
             <PartyBadge abbr={c.partyAbbr} name={c.party} size="lg" />
             <div className="min-w-0 flex-1">
-              <h2 className="truncate text-[15px] font-semibold text-slate-900 group-hover:text-indigo-700 leading-tight">
+              <h2 className="truncate text-sm font-semibold text-slate-900 group-hover:text-indigo-700 leading-tight">
                 {c.name}
               </h2>
-              <p className="mt-0.5 truncate text-xs text-slate-500">
+              <p className="truncate text-[11px] text-slate-500">
                 {c.constituency}, {c.state}
               </p>
-              <div className="mt-1 flex items-center gap-3 text-xs">
+              <div className="mt-0.5 flex items-center gap-2.5 text-[11px]">
                 <span className="text-emerald-600 font-medium">👍 {c.likes.toLocaleString()}</span>
                 <span className="text-rose-500 font-medium">👎 {c.dislikes.toLocaleString()}</span>
               </div>
@@ -112,7 +115,7 @@ function CandidatesContent() {
       </div>
 
       {filtered.length === 0 && (
-        <div className="rounded-xl border border-dashed border-slate-200 bg-white py-12 text-center text-slate-500 text-sm">
+        <div className="rounded-xl border border-dashed border-slate-200 bg-white py-10 text-center text-slate-500 text-sm">
           No candidates match{query ? ` “${query}”` : ""}
           {stateFilter ? ` in ${stateFilter}` : ""}.
         </div>
