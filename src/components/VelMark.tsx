@@ -1,4 +1,4 @@
-/** Vel + peacock mark — matte black, muted Sindoor edge */
+/** Vel + peacock mark — matte black body, muted Sindoor rim. Peacock must read clearly at header size. */
 export default function VelMark({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -10,38 +10,63 @@ export default function VelMark({ className = "" }: { className?: string }) {
     >
       {/* Outer Sindoor rim */}
       <path
-        d="M24 2 C18 14 10 28 10 48 C10 68 18 82 24 94 C30 82 38 68 38 48 C38 28 30 14 24 2Z"
+        d="M24 2C18 14 10 28 10 48C10 68 18 82 24 94C30 82 38 68 38 48C38 28 30 14 24 2Z"
         fill="none"
         stroke="#9F1239"
-        strokeWidth="1.6"
-        opacity="0.9"
+        strokeWidth="1.75"
+        opacity="0.85"
       />
-      {/* Black leaf body */}
+      {/* Black leaf / Vel body */}
       <path
-        d="M24 4 C19 15 12 28 12 48 C12 68 19 81 24 92 C29 81 36 68 36 48 C36 28 29 15 24 4Z"
+        d="M24 4C19 15 12 28 12 48C12 68 19 81 24 92C29 81 36 68 36 48C36 28 29 15 24 4Z"
         fill="#141414"
       />
-      {/* Inner white hollow (spear opening) */}
+      {/* Inner white hollow */}
       <path
-        d="M24 18 C21 26 18 34 18 48 C18 62 21 70 24 78 C27 70 30 62 30 48 C30 34 27 26 24 18Z"
+        d="M24 16C20.5 26 17.5 34 17.5 48C17.5 62 20.5 70 24 80C27.5 70 30.5 62 30.5 48C30.5 34 27.5 26 24 16Z"
         fill="#ffffff"
       />
-      {/* Peacock silhouette */}
-      <g fill="#141414" transform="translate(0,2)">
+
+      {/* Peacock — readable silhouette */}
+      <g fill="#141414">
+        {/* Tail fan (behind body) — classic peacock arc */}
+        <path d="M24 58C18 56 13 52 11 46C14 50 18 53 22 55C20 58 18 62 17 67C19 63 21 60 24 58Z" opacity="0.95" />
+        <path d="M24 58C30 56 35 52 37 46C34 50 30 53 26 55C28 58 30 62 31 67C29 63 27 60 24 58Z" opacity="0.95" />
+        <path d="M22 56C19 59 16 64 15 70C18 66 21 62 24 59C27 62 30 66 33 70C32 64 29 59 26 56H22Z" />
+        {/* Eye spots suggestion on fan */}
+        <circle cx="16.5" cy="52" r="1.1" fill="#141414" />
+        <circle cx="31.5" cy="52" r="1.1" fill="#141414" />
+        <circle cx="19" cy="62" r="1" fill="#141414" />
+        <circle cx="29" cy="62" r="1" fill="#141414" />
+
         {/* Body */}
-        <ellipse cx="25" cy="46" rx="4.2" ry="6.5" />
-        {/* Neck + head */}
-        <path d="M25 40 C26 36 27 33 26.5 30 C26 28.5 24.5 28 24 29.5 C23.5 31 24.2 34 25 40Z" />
+        <ellipse cx="24" cy="48" rx="5" ry="7.2" />
+
+        {/* Neck */}
+        <path d="M24 42C25.2 38 26 34.5 25.2 31.5C24.6 29.8 23.2 29.2 22.6 30.6C21.8 33 22.6 37 24 42Z" />
+
+        {/* Head */}
+        <ellipse cx="24.2" cy="29.2" rx="2.6" ry="2.4" />
+
         {/* Beak */}
-        <path d="M26.5 30 L29 29.5 L26.8 31.2Z" />
-        {/* Crown tuft */}
-        <path d="M24.2 28.5 L23.5 25.5 M25 28 L25.2 24.8 M25.8 28.2 L26.8 25.2" stroke="#141414" strokeWidth="0.9" strokeLinecap="round" fill="none" />
-        {/* Tail feathers */}
-        <path d="M22 50 C18 54 16 60 17 66 C19 62 21 58 23 54" />
-        <path d="M23 52 C20 58 19 64 20 70 C21.5 65 23 60 24.5 56" />
-        <path d="M24 53 C23 60 23.5 66 25 72 C25.5 66 25.5 60 25.5 55" />
+        <path d="M26.5 29.4L30 28.6L26.8 30.8Z" />
+
+        {/* Crown / crest (peacock tuft) */}
+        <path
+          d="M22.8 27.2L21.6 23.2M24 26.8L24.1 22.4M25.4 27L26.8 23.4M23.4 26.6L22.2 24"
+          stroke="#141414"
+          strokeWidth="1.15"
+          strokeLinecap="round"
+          fill="none"
+        />
+
         {/* Legs */}
-        <path d="M23.5 52 L22.5 56 M26 52 L27 56" stroke="#141414" strokeWidth="1" strokeLinecap="round" fill="none" />
+        <path
+          d="M21.8 54.5L20.5 60M26.2 54.5L27.5 60"
+          stroke="#141414"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
       </g>
     </svg>
   );
