@@ -147,7 +147,7 @@ export default function HomePage() {
                 <span className="text-[10px] font-medium text-slate-800 text-center leading-tight line-clamp-2 w-full">
                   {c.name.split(" ").slice(-2).join(" ")}
                 </span>
-                <span className="text-[9px] text-slate-400">{c.partyAbbr}</span>
+                <span className={"text-[9px] text-slate-400"}>{c.partyAbbr}</span>
               </Link>
             ))}
           </div>
