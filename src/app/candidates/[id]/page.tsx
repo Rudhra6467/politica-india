@@ -42,7 +42,11 @@ export default async function CandidatePage({
 
   const opponentLabel = won ? "Won against" : "Lost to";
   const hasOpponent = Boolean(candidate.opponentName || candidate.opponentId);
-  const partyHref = "/party/" + candidate.partyAbbr + "?state=" + encodeURIComponent(candidate.state);
+  const partyHref =
+    "/party/" +
+    candidate.partyAbbr +
+    "?state=" +
+    encodeURIComponent(candidate.state);
 
   return (
     <div className="space-y-3 pb-10">
@@ -55,14 +59,23 @@ export default async function CandidatePage({
 
       <section className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="p-3 sm:p-4">
-          <div className="flex gap-3 items-start">
+          <div className="flex gap-3 sm:gap-4 items-start">
             <div className="shrink-0">
-              <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="lg" />
+              <CandidateAvatar
+                name={candidate.name}
+                photoUrl={candidate.photoUrl}
+                size="profile"
+                partyAbbr={candidate.partyAbbr}
+              />
             </div>
 
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-1.5 mb-0.5">
-                <Link href={partyHref} className="hover:opacity-80 transition" title={candidate.party}>
+                <Link
+                  href={partyHref}
+                  className="hover:opacity-80 transition"
+                  title={candidate.party}
+                >
                   <PartyBadge abbr={candidate.partyAbbr} size="sm" />
                 </Link>
                 <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wide">
@@ -86,7 +99,10 @@ export default async function CandidatePage({
               <p className="text-xs text-slate-500">
                 {candidate.constituency}, {candidate.state}
                 <span className="text-slate-300"> · </span>
-                <Link href={partyHref} className="text-indigo-600 hover:text-indigo-800 font-medium">
+                <Link
+                  href={partyHref}
+                  className="text-indigo-600 hover:text-indigo-800 font-medium"
+                >
                   {candidate.partyAbbr}
                 </Link>
               </p>
@@ -103,7 +119,10 @@ export default async function CandidatePage({
             {hasOpponent && (
               <div className="hidden sm:flex shrink-0 w-[22%] max-w-[10rem] border-l border-slate-100 pl-2.5 flex-col justify-center">
                 {opponentHref ? (
-                  <Link href={opponentHref} className="group block text-right hover:opacity-90">
+                  <Link
+                    href={opponentHref}
+                    className="group block text-right hover:opacity-90"
+                  >
                     <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
                       {opponentLabel}
                     </div>
@@ -133,12 +152,17 @@ export default async function CandidatePage({
           {hasOpponent && (
             <div className="sm:hidden mt-2 pt-2 border-t border-slate-100">
               {opponentHref ? (
-                <Link href={opponentHref} className="flex items-center justify-between gap-2">
+                <Link
+                  href={opponentHref}
+                  className="flex items-center justify-between gap-2"
+                >
                   <div>
                     <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
                       {opponentLabel}
                     </div>
-                    <div className="text-xs font-semibold text-indigo-700">{candidate.opponentName}</div>
+                    <div className="text-xs font-semibold text-indigo-700">
+                      {candidate.opponentName}
+                    </div>
                   </div>
                   <span className="text-indigo-600 text-xs">View →</span>
                 </Link>
@@ -147,7 +171,9 @@ export default async function CandidatePage({
                   <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
                     {opponentLabel}
                   </div>
-                  <div className="text-xs font-semibold text-slate-800">{candidate.opponentName}</div>
+                  <div className="text-xs font-semibold text-slate-800">
+                    {candidate.opponentName}
+                  </div>
                 </div>
               )}
             </div>
@@ -156,8 +182,16 @@ export default async function CandidatePage({
       </section>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
-        <MetricCard label="Age" value={candidate.age?.toString() ?? "—"} source={eciSource} />
-        <MetricCard label="Education" value={candidate.education ?? "—"} source={eciSource} />
+        <MetricCard
+          label="Age"
+          value={candidate.age?.toString() ?? "—"}
+          source={eciSource}
+        />
+        <MetricCard
+          label="Education"
+          value={candidate.education ?? "—"}
+          source={eciSource}
+        />
         <MetricCard
           label="Assets"
           value={candidate.totalAssets ?? "—"}
@@ -186,8 +220,12 @@ export default async function CandidatePage({
       <section>
         <div className="flex items-center gap-2 mb-1.5">
           <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-          <h2 className="text-xs font-semibold text-slate-800 tracking-wide">Promises</h2>
-          <span className="text-[10px] text-slate-400">{candidate.promises.length}</span>
+          <h2 className="text-xs font-semibold text-slate-800 tracking-wide">
+            Promises
+          </h2>
+          <span className="text-[10px] text-slate-400">
+            {candidate.promises.length}
+          </span>
         </div>
 
         {candidate.promises.length === 0 ? (
@@ -204,7 +242,8 @@ export default async function CandidatePage({
       </section>
 
       <p className="text-center text-[10px] text-slate-400 leading-relaxed max-w-md mx-auto">
-        Verified = official sources. Promises = tracked. Likes/comments = community only. No rankings.
+        Verified = official sources. Promises = tracked. Likes/comments =
+        community only. No rankings.
       </p>
     </div>
   );
@@ -225,16 +264,26 @@ function MetricCard({
 }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white px-2.5 py-2 shadow-sm">
-      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
+      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+        {label}
+      </div>
       <div
         className={
           "mt-0.5 text-sm sm:text-base font-semibold leading-tight tracking-tight line-clamp-2 " +
-          (warning ? "text-amber-600" : accent ? "text-emerald-600" : "text-slate-900")
+          (warning
+            ? "text-amber-600"
+            : accent
+              ? "text-emerald-600"
+              : "text-slate-900")
         }
       >
         {value}
       </div>
-      {source && <div className="mt-0.5 text-[9px] text-slate-400 leading-snug truncate">{source}</div>}
+      {source && (
+        <div className="mt-0.5 text-[9px] text-slate-400 leading-snug truncate">
+          {source}
+        </div>
+      )}
     </div>
   );
 }
