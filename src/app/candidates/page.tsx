@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { pilotCandidates } from "@/data/pilot-candidates";
 import PartyBadge from "@/components/PartyBadge";
+import CandidateAvatar from "@/components/CandidateAvatar";
 
 function CandidatesContent() {
   const searchParams = useSearchParams();
@@ -97,7 +98,12 @@ function CandidatesContent() {
             href={`/candidates/${c.id}`}
             className="group flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white px-2.5 py-2 shadow-sm transition hover:border-indigo-200 hover:shadow-md active:scale-[0.99]"
           >
-            <PartyBadge abbr={c.partyAbbr} name={c.party} size="lg" />
+            <div className="relative shrink-0">
+              <CandidateAvatar name={c.name} photoUrl={c.photoUrl} size="md" />
+              <div className="absolute -bottom-1 -right-1 scale-75 origin-bottom-right">
+                <PartyBadge abbr={c.partyAbbr} name={c.party} size="sm" />
+              </div>
+            </div>
             <div className="min-w-0 flex-1">
               <h2 className="truncate text-sm font-semibold text-slate-900 group-hover:text-indigo-700 leading-tight">
                 {c.name}

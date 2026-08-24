@@ -6,10 +6,12 @@ import {
   getAllStates,
   getNationalParties,
   getPartiesInState,
+  getFeaturedLeaders,
 } from "@/data/pilot-candidates";
 import LayerLegend from "@/components/LayerLegend";
 import VerificationBanner from "@/components/VerificationBanner";
 import PartyBadge from "@/components/PartyBadge";
+import CandidateAvatar from "@/components/CandidateAvatar";
 
 type ViewMode = "local" | "national";
 
@@ -60,6 +62,7 @@ export default function HomePage() {
   const states = getAllStates();
   const nationalParties = getNationalParties();
   const localParties = selectedState ? getPartiesInState(selectedState) : [];
+  const featured = getFeaturedLeaders(8);
 
   return (
     <div className="space-y-4">
@@ -103,6 +106,33 @@ export default function HomePage() {
           )}
         </div>
       </div>
+
+      {/* First-run: people with faces → profile in one tap */}
+      {featured.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <h2 className="text-sm font-semibold text-slate-800">Open a profile</h2>
+            <Link href="/candidates" className="text-xs font-medium text-indigo-600 hover:text-indigo-800">
+              All →
+            </Link>
+          </div>
+          <div className="flex gap-2.5 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
+            {featured.map((c) => (
+              <Link
+                key={c.id}
+                href={`/candidates/${c.id}`}
+                className="shrink-0 w-[4.75rem] flex flex-col items-center gap-1 rounded-xl border border-slate-100 bg-white p-2 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
+              >
+                <CandidateAvatar name={c.name} photoUrl={c.photoUrl} size="md" />
+                <span className="text-[10px] font-medium text-slate-800 text-center leading-tight line-clamp-2 w-full">
+                  {c.name.split(" ").slice(-2).join(" ")}
+                </span>
+                <span className="text-[9px] text-slate-400">{c.partyAbbr}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {view === "local" && (
         <div className="space-y-3">
@@ -211,6 +241,7 @@ export default function HomePage() {
 
       <p className="text-center text-[11px] text-slate-400 pt-2 leading-relaxed max-w-md mx-auto">
         Pilot · ECI Form 26. Party marks are simplified election symbols for identification only.
+        Photos from Wikimedia Commons where available.
       </p>
     </div>
   );
