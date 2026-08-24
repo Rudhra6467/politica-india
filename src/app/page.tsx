@@ -56,7 +56,9 @@ export default function HomePage() {
   };
 
   if (!hydrated) {
-    return <div className="py-16 text-center text-slate-400 text-sm">Loading…</div>;
+    return (
+      <div className="py-16 text-center text-slate-400 text-sm">Loading…</div>
+    );
   }
 
   const states = getAllStates();
@@ -70,7 +72,9 @@ export default function HomePage() {
 
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 space-y-1">
-          <p className="text-slate-600 text-[15px] leading-snug">For the people of India.</p>
+          <p className="text-slate-600 text-[15px] leading-snug">
+            For the people of India.
+          </p>
           <LayerLegend compact />
         </div>
 
@@ -100,22 +104,31 @@ export default function HomePage() {
             </button>
           </div>
           {selectedState && view === "local" && (
-            <button onClick={clearState} className="text-xs text-slate-500 hover:text-slate-700">
+            <button
+              onClick={clearState}
+              className="text-xs text-slate-500 hover:text-slate-700"
+            >
               Change state
             </button>
           )}
         </div>
       </div>
 
-      {/* Leaders first — CM / party heads, AP + TG interleaved */}
       {featured.length > 0 && (
         <section>
           <div className="flex items-center justify-between gap-2 mb-1.5">
             <div>
-              <h2 className="text-sm font-semibold text-slate-800">Leaders · open a profile</h2>
-              <p className="text-[10px] text-slate-400 leading-tight">CMs & party heads first · AP + TG</p>
+              <h2 className="text-sm font-semibold text-slate-800">
+                Leaders · open a profile
+              </h2>
+              <p className="text-[10px] text-slate-400 leading-tight">
+                CMs and party heads first · AP + TG
+              </p>
             </div>
-            <Link href="/candidates" className="text-xs font-medium text-indigo-600 hover:text-indigo-800 shrink-0">
+            <Link
+              href="/candidates"
+              className="text-xs font-medium text-indigo-600 hover:text-indigo-800 shrink-0"
+            >
               All →
             </Link>
           </div>
@@ -126,7 +139,11 @@ export default function HomePage() {
                 href={`/candidates/${c.id}`}
                 className="shrink-0 w-[4.5rem] flex flex-col items-center gap-1 rounded-xl border border-slate-100 bg-white p-1.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
               >
-                <CandidateAvatar name={c.name} photoUrl={c.photoUrl} size="md" />
+                <CandidateAvatar
+                  name={c.name}
+                  photoUrl={c.photoUrl}
+                  size="md"
+                />
                 <span className="text-[10px] font-medium text-slate-800 text-center leading-tight line-clamp-2 w-full">
                   {c.name.split(" ").slice(-2).join(" ")}
                 </span>
@@ -163,7 +180,12 @@ export default function HomePage() {
                 {localParties.map((p) => (
                   <Link
                     key={p.abbr}
-                    href={"/party/" + p.abbr + "?state=" + encodeURIComponent(selectedState)}
+                    href={
+                      "/party/" +
+                      p.abbr +
+                      "?state=" +
+                      encodeURIComponent(selectedState)
+                    }
                     className="flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
                   >
                     <PartyBadge abbr={p.abbr} size="lg" />
@@ -179,7 +201,12 @@ export default function HomePage() {
                 ))}
               </div>
               <div className="text-center pt-1">
-                <Link href="/candidates?state=" + encodeURIComponent(selectedState) className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                <Link
+                  href={
+                    "/candidates?state=" + encodeURIComponent(selectedState)
+                  }
+                  className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                >
                   All candidates in {selectedState} →
                 </Link>
               </div>
@@ -190,7 +217,9 @@ export default function HomePage() {
 
       {view === "national" && (
         <div className="space-y-3">
-          <h2 className="text-lg font-bold text-slate-900 tracking-tight">National Parties</h2>
+          <h2 className="text-lg font-bold text-slate-900 tracking-tight">
+            National Parties
+          </h2>
           <div className="grid gap-2 sm:grid-cols-2">
             {nationalParties.map((p) => (
               <Link
@@ -214,7 +243,8 @@ export default function HomePage() {
       )}
 
       <p className="text-[11px] text-slate-400 text-center pt-2">
-        Pilot · ECI Form 26 · Party symbols based on ECI election marks · Photos from Wikimedia Commons where licensed
+        Pilot · ECI Form 26 · Party symbols based on ECI election marks · Photos
+        from Wikimedia Commons where licensed
       </p>
     </div>
   );
