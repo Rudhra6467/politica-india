@@ -19,7 +19,8 @@ const SIZE_MAP = {
   md: "h-11 w-11 text-sm",
   lg: "h-16 w-16 text-xl",
   xl: "h-24 w-24 text-3xl",
-  profile: "h-20 w-20 sm:h-24 sm:w-24 text-2xl",
+  /* Profile hero: fills the identity block (matches user-marked box) */
+  profile: "h-24 w-24 sm:h-28 sm:w-28 text-2xl",
 };
 
 const OVERLAY_SIZE = {
@@ -27,7 +28,7 @@ const OVERLAY_SIZE = {
   md: "h-4 w-4",
   lg: "h-5 w-5",
   xl: "h-6 w-6",
-  profile: "h-6 w-6 sm:h-7 sm:w-7",
+  profile: "h-7 w-7 sm:h-8 sm:w-8",
 };
 
 function getInitials(name: string) {
@@ -94,7 +95,7 @@ export default function CandidateAvatar({
     <div className="relative shrink-0 inline-block">
       {content}
       <span
-        className={`absolute -bottom-0.5 -right-0.5 ${overlayClass} rounded-md overflow-hidden border border-white bg-white shadow-sm flex items-center justify-center`}
+        className={`absolute -bottom-0.5 -right-0.5 ${overlayClass} rounded-md overflow-hidden border-2 border-white bg-white shadow-sm flex items-center justify-center`}
         title={partyAbbr || undefined}
       >
         <PartySymbol abbr={partyAbbr!} size="sm" />
