@@ -12,7 +12,6 @@ import {
 import { getPartyInfo } from "@/data/party-info";
 import PartyBadge from "@/components/PartyBadge";
 import CandidateAvatar from "@/components/CandidateAvatar";
-import PartyIntro from "@/components/PartyIntro";
 
 function roleLabel(electionType: string) {
   if (electionType === "Lok Sabha") return "MP";
@@ -37,7 +36,11 @@ function CandidateRow({
       href={profileHref}
       className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
     >
-      <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="sm" />
+      <CandidateAvatar
+        name={candidate.name}
+        photoUrl={candidate.photoUrl}
+        size="sm"
+      />
       <div className="min-w-0 flex-1">
         <div className="font-semibold text-slate-900 text-sm leading-snug truncate">
           {candidate.name}
@@ -129,6 +132,8 @@ export default function PartyContent({ abbr }: { abbr: string }) {
     ? "/party/" + abbr + "?state=" + encodeURIComponent(state)
     : "/party/" + abbr;
 
+  const shortLine = info?.short?.[0];
+
   return (
     <div className="space-y-4 pb-10">
       <Link
@@ -146,12 +151,13 @@ export default function PartyContent({ abbr }: { abbr: string }) {
               {info?.name || abbr}
             </h1>
             <p className="text-xs text-slate-500 mt-0.5">
-              {mps.length} MP · {mlas.length} MLA · {statesCovered} state{statesCovered > 1 ? "s" : ""} · pilot
+              {mps.length} MP · {mlas.length} MLA · {statesCovered} state
+              {statesCovered > 1 ? "s" : ""} · pilot
             </p>
           </div>
         </div>
-        {info?.shortIntro && (
-          <p className="text-sm text-slate-600 mt-3 leading-snug">{info.shortIntro}</p>
+        {shortLine && (
+          <p className="text-sm text-slate-600 mt-3 leading-snug">{shortLine}</p>
         )}
       </div>
 
