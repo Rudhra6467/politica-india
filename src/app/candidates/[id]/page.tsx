@@ -59,7 +59,8 @@ export default async function CandidatePage({
 
       <section className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
         <div className="p-3 sm:p-4">
-          <div className="flex gap-3 sm:gap-4 items-start">
+          {/* items-center = equal visual space above/below photo relative to text block */}
+          <div className="flex gap-3 sm:gap-4 items-center">
             <div className="shrink-0">
               <CandidateAvatar
                 name={candidate.name}
