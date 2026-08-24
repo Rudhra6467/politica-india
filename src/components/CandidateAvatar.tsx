@@ -1,7 +1,6 @@
 /**
- * Reusable Candidate Avatar
- * Uses initials + consistent color as placeholder.
- * Later we can pass a real photoUrl and it will render the image instead.
+ * Candidate avatar — real photo when photoUrl is set (public/licensed),
+ * else initials placeholder. White theme: soft slate ring.
  */
 
 interface CandidateAvatarProps {
@@ -53,17 +52,20 @@ export default function CandidateAvatar({
 
   if (photoUrl) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={photoUrl}
         alt={name}
-        className={`${classes} rounded-2xl object-cover ring-2 ring-white/10 shadow-lg`}
+        className={`${classes} rounded-2xl object-cover ring-2 ring-slate-200 shadow-sm bg-slate-100`}
+        loading="lazy"
+        referrerPolicy="no-referrer"
       />
     );
   }
 
   return (
     <div
-      className={`${classes} ${getColor(name)} rounded-2xl flex items-center justify-center font-semibold text-white ring-2 ring-white/10 shadow-lg`}
+      className={`${classes} ${getColor(name)} rounded-2xl flex items-center justify-center font-semibold text-white ring-2 ring-slate-200 shadow-sm`}
       title={name}
     >
       {getInitials(name)}
