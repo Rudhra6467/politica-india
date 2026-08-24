@@ -8,6 +8,8 @@ interface LikeDislikeButtonsProps {
   initialDislikes: number;
   size?: "sm" | "md";
   dark?: boolean;
+  /** Show pilot-only label under counts */
+  showPilotLabel?: boolean;
 }
 
 type StoredVote = {
@@ -43,6 +45,7 @@ export default function LikeDislikeButtons({
   initialDislikes,
   size = "md",
   dark = false,
+  showPilotLabel = true,
 }: LikeDislikeButtonsProps) {
   const [likes, setLikes] = useState(initialLikes);
   const [dislikes, setDislikes] = useState(initialDislikes);
@@ -87,30 +90,73 @@ export default function LikeDislikeButtons({
       ? "flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-sm transition"
       : "flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-sm transition";
 
+  const label = showPilotLabel ? (
+    <p className="text-[10px] text-slate-400 mt-1 leading-tight">
+      Pilot engagement (illustrative) · not live citizen votes
+    </p>
+  ) : null;
+
   if (!hydrated) {
     return (
-      <div className="flex items-center gap-2.5 opacity-50">
-        <div className={btnBase}>
-          <span>👍</span>
-          <span className="font-medium">{initialLikes.toLocaleString()}</span>
+      <div>
+        <div className="flex items-center gap-2.5 opacity-50">
+          <div className={btnBase}>
+            <span>👍</span>
+            <span className="font-medium">{initialLikes.toLocaleString()}</span>
+          </div>
+          <div className={btnBase}>
+            <span>👎</span>
+            <span className="font-medium">{initialDislikes.toLocaleString()}</span>
+          </div>
         </div>
-        <div className={btnBase}>
-          <span>👎</span>
-          <span className="font-medium">{initialDislikes.toLocaleString()}</span>
-        </div>
+        {label}
       </div>
     );
   }
 
   if (dark) {
     return (
-      <div className="flex items-center gap-2.5">
+      <div>
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={handleLike}
+            className={`${btnBase} ${
+              userVote === "like"
+                ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300"
+                : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
+            }`}
+            title="Like"
+          >
+            <span>👍</span>
+            <span className="font-medium">{likes.toLocaleString()}</span>
+          </button>
+          <button
+            onClick={handleDislike}
+            className={`${btnBase} ${
+              userVote === "dislike"
+                ? "bg-rose-500/20 border-rose-500/50 text-rose-300"
+                : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
+            }`}
+            title="Dislike"
+          >
+            <span>👎</span>
+            <span className="font-medium">{dislikes.toLocaleString()}</span>
+          </button>
+        </div>
+        {label}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex items-center gap-3">
         <button
           onClick={handleLike}
           className={`${btnBase} ${
             userVote === "like"
-              ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300"
-              : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
+              ? "bg-emerald-50 border-emerald-400 text-emerald-700"
+              : "border-slate-200 hover:bg-emerald-50 hover:border-emerald-300"
           }`}
           title="Like"
         >
@@ -121,8 +167,8 @@ export default function LikeDislikeButtons({
           onClick={handleDislike}
           className={`${btnBase} ${
             userVote === "dislike"
-              ? "bg-rose-500/20 border-rose-500/50 text-rose-300"
-              : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
+              ? "bg-rose-50 border-rose-400 text-rose-700"
+              : "border-slate-200 hover:bg-rose-50 hover:border-rose-300"
           }`}
           title="Dislike"
         >
@@ -130,35 +176,7 @@ export default function LikeDislikeButtons({
           <span className="font-medium">{dislikes.toLocaleString()}</span>
         </button>
       </div>
-    );
-  }
-
-  return (
-    <div className="flex items-center gap-3">
-      <button
-        onClick={handleLike}
-        className={`${btnBase} ${
-          userVote === "like"
-            ? "bg-emerald-50 border-emerald-400 text-emerald-700"
-            : "hover:bg-emerald-50 hover:border-emerald-300"
-        }`}
-        title="Like"
-      >
-        <span>👍</span>
-        <span className="font-medium">{likes.toLocaleString()}</span>
-      </button>
-      <button
-        onClick={handleDislike}
-        className={`${btnBase} ${
-          userVote === "dislike"
-            ? "bg-rose-50 border-rose-400 text-rose-700"
-            : "hover:bg-rose-50 hover:border-rose-300"
-        }`}
-        title="Dislike"
-      >
-        <span>👎</span>
-        <span className="font-medium">{dislikes.toLocaleString()}</span>
-      </button>
+      {label}
     </div>
   );
 }

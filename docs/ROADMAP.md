@@ -1,4 +1,4 @@
-# Politica India — Roadmap (locked Aug 2026)
+# Politica India — Roadmap (locked Aug 2026, updated Aug 2026)
 
 ## Product constitution
 
@@ -6,19 +6,22 @@ Political **information infrastructure**, not a rating app.
 Doctrine: **Fact → Claim → Opinion** (Verified / Tracked / Community).  
 No overall scores. Reflect, do not influence.
 
+**North Star (current):** Finish pilot completeness so a real visitor sees real public records — photos (where licensed), party marks, Form 26 facts, sourced promises — before real user accounts.
+
 ---
 
 ## Phase overview
 
 | Phase | Name | Status |
 |-------|------|--------|
-| **1** | Credibility | Largely complete (pilot core) |
-| **2** | Evidence & Canonical Data Layer | **In progress — starting 2A** |
+| **1** | Credibility | Done for pilot core UI |
+| **1.5** | **Pilot Completeness (content depth)** | **Active now** |
+| **2** | Evidence & Canonical Data Layer | Next (DB) |
 | **3** | Knowledge Graph | Later |
 | **4** | Research Engine | Later |
 | **5** | National depth-first | Later |
 | **6** | Politica Data API | Later |
-| **7** | Community verified | Later |
+| **7** | Community verified (real users) | After pilot looks real |
 
 ---
 
@@ -26,61 +29,55 @@ No overall scores. Reflect, do not influence.
 
 - White-only trust UI; Candidate Profile as product anchor
 - Three layers: Verified / Tracked / Community
-- South pilot ~30 candidates (AP + TG), leader-first
+- South pilot ~29 candidates (AP + TG), leader-first
 - Real ECI/ADR affidavit figures on core leaders
 - Opponents + margins on most seats
-- Methodology page (`/methodology`)
-- Source lines on metric cards
-- Party pages: MPs / MLAs / Lost; ECI-style symbols
+- Methodology page; party symbols; dense UI rules
+
+---
+
+## Phase 1.5 — Pilot Completeness (ACTIVE)
+
+**Goal:** What a visitor sees should feel like a real information product, not a skeleton.
+
+**Scope lock:** Andhra Pradesh + Telangana pilot set only (not all-India in this phase).
+
+| Workstream | Definition of done |
+|------------|-------------------|
+| **Photos** | Public-domain / clearly licensed URLs on leaders; else initials + photo pending |
+| **Party symbols** | Consistent ECI-style marks on list, party, profile |
+| **Promises** | 1–5 sourced tracked items per major figure; Unable to verify when thin |
+| **Engagement** | Seeded likes/dislikes for demo only; UI labeled **Pilot engagement (illustrative)** — never overall score or ranking |
+| **Verified record** | Affidavit fields + source line; honest Unable to verify where missing |
+
+**Not in 1.5:** Real signup, dual KYC, live community votes, national scrape, leaderboards.
+
+**Exit test:** 10 leader profiles walkable with photo (or explicit placeholder), symbol, Form 26 summary, ≥1 sourced promise, labeled pilot engagement.
 
 ---
 
 ## Phase 2 — Evidence & Canonical Data Layer
 
-**Goal:** Important facts can be traced, searched, updated, and reconstructed from the database.
-
-### Pillars
-
-1. Canonical data  
-2. Provenance  
-3. Structured promises  
-4. Search  
-5. Temporal history (events + status timestamps)
-
-### Batches
+**Goal:** Facts reconstructable from DB with provenance.
 
 | Batch | Work |
 |-------|------|
-| **2A** | Prisma schema + stable IDs + relationships + seed from pilot |
-| **2B** | Source registry wired; affidavit & promise provenance; temporal status fields |
-| **2C** | Search (name/alias/party/constituency/state + entity type); Event timeline on profile |
-| **2D** | Read APIs, indexes, optional community persistence |
+| **2A** | Prisma + stable IDs + seed from pilot |
+| **2B** | Source registry; affidavit & promise provenance |
+| **2C** | Search + Event timeline |
+| **2D** | Read APIs |
 
-### Exit test
-
-10 pilot candidates fully reconstructable from DB with source trail for every important fact.
-
-### Not in Phase 2
-
-- Claim entity / Observation table / full status history table  
-- Dual KYC architecture  
-- Rankings, national scale, monetization, Elasticsearch
-
-See `docs/SCHEMA.md` for invariants and entity definitions.
+Needs `DATABASE_URL` (Neon/Supabase free). Exit: 10 profiles reconstructable from DB.
 
 ---
 
-## Phase 3+ (sketch only)
+## Phase 7 note (users later)
 
-- **3 Knowledge Graph:** Claim separate from Promise; evidence graph; Observation if needed  
-- **4 Research Engine:** careful analytics without scores-as-product  
-- **5 National depth-first:** more states with same evidence discipline  
-- **6 Data API:** licensed structured access  
-- **7 Community verified:** dual verification, moderated contribution
+Real accounts, dual verification, and live likes/comments come **after** pilot completeness. Seeded engagement is temporary and labeled.
 
 ---
 
 ## Stack (solo)
 
 Next.js App Router + TypeScript + Prisma + PostgreSQL + Tailwind.  
-Aggressive timeline; schema docs stay in sync with Prisma.
+Density-first white UI. Aggressive depth over thin national coverage.
