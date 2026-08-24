@@ -2,6 +2,7 @@
  * Pilot data — Andhra Pradesh + Telangana
  * Real 2023/2024 ECI affidavit figures (via ADR/MyNeta) applied to the core set.
  * Election opponents from ECI result publications where verified.
+ * Photos: Wikimedia Commons where licensed; else initials avatar.
  */
 
 export type PromiseStatus =
@@ -49,6 +50,7 @@ export interface PilotCandidate {
   affidavitPdfUrl?: string;
   affidavitYear?: string;
   photoUrl?: string;
+  photoSource?: string;
   lastUpdated?: string;
   sortOrder?: number;
   promises: PilotPromise[];
@@ -63,11 +65,14 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentId: "ap-ysrcp-lost-01", opponentName: "K.R.J. Bharath", opponentParty: "YSRCP", marginVotes: 48006,
     age: 74, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹931 Cr (family, 2024 affidavit)", totalLiabilities: "₹10+ Cr", criminalCases: 19,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-24", sortOrder: 1,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/The_portrait_of_CM_Shri_Nara_Chandrababu_Naidu.jpg/330px-The_portrait_of_CM_Shri_Nara_Chandrababu_Naidu.jpg",
+    photoSource: "Wikimedia Commons",
     likes: 4200, dislikes: 980,
     promises: [
       { id: "ap-p01", title: "Rebuild Amaravati as the capital with renewed focus", sourceNote: "Campaign statements & public agenda", announcedDate: "2024", status: "IN_PROGRESS", evidenceNote: "Multiple public statements and early administrative steps reported after 2024 election.", lastChecked: "2026-08-01", likes: 2100, dislikes: 640 },
       { id: "ap-p02", title: "Strengthen irrigation and farmer support systems", sourceNote: "Manifesto / campaign themes", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-28", likes: 1850, dislikes: 310 },
+      { id: "ap-p16", title: "Complete Polavaram and major irrigation projects", sourceNote: "TDP campaign & public agenda 2024", announcedDate: "2024", status: "IN_PROGRESS", evidenceNote: "Long-running project; post-2024 government has restated priority. Full completion still tracked.", lastChecked: "2026-08-20", likes: 1680, dislikes: 420 },
     ],
   },
   {
@@ -76,7 +81,9 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentId: "ap-ysrcp-lost-02", opponentName: "Murugudu Lavanya", opponentParty: "YSRCP", marginVotes: 91413,
     age: 41, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹542 Cr (2024 affidavit)", totalLiabilities: "₹18+ Cr", criminalCases: 17,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 2,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-24", sortOrder: 2,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Nara_Lokesh_at_CII_Partnership_Summit_2025%2C_Visakhapatnam.jpg/330px-Nara_Lokesh_at_CII_Partnership_Summit_2025%2C_Visakhapatnam.jpg",
+    photoSource: "Wikimedia Commons",
     likes: 3100, dislikes: 720,
     promises: [{ id: "ap-p03", title: "Skill development and employment push for youth", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-30", likes: 1420, dislikes: 210 }],
   },
@@ -116,7 +123,9 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "B.Tech Ravi (Mareddy Ravindranath Reddy)", opponentParty: "TDP", marginVotes: 61687,
     age: 51, education: "Graduate", profession: "Politician",
     totalAssets: "₹530 Cr (self) / ₹757 Cr (family, 2024 affidavit)", totalLiabilities: "₹26+ Cr (family)", criminalCases: 29,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-24", sortOrder: 1,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/The_Chief_Minister_of_Andhra_Pradesh%2C_Shri_Y.S._Jagan_Mohan_Reddy.jpg/330px-The_Chief_Minister_of_Andhra_Pradesh%2C_Shri_Y.S._Jagan_Mohan_Reddy.jpg",
+    photoSource: "Wikimedia Commons",
     likes: 3800, dislikes: 2100,
     promises: [{ id: "ap-p06", title: "Continue major welfare schemes with stronger delivery", sourceNote: "Campaign announcements", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-08-02", likes: 1950, dislikes: 880 }],
   },
@@ -171,11 +180,14 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "Vanga Geetha", opponentParty: "YSRCP", marginVotes: 70279,
     age: 55, education: "10th Pass", profession: "Film Actor / Politician",
     totalAssets: "₹164.5 Cr (2024 affidavit)", totalLiabilities: "₹65+ Cr", criminalCases: 8,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-24", sortOrder: 1,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Shri_Konidela_Pawan_Kalyan.jpg/330px-Shri_Konidela_Pawan_Kalyan.jpg",
+    photoSource: "Wikimedia Commons",
     likes: 5100, dislikes: 890,
     promises: [
       { id: "ap-p10", title: "Focus on social justice and transparent governance", sourceNote: "Public statements & campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-08-03", likes: 2400, dislikes: 320 },
       { id: "ap-p11", title: "Support for farmers and youth employment", sourceNote: "Campaign themes", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-29", likes: 1980, dislikes: 270 },
+      { id: "ap-p17", title: "Curb illegal sand mining and protect environment", sourceNote: "Jana Sena public positions / campaign", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-08-18", likes: 2100, dislikes: 310 },
     ],
   },
   {
@@ -203,7 +215,9 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "Dr. Guduri Srinivas", opponentParty: "YSRCP", marginVotes: 239139,
     age: 67, education: "Graduate", profession: "Politician",
     totalAssets: "₹62.5 Cr (2024 affidavit)", totalLiabilities: "₹7 Cr", criminalCases: 1,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-24", sortOrder: 1,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/D._Purandeswari%2C_in_New_Delhi_on_February_07%2C_2013.jpg/330px-D._Purandeswari%2C_in_New_Delhi_on_February_07%2C_2013.jpg",
+    photoSource: "Wikimedia Commons",
     likes: 1450, dislikes: 410,
     promises: [{ id: "ap-p14", title: "Push central schemes implementation in the constituency", sourceNote: "Campaign focus", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 680, dislikes: 140 }],
   },
@@ -213,7 +227,9 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "Eatala Rajender", opponentParty: "BJP", marginVotes: 45031,
     age: 70, education: "Graduate", profession: "Politician",
     totalAssets: "₹59 Cr (family + HUF, 2023 affidavit)", totalLiabilities: "₹25 Cr", criminalCases: 9,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-24", sortOrder: 1,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Kalvakuntla_Chandrashekar_Rao.png/330px-Kalvakuntla_Chandrashekar_Rao.png",
+    photoSource: "Wikimedia Commons",
     likes: 3600, dislikes: 1400,
     promises: [{ id: "tg-p01", title: "Continue focus on irrigation and farm support legacy schemes", sourceNote: "Party platform", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-28", likes: 1600, dislikes: 480 }],
   },
@@ -223,7 +239,9 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "K.K. Mahender Reddy", opponentParty: "INC", marginVotes: 29687,
     age: 47, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹53.3 Cr (2023 affidavit)", totalLiabilities: "₹12 Cr", criminalCases: 7,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 2,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-24", sortOrder: 2,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Kalvakuntla_Taraka_Rama_Rao.jpg/330px-Kalvakuntla_Taraka_Rama_Rao.jpg",
+    photoSource: "Wikimedia Commons",
     likes: 2900, dislikes: 780,
     promises: [{ id: "tg-p02", title: "Urban development and IT/industry growth focus", sourceNote: "Public positions", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-07-30", likes: 1250, dislikes: 290 }],
   },
@@ -233,7 +251,9 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "Dudi Srikanth Reddy", opponentParty: "BJP", marginVotes: 82308,
     age: 52, education: "Graduate", profession: "Agriculturalist / Politician",
     totalAssets: "₹24.3 Cr (2023 affidavit)", totalLiabilities: "₹11.5 Cr", criminalCases: 5,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 3,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-24", sortOrder: 3,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Harish_Rao_PROFILE.jpg/330px-Harish_Rao_PROFILE.jpg",
+    photoSource: "Wikimedia Commons",
     likes: 2100, dislikes: 520,
     promises: [{ id: "tg-p03", title: "Irrigation and rural water security", sourceNote: "Party focus", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-07-26", likes: 980, dislikes: 180 }],
   },
@@ -263,9 +283,12 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "Patnam Narender Reddy", opponentParty: "BRS", marginVotes: 32532,
     age: 56, education: "Graduate", profession: "Politician",
     totalAssets: "₹30 Cr (2023 affidavit)", totalLiabilities: "₹1.3 Cr", criminalCases: 89,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-16", sortOrder: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2023", lastUpdated: "2026-08-24", sortOrder: 1,
     likes: 3100, dislikes: 920,
-    promises: [{ id: "tg-p06", title: "Implement six guarantees and welfare delivery", sourceNote: "Government agenda", announcedDate: "2023–2024", status: "IN_PROGRESS", lastChecked: "2026-08-02", likes: 1550, dislikes: 410 }],
+    promises: [
+      { id: "tg-p06", title: "Implement six guarantees and welfare delivery", sourceNote: "Government agenda / Congress manifesto TG 2023", announcedDate: "2023–2024", status: "IN_PROGRESS", evidenceNote: "Multiple guarantee schemes announced; delivery status varies by scheme and district.", lastChecked: "2026-08-20", likes: 1550, dislikes: 410 },
+      { id: "tg-p18", title: "₹500 gas cylinder and women support measures", sourceNote: "Congress six guarantees (public)", announcedDate: "2023", status: "IN_PROGRESS", lastChecked: "2026-08-15", likes: 980, dislikes: 220 },
+    ],
   },
   {
     id: "tg-inc-02", name: "Bhatti Vikramarka", party: "Indian National Congress", partyAbbr: "INC",
@@ -313,7 +336,9 @@ export const pilotCandidates: PilotCandidate[] = [
     electionResult: "won", opponentName: "Velchala Rajender Rao", opponentParty: "INC", marginVotes: 225209,
     age: 52, education: "Post Graduate", profession: "Politician",
     totalAssets: "₹1.13 Cr (2024 affidavit)", totalLiabilities: "₹13 Lakh", criminalCases: 42,
-    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-16", sortOrder: 1,
+    affidavitPdfUrl: "https://affidavit.eci.gov.in/", affidavitYear: "2024", lastUpdated: "2026-08-24", sortOrder: 1,
+    photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Sanjay_Bandi_Bjp.png/330px-Sanjay_Bandi_Bjp.png",
+    photoSource: "Wikimedia Commons",
     likes: 1750, dislikes: 560,
     promises: [{ id: "tg-p11", title: "Strengthen central scheme reach and local development", sourceNote: "Campaign themes", announcedDate: "2024", status: "IN_PROGRESS", lastChecked: "2026-07-25", likes: 720, dislikes: 180 }],
   },
