@@ -48,7 +48,7 @@ function CandidateRow({
         <div className="text-[11px] text-slate-500 mt-0.5 flex flex-wrap items-center gap-x-1.5">
           <span>{role}</span>
           <span className="text-slate-300">·</span>
-          <span className="truncate">{candidate.constituency}</span>
+          <span className={"truncate"}>{candidate.constituency}</span>
           {!won && (
             <>
               <span className="text-slate-300">·</span>
