@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCandidateById, resultOf } from "@/data/pilot-candidates";
+import { dbCandidateAsPilot } from "@/lib/db-candidates";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import PartyBadge from "@/components/PartyBadge";
@@ -17,7 +18,15 @@ export default async function CandidatePage({
 }) {
   const { id } = await params;
   const { from } = await searchParams;
-  const candidate = getCandidateById(id);
+  let candidate = null;
+  if (process.env.DATABASE_URL) {
+    try {
+      candidate = await dbCandidateAsPilot(id);
+    } catch (error) {
+      console.error("Database candidate read failed; falling back to pilot data", error);
+    }
+  }
+  candidate ??= getCandidateById(id);
 
   if (!candidate) {
     notFound();
