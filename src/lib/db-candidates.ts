@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
+import type { PilotCandidate } from "@/data/pilot-candidates";
 
 export type CandidateView = {
   id: string;
@@ -93,4 +94,34 @@ export async function dbCandidates(query?: string, state?: string): Promise<Cand
   };
   const rows = await prisma.candidate.findMany({ where, include, orderBy: [{ state: { name: "asc" } }, { canonicalName: "asc" }] });
   return rows.map(mapCandidate);
+}
+
+
+export async function dbCandidateAsPilot(id: string): Promise<PilotCandidate | null> {
+  const c = await dbCandidateById(id);
+  if (!c) return null;
+  const [likes, dislikes] = await Promise.all([
+    prisma.like.count({ where: { candidateId: id, isLike: true } }),
+    prisma.like.count({ where: { candidateId: id, isLike: false } }),
+  ]);
+  return {
+    id: c.id, name: c.name, party: c.party, partyAbbr: c.partyAbbr,
+    constituency: c.constituency, state: c.state, electionType: c.electionType,
+    electionYear: c.electionYear, electionResult: (c.electionResult === "won" || c.electionResult === "lost") ? c.electionResult : undefined,
+    opponentId: c.opponentId ?? undefined, opponentName: c.opponentName ?? undefined,
+    marginVotes: c.marginVotes ?? undefined, age: c.age ?? undefined,
+    education: c.education ?? undefined, profession: c.profession ?? undefined,
+    totalAssets: c.totalAssets ?? undefined, totalLiabilities: c.totalLiabilities ?? undefined,
+    criminalCases: c.criminalCases, photoUrl: c.photoUrl ?? undefined,
+    affidavitPdfUrl: c.affidavit?.pdfUrl ?? undefined,
+    affidavitYear: c.affidavit ? String(c.affidavit.year) : undefined,
+    lastUpdated: c.affidavit ? new Date().toISOString().slice(0, 10) : undefined,
+    promises: c.promises.map(p => ({
+      id: p.id, title: p.title, sourceNote: p.sourceNote ?? undefined,
+      announcedDate: p.announcedDate ?? undefined, status: p.status as PilotCandidate["promises"][number]["status"],
+      evidenceNote: p.evidenceNote ?? undefined, lastChecked: p.lastCheckedAt ?? undefined,
+      likes: 0, dislikes: 0,
+    })),
+    likes, dislikes,
+  };
 }
