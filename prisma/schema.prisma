@@ -34,6 +34,7 @@ model Party {
   updatedAt  DateTime @updatedAt
 
   candidates Candidate[]
+  claims     Claim[]
 }
 
 model Constituency {
@@ -89,6 +90,7 @@ model Candidate {
   affidavits Affidavit[]
   promises   Promise[]
   events     Event[]
+  claims     Claim[]
   likes      Like[]
   comments   Comment[]
 
@@ -135,6 +137,8 @@ model Source {
   affidavits Affidavit[]
   promises   Promise[]
   events     Event[]
+  statusHistory PromiseStatusHistory[]
+  claims     Claim[]
 }
 
 model Affidavit {
@@ -186,6 +190,7 @@ model Promise {
 
   likes    Like[]
   comments Comment[]
+  statusHistory PromiseStatusHistory[]
 
   @@index([candidateId])
   @@index([status])
@@ -266,4 +271,39 @@ model Comment {
 
   @@index([candidateId])
   @@index([promiseId])
+}
+
+
+model PromiseStatusHistory {
+  id           String        @id @default(cuid())
+  promiseId    String
+  promise      Promise       @relation(fields: [promiseId], references: [id], onDelete: Cascade)
+  status       PromiseStatus
+  asOf         DateTime
+  evidenceNote String?
+  sourceId     String?
+  source       Source?       @relation(fields: [sourceId], references: [id])
+  createdAt    DateTime      @default(now())
+
+  @@index([promiseId, asOf])
+}
+
+model Claim {
+  id            String     @id @default(cuid())
+  candidateId   String?
+  candidate     Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  partyId       String?
+  party         Party?     @relation(fields: [partyId], references: [id], onDelete: Cascade)
+  text          String
+  sourceId      String?
+  source        Source?    @relation(fields: [sourceId], references: [id])
+  status        String     @default("DOCUMENTED")
+  claimedAt     DateTime?
+  lastCheckedAt DateTime?
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([candidateId])
+  @@index([partyId])
+  @@index([status])
 }

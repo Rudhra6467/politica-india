@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { pilotCandidates } from "@/data/pilot-candidates";
@@ -11,13 +11,35 @@ function CandidatesContent() {
   const searchParams = useSearchParams();
   const stateFilter = searchParams.get("state");
   const [query, setQuery] = useState("");
+  const [candidates, setCandidates] = useState(pilotCandidates);
+  const [databaseLoaded, setDatabaseLoaded] = useState(false);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      try {
+        const params = new URLSearchParams();
+        if (stateFilter) params.set("state", stateFilter);
+        if (query.trim()) params.set("q", query.trim());
+        const response = await fetch("/api/candidates?" + params.toString(), { signal: controller.signal, cache: "no-store" });
+        if (!response.ok) throw new Error("database unavailable");
+        const payload = await response.json();
+        setCandidates(payload.data ?? []);
+        setDatabaseLoaded(true);
+      } catch {
+        if (!controller.signal.aborted) setDatabaseLoaded(false);
+      }
+    }, 180);
+    return () => { controller.abort(); window.clearTimeout(timer); };
+  }, [stateFilter, query]);
 
   const baseList = useMemo(() => {
-    if (!stateFilter) return pilotCandidates;
-    return pilotCandidates.filter((c) => c.state === stateFilter);
-  }, [stateFilter]);
+    if (databaseLoaded || !stateFilter) return candidates;
+    return candidates.filter((c) => c.state === stateFilter);
+  }, [databaseLoaded, candidates, stateFilter]);
 
   const filtered = useMemo(() => {
+    if (databaseLoaded) return baseList;
     const q = query.toLowerCase().trim();
     if (!q) return baseList;
     return baseList.filter(
@@ -28,7 +50,7 @@ function CandidatesContent() {
         c.constituency.toLowerCase().includes(q) ||
         c.state.toLowerCase().includes(q)
     );
-  }, [query, baseList]);
+  }, [query, baseList, databaseLoaded]);
 
   return (
     <div className="space-y-3">
@@ -48,7 +70,7 @@ function CandidatesContent() {
                 <span className="text-slate-300"> · </span>
               </>
             ) : null}
-            Pilot · ECI Form 26
+{databaseLoaded ? "Database · verified records" : "Pilot · ECI Form 26"}
           </p>
         </div>
 
