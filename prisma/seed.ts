@@ -237,6 +237,7 @@ async function main() {
           candidateId: c.id,
           title: p.title,
           sourceNote: p.sourceNote ?? null,
+          sourceId: p.sourceNote ? eciSource.id : null,
           announcedDate: p.announcedDate ?? null,
           status: parseStatus(p.status),
           statusAsOf: lastChecked,
@@ -246,10 +247,25 @@ async function main() {
         update: {
           title: p.title,
           sourceNote: p.sourceNote ?? null,
+          sourceId: p.sourceNote ? eciSource.id : null,
           status: parseStatus(p.status),
           statusAsOf: lastChecked,
           lastCheckedAt: lastChecked,
           evidenceNote: p.evidenceNote ?? null,
+        },
+      });
+
+      // Preserve the current status as the first historical observation.
+      const currentStatus = parseStatus(p.status);
+      const asOf = lastChecked ?? new Date("2026-08-16");
+      await prisma.promiseStatusHistory.deleteMany({ where: { promiseId: p.id } });
+      await prisma.promiseStatusHistory.create({
+        data: {
+          promiseId: p.id,
+          status: currentStatus,
+          asOf,
+          evidenceNote: p.evidenceNote ?? null,
+          sourceId: p.sourceNote ? eciSource.id : null,
         },
       });
     }
