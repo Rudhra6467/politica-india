@@ -89,6 +89,7 @@ model Candidate {
   affidavits Affidavit[]
   promises   Promise[]
   events     Event[]
+  claims     Claim[]
   likes      Like[]
   comments   Comment[]
 
@@ -135,6 +136,8 @@ model Source {
   affidavits Affidavit[]
   promises   Promise[]
   events     Event[]
+  statusHistory PromiseStatusHistory[]
+  claims     Claim[]
 }
 
 model Affidavit {
@@ -186,6 +189,7 @@ model Promise {
 
   likes    Like[]
   comments Comment[]
+  statusHistory PromiseStatusHistory[]
 
   @@index([candidateId])
   @@index([status])
