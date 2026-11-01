@@ -16,22 +16,28 @@ India-only digital accountability platform for elected representatives and candi
 - Prisma + PostgreSQL
 - Tailwind CSS
 
-## Aggressive Timeline (Solo)
-
-- **Week 1**: Scaffold + data models + seed pilot candidates & promises
-- **Week 2**: Profiles + like/dislike interaction + public deploy
-- **Week 3**: Verification lite + comments + basic moderation
-- **Week 4**: Polish, more data, public MVP
-
 ## Getting Started
 
 ```bash
 npm install
-cp .env.example .env
-# set DATABASE_URL
-npx prisma db push
 npm run dev
 ```
+
+The site runs entirely on the pilot dataset in `src/data/pilot-candidates.ts`; no database is needed.
+For the Tier 2A database scaffold, see `docs/TIER2A_SETUP.md`.
+
+## Checks
+
+```bash
+npm run check        # lint + typecheck + data integrity
+npm run check:data   # data integrity only (unique IDs, opponents resolve, status honesty)
+```
+
+## Current state
+
+- Pilot: 29 representatives across Andhra Pradesh and Telangana, 35 tracked promises
+- Global search, filterable list, pre-rendered profiles and party pages
+- Roadmap and phase status: `docs/ROADMAP.md`
 
 ## Data Rules
 

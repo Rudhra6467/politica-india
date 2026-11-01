@@ -7,7 +7,6 @@ interface LikeDislikeButtonsProps {
   initialLikes: number;
   initialDislikes: number;
   size?: "sm" | "md";
-  dark?: boolean;
   /** Show pilot-only label under counts */
   showPilotLabel?: boolean;
 }
@@ -39,12 +38,30 @@ function saveVote(id: string, data: StoredVote) {
   }
 }
 
+function ThumbIcon({ down = false }: { down?: boolean }) {
+  return (
+    <svg
+      className={"h-4 w-4 " + (down ? "rotate-180" : "")}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      viewBox="0 0 24 24"
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M7 11v9H4a1 1 0 01-1-1v-7a1 1 0 011-1h3zm0 0l3.5-7.5A2 2 0 0112.3 2h.2a2 2 0 012 2v5h4.6a2 2 0 012 2.3l-1.1 7a2 2 0 01-2 1.7H7"
+      />
+    </svg>
+  );
+}
+
 export default function LikeDislikeButtons({
   id,
   initialLikes,
   initialDislikes,
   size = "md",
-  dark = false,
   showPilotLabel = true,
 }: LikeDislikeButtonsProps) {
   const [likes, setLikes] = useState(initialLikes);
@@ -68,115 +85,62 @@ export default function LikeDislikeButtons({
   };
 
   const handleLike = () => {
-    if (userVote === "like") {
-      persist(likes - 1, dislikes, null);
-    } else {
-      const newDislikes = userVote === "dislike" ? dislikes - 1 : dislikes;
-      persist(likes + 1, newDislikes, "like");
-    }
+    if (userVote === "like") persist(likes - 1, dislikes, null);
+    else persist(likes + 1, userVote === "dislike" ? dislikes - 1 : dislikes, "like");
   };
 
   const handleDislike = () => {
-    if (userVote === "dislike") {
-      persist(likes, dislikes - 1, null);
-    } else {
-      const newLikes = userVote === "like" ? likes - 1 : likes;
-      persist(newLikes, dislikes + 1, "dislike");
-    }
+    if (userVote === "dislike") persist(likes, dislikes - 1, null);
+    else persist(userVote === "like" ? likes - 1 : likes, dislikes + 1, "dislike");
   };
 
   const btnBase =
-    size === "sm"
-      ? "flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-sm transition"
-      : "flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-sm transition";
-
-  const label = showPilotLabel ? (
-    <p className="text-[10px] text-slate-400 mt-1 leading-tight">
-      Pilot engagement (illustrative) · not live citizen votes
-    </p>
-  ) : null;
-
-  if (!hydrated) {
-    return (
-      <div>
-        <div className="flex items-center gap-2.5 opacity-50">
-          <div className={btnBase}>
-            <span>👍</span>
-            <span className="font-medium">{initialLikes.toLocaleString()}</span>
-          </div>
-          <div className={btnBase}>
-            <span>👎</span>
-            <span className="font-medium">{initialDislikes.toLocaleString()}</span>
-          </div>
-        </div>
-        {label}
-      </div>
-    );
-  }
-
-  if (dark) {
-    return (
-      <div>
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={handleLike}
-            className={`${btnBase} ${
-              userVote === "like"
-                ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300"
-                : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
-            }`}
-            title="Like"
-          >
-            <span>👍</span>
-            <span className="font-medium">{likes.toLocaleString()}</span>
-          </button>
-          <button
-            onClick={handleDislike}
-            className={`${btnBase} ${
-              userVote === "dislike"
-                ? "bg-rose-500/20 border-rose-500/50 text-rose-300"
-                : "border-white/10 text-zinc-400 hover:bg-white/5 hover:border-white/20 hover:text-zinc-200"
-            }`}
-            title="Dislike"
-          >
-            <span>👎</span>
-            <span className="font-medium">{dislikes.toLocaleString()}</span>
-          </button>
-        </div>
-        {label}
-      </div>
-    );
-  }
+    "inline-flex items-center gap-1.5 rounded-lg border font-medium tabular transition disabled:cursor-default " +
+    (size === "sm" ? "px-2.5 py-1 text-xs" : "px-3 py-1.5 text-sm");
 
   return (
     <div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <button
+          type="button"
           onClick={handleLike}
-          className={`${btnBase} ${
-            userVote === "like"
-              ? "bg-emerald-50 border-emerald-400 text-emerald-700"
-              : "border-slate-200 hover:bg-emerald-50 hover:border-emerald-300"
-          }`}
+          disabled={!hydrated}
+          aria-pressed={userVote === "like"}
+          className={
+            btnBase +
+            " " +
+            (userVote === "like"
+              ? "border-emerald-400 bg-emerald-50 text-emerald-700"
+              : "border-slate-200 bg-white text-slate-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700")
+          }
           title="Like"
         >
-          <span>👍</span>
-          <span className="font-medium">{likes.toLocaleString()}</span>
+          <ThumbIcon />
+          {likes.toLocaleString("en-IN")}
         </button>
         <button
+          type="button"
           onClick={handleDislike}
-          className={`${btnBase} ${
-            userVote === "dislike"
-              ? "bg-rose-50 border-rose-400 text-rose-700"
-              : "border-slate-200 hover:bg-rose-50 hover:border-rose-300"
-          }`}
+          disabled={!hydrated}
+          aria-pressed={userVote === "dislike"}
+          className={
+            btnBase +
+            " " +
+            (userVote === "dislike"
+              ? "border-rose-400 bg-rose-50 text-rose-700"
+              : "border-slate-200 bg-white text-slate-600 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700")
+          }
           title="Dislike"
         >
-          <span>👎</span>
-          <span className="font-medium">{dislikes.toLocaleString()}</span>
+          <ThumbIcon down />
+          {dislikes.toLocaleString("en-IN")}
         </button>
       </div>
-      {label}
+      {showPilotLabel && (
+        <p className="mt-1 text-[10px] leading-tight text-slate-400">
+          Pilot engagement (illustrative) · not live citizen votes
+        </p>
+      )}
     </div>
   );
 }

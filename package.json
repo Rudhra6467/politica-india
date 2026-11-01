@@ -12,7 +12,10 @@
     "db:push": "prisma db push",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
-    "db:setup": "prisma generate && prisma db push && prisma db seed"
+    "db:setup": "prisma generate && prisma db push && prisma db seed",
+    "check:data": "tsx scripts/check-data.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run typecheck && npm run check:data"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
