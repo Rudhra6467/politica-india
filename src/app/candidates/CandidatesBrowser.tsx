@@ -218,6 +218,14 @@ function CandidateCard({ c }: { c: PilotCandidate }) {
               Lost
             </span>
           )}
+          {c.officeStatus && (
+            <span
+              title={c.officeStatus.summary}
+              className="shrink-0 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-amber-700"
+            >
+              Status changed
+            </span>
+          )}
         </div>
         <p className="truncate text-[11px] text-slate-500">
           {roleLabel} · {c.constituency}, {c.state === "Andhra Pradesh" ? "AP" : "TG"}

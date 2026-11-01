@@ -148,6 +148,34 @@ export default async function CandidatePage({
         </div>
       </section>
 
+      {candidate.officeStatus && (
+        <section
+          aria-label="Change in office status"
+          className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 shadow-card"
+        >
+          <div className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+            <h2 className="text-xs font-semibold tracking-wide text-amber-900">Office status changed</h2>
+            <span className="text-[10px] tabular text-amber-700">as of {candidate.officeStatus.asOf}</span>
+          </div>
+          <p className="mt-1 text-sm leading-relaxed text-amber-900">{candidate.officeStatus.summary}</p>
+          <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
+            {candidate.officeStatus.sources.map((s) => (
+              <li key={s.url}>
+                <a
+                  href={s.url}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  className="font-medium text-indigo-700 hover:underline"
+                >
+                  {s.publisher} · {s.date} ↗
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* Verified metrics */}
       <section aria-labelledby="verified-heading">
         <div className="mb-1.5 flex items-center gap-2">
