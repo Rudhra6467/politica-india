@@ -9,11 +9,11 @@ export function generateStaticParams() {
   return pilotCandidates.map((c) => ({ id: c.id }));
 }
 
-function Stat({ label, value, color = "#0f172a", flex = 1 }: { label: string; value: string; color?: string; flex?: number }) {
+function Stat({ label, value, color = "#0f172a", width = 200 }: { label: string; value: string; color?: string; width?: number }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", flex, minWidth: 0 }}>
+    <div style={{ display: "flex", flexDirection: "column", width }}>
       <span style={{ fontSize: 18, textTransform: "uppercase", letterSpacing: 2, color: "#94a3b8" }}>{label}</span>
-      <span style={{ color, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden" }}>{value}</span>
+      <span style={{ color, fontWeight: 700, fontSize: 28 }}>{value}</span>
     </div>
   );
 }
@@ -101,10 +101,10 @@ export default async function Image({ params }: { params: Promise<{ id: string }
         <div style={{ display: "flex", gap: 32, fontSize: 26, color: "#475569" }}>
           {c ? (
             <>
-              <Stat label="Declared assets" value={(c.totalAssets ?? "—").replace(/₹/g, "Rs ").replace(/\s*\(.*\)$/, "")} color="#047857" flex={2} />
+              <Stat label="Declared assets" value={(c.totalAssets ?? "—").replace(/₹/g, "Rs ").replace(/\s*\(.*\)$/, "")} color="#047857" width={380} />
               <Stat label="Declared cases" value={String(c.criminalCases)} color={c.criminalCases > 0 ? "#b45309" : "#0f172a"} />
               <Stat label="Promises" value={String(c.promises.length)} />
-              <Stat label="Source" value={`ECI Form 26 · ${c.affidavitYear ?? c.electionYear}`} flex={2} />
+              <Stat label="Source" value={`ECI Form 26 · ${c.affidavitYear ?? c.electionYear}`} width={300} />
             </>
           ) : (
             <span>Source-backed records. Nobody ranked.</span>
