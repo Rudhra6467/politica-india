@@ -31,7 +31,7 @@ export default function VerifiedRecordBlock({
         <div className="flex items-center gap-2 min-w-0">
           <span className="h-1.5 w-1.5 rounded-full bg-blue-500 shrink-0" />
           <div className="min-w-0">
-            <div className="text-xs font-semibold text-slate-800">Verified Record</div>
+            <div className="text-xs font-semibold text-slate-800">Affidavit details</div>
             <div className="text-[10px] text-slate-500 truncate">
               ECI Form 26{affidavitYear ? ` · ${affidavitYear}` : ""}
               {lastUpdated ? ` · Updated ${lastUpdated}` : ""}

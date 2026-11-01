@@ -1,251 +1,131 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  getAllStates,
-  getNationalParties,
-  getPartiesInState,
-  getFeaturedLeaders,
-} from "@/data/pilot-candidates";
-import LayerLegend from "@/components/LayerLegend";
-import VerificationBanner from "@/components/VerificationBanner";
-import PartyBadge from "@/components/PartyBadge";
+import { getAllStates, getFeaturedLeaders } from "@/data/pilot-candidates";
+import { getSiteStats, getPartiesByState, getAllParties } from "@/lib/stats";
+import SearchBox from "@/components/SearchBox";
+import StateExplorer from "@/components/StateExplorer";
 import CandidateAvatar from "@/components/CandidateAvatar";
-
-type ViewMode = "local" | "national";
-
-const STATE_KEY = "politica-selected-state";
+import LayerLegend from "@/components/LayerLegend";
 
 export default function HomePage() {
-  const [view, setView] = useState<ViewMode>("national");
-  const [selectedState, setSelectedState] = useState<string | null>(null);
-  const [hydrated, setHydrated] = useState(false);
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STATE_KEY);
-      if (stored) {
-        setSelectedState(stored);
-        setView("local");
-      }
-    } catch {
-      // ignore
-    }
-    setHydrated(true);
-  }, []);
-
-  const chooseState = (state: string) => {
-    setSelectedState(state);
-    try {
-      localStorage.setItem(STATE_KEY, state);
-    } catch {
-      // ignore
-    }
-    setView("local");
-  };
-
-  const clearState = () => {
-    setSelectedState(null);
-    try {
-      localStorage.removeItem(STATE_KEY);
-    } catch {
-      // ignore
-    }
-    setView("national");
-  };
-
-  if (!hydrated) {
-    return (
-      <div className="py-16 text-center text-slate-400 text-sm">Loading…</div>
-    );
-  }
-
   const states = getAllStates();
-  const nationalParties = getNationalParties();
-  const localParties = selectedState ? getPartiesInState(selectedState) : [];
-  const featured = getFeaturedLeaders(8);
+  const stats = getSiteStats();
+  const partiesByState = getPartiesByState();
+  const allParties = getAllParties();
+  const featured = getFeaturedLeaders(10);
 
   return (
-    <div className="space-y-4">
-      <VerificationBanner dismissible />
-
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0 space-y-1">
-          <p className="text-slate-600 text-[15px] leading-snug">
-            For the people of India.
+    <div className="space-y-10 sm:space-y-12">
+      {/* Hero */}
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white px-5 py-8 shadow-card sm:px-10 sm:py-12">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-gradient-to-br from-sindoor-soft to-indigo-50 opacity-80 blur-2xl"
+        />
+        <div className="relative max-w-2xl">
+          <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] font-medium text-slate-600">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            Pilot · Andhra Pradesh + Telangana
           </p>
-          <LayerLegend compact />
-        </div>
-
-        <div className="shrink-0 flex flex-col items-end gap-1.5">
-          <div className="flex rounded-xl border border-slate-200 bg-white p-0.5 shadow-sm">
-            <button
-              onClick={() => setView("local")}
-              className={
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition " +
-                (view === "local"
-                  ? "bg-indigo-600 text-white"
-                  : "text-slate-600 hover:bg-slate-50")
-              }
-            >
-              My State
-            </button>
-            <button
-              onClick={() => setView("national")}
-              className={
-                "rounded-lg px-3 py-1.5 text-sm font-medium transition " +
-                (view === "national"
-                  ? "bg-indigo-600 text-white"
-                  : "text-slate-600 hover:bg-slate-50")
-              }
-            >
-              National
-            </button>
+          <h1 className="mt-4 text-3xl font-bold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl">
+            Know who represents you.
+          </h1>
+          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
+            Official affidavit records, tracked promises and citizen reaction for India&apos;s elected
+            representatives. Every fact is attributed to its source. Nobody is ranked.
+          </p>
+          <div className="mt-6">
+            <SearchBox variant="hero" placeholder="Search a leader, party or constituency…" />
           </div>
-          {selectedState && view === "local" && (
-            <button
-              onClick={clearState}
-              className="text-xs text-slate-500 hover:text-slate-700"
-            >
-              Change state
-            </button>
-          )}
-        </div>
-      </div>
-
-      {featured.length > 0 && (
-        <section>
-          <div className="flex items-center justify-between gap-2 mb-1.5">
-            <div>
-              <h2 className="text-sm font-semibold text-slate-800">
-                Leaders · open a profile
-              </h2>
-              <p className="text-[10px] text-slate-400 leading-tight">
-                CMs and party heads first · AP + TG
-              </p>
-            </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-slate-400">Try:</span>
+            {states.map((s) => (
+              <Link
+                key={s}
+                href={`/candidates?state=${encodeURIComponent(s)}`}
+                className="rounded-full border border-slate-200 bg-white px-3 py-1 font-medium text-slate-600 transition hover:border-indigo-300 hover:text-indigo-700"
+              >
+                {s}
+              </Link>
+            ))}
             <Link
               href="/candidates"
-              className="text-xs font-medium text-indigo-600 hover:text-indigo-800 shrink-0"
+              className="rounded-full border border-slate-200 bg-white px-3 py-1 font-medium text-slate-600 transition hover:border-indigo-300 hover:text-indigo-700"
             >
-              All →
+              All representatives
             </Link>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-1 -mx-1 px-1 scrollbar-thin">
-            {featured.map((c) => (
-              <Link
-                key={c.id}
-                href={`/candidates/${c.id}`}
-                className="shrink-0 w-[4.5rem] flex flex-col items-center gap-1 rounded-xl border border-slate-100 bg-white p-1.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-              >
-                <CandidateAvatar
-                  name={c.name}
-                  photoUrl={c.photoUrl}
-                  size="md"
-                />
-                <span className="text-[10px] font-medium text-slate-800 text-center leading-tight line-clamp-2 w-full">
-                  {c.name.split(" ").slice(-2).join(" ")}
-                </span>
-                <span className={"text-[9px] text-slate-400"}>{c.partyAbbr}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {view === "local" && (
-        <div className="space-y-3">
-          {!selectedState ? (
-            <div className="rounded-xl border border-dashed border-slate-200 bg-white p-5 text-center">
-              <p className="text-slate-600 mb-3 text-sm">Select your state</p>
-              <div className="flex flex-wrap justify-center gap-2">
-                {states.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => chooseState(s)}
-                    className="rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium shadow-sm hover:border-indigo-400 hover:bg-indigo-50 transition"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <>
-              <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-                {selectedState} Parties
-              </h2>
-              <div className="grid gap-2 sm:grid-cols-2">
-                {localParties.map((p) => (
-                  <Link
-                    key={p.abbr}
-                    href={
-                      "/party/" +
-                      p.abbr +
-                      "?state=" +
-                      encodeURIComponent(selectedState)
-                    }
-                    className="flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-                  >
-                    <PartyBadge abbr={p.abbr} size="lg" />
-                    <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-slate-900 text-sm leading-tight truncate">
-                        {p.name}
-                      </div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">
-                        {p.count} candidate{p.count > 1 ? "s" : ""}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-              <div className="text-center pt-1">
-                <Link
-                  href={
-                    "/candidates?state=" + encodeURIComponent(selectedState)
-                  }
-                  className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
-                >
-                  All candidates in {selectedState} →
-                </Link>
-              </div>
-            </>
-          )}
         </div>
-      )}
 
-      {view === "national" && (
-        <div className="space-y-3">
-          <h2 className="text-lg font-bold text-slate-900 tracking-tight">
-            National Parties
-          </h2>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {nationalParties.map((p) => (
-              <Link
-                key={p.abbr}
-                href={"/party/" + p.abbr}
-                className="flex items-center gap-2.5 rounded-xl border border-slate-100 bg-white px-3 py-2.5 shadow-sm hover:border-indigo-200 hover:shadow-md transition"
-              >
-                <PartyBadge abbr={p.abbr} size="lg" />
-                <div className="min-w-0 flex-1">
-                  <div className="font-semibold text-slate-900 text-sm leading-tight truncate">
-                    {p.name}
-                  </div>
-                  <div className="text-[11px] text-slate-400 mt-0.5">
-                    {p.count} candidate{p.count > 1 ? "s" : ""} · pilot
-                  </div>
-                </div>
-              </Link>
-            ))}
+        <dl className="relative mt-8 grid grid-cols-2 gap-3 border-t border-slate-100 pt-6 sm:grid-cols-4">
+          <Stat value={stats.candidates} label="Representatives" />
+          <Stat value={stats.promises} label="Promises tracked" />
+          <Stat value={stats.parties} label="Parties" />
+          <Stat value="Form 26" label="ECI affidavits as source" />
+        </dl>
+      </section>
+
+      {/* Leaders */}
+      <section>
+        <div className="mb-3 flex items-end justify-between gap-2">
+          <div>
+            <h2 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">Open a profile</h2>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Chief Ministers and party heads first. Entry order by role, never a ranking.
+            </p>
           </div>
+          <Link href="/candidates" className="shrink-0 text-sm font-medium text-indigo-600 hover:text-indigo-800">
+            All →
+          </Link>
         </div>
-      )}
+        <div className="scrollbar-thin -mx-4 flex gap-2.5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:px-0">
+          {featured.map((c, i) => (
+            <Link
+              key={c.id}
+              href={`/candidates/${c.id}`}
+              className="group flex w-[6.5rem] shrink-0 flex-col items-center gap-1.5 rounded-2xl border border-slate-200 bg-white p-2 shadow-card transition hover:border-indigo-200 hover:shadow-lift"
+            >
+              <CandidateAvatar name={c.name} photoUrl={c.photoUrl} size="lg" partyAbbr={c.partyAbbr} priority={i < 4} />
+              <span className="line-clamp-2 w-full text-center text-[11px] font-medium leading-tight text-slate-800 group-hover:text-indigo-700">
+                {c.name.replace(/^[A-Z]\.(\s?[A-Z]\.)*\s*/, "")}
+              </span>
+              <span className="text-[10px] text-slate-400">{c.state === "Andhra Pradesh" ? "AP" : "TG"} · {c.partyAbbr}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-      <p className="text-[11px] text-slate-400 text-center pt-2">
-        Pilot · ECI Form 26 · Party symbols based on ECI election marks · Photos
-        from Wikimedia Commons where licensed
+      <StateExplorer states={states} partiesByState={partiesByState} allParties={allParties} />
+
+      {/* How to read */}
+      <section>
+        <div className="mb-3">
+          <h2 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">How to read Politica</h2>
+          <p className="mt-0.5 text-xs text-slate-500">
+            Fact → Claim → Opinion. Three layers, always kept apart.
+          </p>
+        </div>
+        <LayerLegend />
+        <p className="mt-3 text-sm text-slate-500">
+          Read the full{" "}
+          <Link href="/methodology" className="font-medium text-indigo-600 hover:text-indigo-800">
+            methodology
+          </Link>
+          , including what Politica deliberately does not do.
+        </p>
+      </section>
+
+      <p className="text-center text-[11px] text-slate-400">
+        Data last updated {stats.lastUpdated} · ECI Form 26 · Photos from Wikimedia Commons where licensed
       </p>
+    </div>
+  );
+}
+
+function Stat({ value, label }: { value: number | string; label: string }) {
+  return (
+    <div>
+      <dt className="text-[11px] font-medium uppercase tracking-wider text-slate-400">{label}</dt>
+      <dd className="mt-0.5 text-2xl font-bold tabular tracking-tight text-slate-900 sm:text-3xl">{value}</dd>
     </div>
   );
 }
