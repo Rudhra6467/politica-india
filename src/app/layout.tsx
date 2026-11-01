@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import Link from "next/link";
 import VelMark from "@/components/VelMark";
 import SearchBox from "@/components/SearchBox";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
       "Official affidavit records, tracked promises and citizen reaction for India's elected representatives.",
     locale: "en_IN",
   },
-  twitter: { card: "summary" },
+  twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
 };
 
@@ -128,6 +129,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             Pilot · Andhra Pradesh + Telangana · Built for the people of India
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );

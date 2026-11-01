@@ -35,11 +35,18 @@ for (const c of pilotCandidates) {
     if (promiseIds.has(p.id)) errors.push(`Duplicate promise id ${p.id} on ${tag}`);
     promiseIds.add(p.id);
     if (!p.title.trim()) errors.push(`${tag}: promise ${p.id} has empty title`);
-    if (p.status === "IN_PROGRESS" && !p.evidenceNote) {
-      errors.push(`${tag}: promise ${p.id} is IN_PROGRESS without evidenceNote (use UNABLE_TO_VERIFY)`);
+    const sources = p.sources ?? [];
+    if (p.status !== "UNABLE_TO_VERIFY" && sources.length === 0) {
+      errors.push(`${tag}: promise ${p.id} is ${p.status} without any source (use UNABLE_TO_VERIFY)`);
     }
-    if (["REPORTED_COMPLETED", "VERIFIED_COMPLETED"].includes(p.status) && !p.evidenceNote) {
+    if (p.status !== "UNABLE_TO_VERIFY" && !p.evidenceNote) {
       errors.push(`${tag}: promise ${p.id} is ${p.status} without evidenceNote`);
+    }
+    for (const s of sources) {
+      if (!/^https:\/\//.test(s.url)) errors.push(`${tag}: source url must be https (${s.url})`);
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(s.date)) errors.push(`${tag}: source date must be YYYY-MM-DD (${s.url})`);
+      if (!s.publisher.trim() || !s.title.trim()) errors.push(`${tag}: source needs title and publisher (${s.url})`);
+      if (s.quote && s.quote.length > 240) warn.push(`${tag}: long quote on ${s.url}`);
     }
   }
 }
@@ -53,9 +60,10 @@ for (const c of pilotCandidates) {
 const byState = pilotCandidates.reduce<Record<string, number>>((m, c) => ((m[c.state] = (m[c.state] ?? 0) + 1), m), {});
 const photos = pilotCandidates.filter((c: PilotCandidate) => c.photoUrl).length;
 const promises = pilotCandidates.reduce((n, c) => n + c.promises.length, 0);
+const sourced = pilotCandidates.reduce((n, c) => n + c.promises.filter((p) => (p.sources ?? []).length > 0).length, 0);
 
 console.log(`Candidates: ${pilotCandidates.length}  ${JSON.stringify(byState)}`);
-console.log(`Photos: ${photos}  Promises: ${promises}`);
+console.log(`Photos: ${photos}  Promises: ${promises}  With sources: ${sourced}`);
 for (const w of warn) console.log(`warn: ${w}`);
 for (const e of errors) console.error(`ERROR: ${e}`);
 if (errors.length) {

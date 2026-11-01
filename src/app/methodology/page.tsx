@@ -96,6 +96,26 @@ export default function MethodologyPage() {
       </section>
 
       <section className="space-y-2">
+        <h2 className="text-base font-semibold text-slate-900">How a promise gets its status</h2>
+        <p className="text-sm text-slate-600 leading-relaxed">
+          Every status other than “Unable to verify” must carry at least one dated, linked source,
+          and our data check refuses to build the site otherwise. The rules:
+        </p>
+        <ul className="list-disc pl-5 space-y-1.5 text-sm text-slate-600 leading-relaxed">
+          <li><strong>Verified completed</strong> — an official source (government, PIB, ECI) confirms completion.</li>
+          <li><strong>Reported completed</strong> — reputable press reports completion; not independently confirmed.</li>
+          <li><strong>In progress</strong> — a source shows concrete steps: budget allocated, scheme launched, work started.</li>
+          <li><strong>Not started</strong> — a source shows the commitment exists but no public action yet.</li>
+          <li><strong>Evidence conflicting</strong> — credible sources disagree.</li>
+          <li><strong>Unable to verify</strong> — we found no reliable evidence either way. We say so instead of guessing.</li>
+        </ul>
+        <p className="text-sm text-slate-600 leading-relaxed">
+          Each source shows its publisher, publication date and a short verbatim line, so you can judge it yourself.
+          Candidates who lost their election usually stay “Unable to verify”, since they hold no office to deliver.
+        </p>
+      </section>
+
+      <section className="space-y-2">
         <h2 className="text-base font-semibold text-slate-900">Sources</h2>
         <p className="text-sm text-slate-600 leading-relaxed">
           Primary declarations: Election Commission of India (Form 26), often via

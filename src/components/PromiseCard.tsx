@@ -3,7 +3,7 @@
 import { useState } from "react";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CommentSection from "@/components/CommentSection";
-import type { PromiseStatus } from "@/data/pilot-candidates";
+import type { PromiseStatus, EvidenceSource } from "@/data/pilot-candidates";
 import { STATUS_LABEL } from "@/lib/stats";
 
 export const STATUS_STYLE: Record<PromiseStatus, string> = {
@@ -32,8 +32,62 @@ export interface PromiseCardData {
   status: PromiseStatus;
   evidenceNote?: string;
   lastChecked?: string;
+  sources?: EvidenceSource[];
   likes: number;
   dislikes: number;
+}
+
+function hostOf(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+function SourceList({ sources }: { sources: EvidenceSource[] }) {
+  const [open, setOpen] = useState(false);
+  const shown = open ? sources : sources.slice(0, 2);
+  return (
+    <div className="mt-3">
+      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
+        Evidence sources · {sources.length}
+      </div>
+      <ol className="mt-1.5 space-y-1.5">
+        {shown.map((s, i) => (
+          <li key={s.url + i} className="rounded-xl border border-slate-100 bg-white px-3 py-2 text-xs">
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              className="font-medium text-indigo-700 hover:text-indigo-900 hover:underline"
+            >
+              {s.title}
+              <span aria-hidden> ↗</span>
+            </a>
+            <div className="mt-0.5 text-[11px] text-slate-500">
+              {s.publisher} · <span className="tabular">{s.date}</span> · {hostOf(s.url)}
+            </div>
+            {s.quote && (
+              <blockquote className="mt-1 border-l-2 border-slate-200 pl-2 text-[12px] italic leading-snug text-slate-600">
+                “{s.quote}”
+              </blockquote>
+            )}
+          </li>
+        ))}
+      </ol>
+      {sources.length > 2 && (
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          className="mt-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800"
+        >
+          {open ? "Fewer sources" : `All ${sources.length} sources`}
+        </button>
+      )}
+    </div>
+  );
 }
 
 export function StatusPill({ status, size = "md" }: { status: PromiseStatus; size?: "sm" | "md" }) {
@@ -80,10 +134,12 @@ export default function PromiseCard({ promise }: { promise: PromiseCardData }) {
 
         {promise.evidenceNote && (
           <p className="mt-3 rounded-xl border border-slate-100 bg-slate-50 px-3.5 py-2.5 text-sm leading-relaxed text-slate-600">
-            <span className="font-medium text-slate-700">Evidence · </span>
+            <span className="font-medium text-slate-700">What the evidence shows · </span>
             {promise.evidenceNote}
           </p>
         )}
+
+        {promise.sources && promise.sources.length > 0 && <SourceList sources={promise.sources} />}
 
         <div className="mt-4 flex flex-wrap items-end justify-between gap-3 border-t border-slate-100 pt-3">
           <LikeDislikeButtons

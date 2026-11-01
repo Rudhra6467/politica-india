@@ -18,7 +18,8 @@ accounts exist.
 |-------|------|--------|
 | **1** | Credibility | Done |
 | **1.5** | Pilot Completeness (content depth) | Done for 29-candidate set |
-| **1.8** | **Premium visitor experience** | **Done (Nov 2026)** — see below |
+| **1.8** | Premium visitor experience | Done (Nov 2026) |
+| **A** | **Trust foundation (evidence, CI, SEO)** | **Done (Nov 2026)** — see below |
 | **2** | Evidence & Canonical Data Layer | 2A scaffolded, 2B–2D next |
 | **3** | Knowledge Graph | Later |
 | **4** | Research Engine | Later |
@@ -43,7 +44,7 @@ accounts exist.
 |------------|-------|
 | Photos | 16 of 29 on licensed Wikimedia URLs; initials fallback elsewhere |
 | Party symbols | 6 ECI-style marks (BJP, INC, TDP, YSRCP, BRS, JSP) |
-| Promises | 35 tracked; **no promise is “In progress” without an evidence note** — otherwise “Unable to verify” |
+| Promises | 35 tracked; 33 carry dated, linked sources (71 sources). Any status other than “Unable to verify” requires at least one source |
 | Engagement | Seeded likes/dislikes, labelled **Pilot engagement (illustrative)** |
 | Verified record | Affidavit fields + source line; honest “Unable to verify” where missing |
 
@@ -68,6 +69,23 @@ Goal: make the pilot feel like a finished product for an ordinary citizen on a p
 
 **Not in 1.8:** real accounts, server-side votes, DB-backed pages, Hindi/Telugu UI.
 
+## Phase A — Trust foundation (done Nov 2026)
+
+- Evidence research on all 35 promises: 22 In progress with sources, 13 Unable to verify. 71 fetched, dated
+  sources rendered on promise cards with publisher, date and a verbatim line.
+- Structured `sources[]` on promises; data check refuses any sourced-less status other than Unable to verify.
+- Three factual errors in the pilot set found and fixed: Pendurthi MLA (Panchakarla Ramesh Babu, not
+  “R.R. Gopal Krishna”), Sanathnagar result (Talasani won, not lost), Vizianagaram LS candidate
+  (Bellana Chandrasekhar, not “Y.S. Vijaya Lakshmi”). Affidavit figures re-sourced from MyNeta/ADR.
+- `officeStatus` on candidates for post-election changes (Danam Nagender disqualification, sourced).
+- GitHub Actions CI (lint, typecheck, data check, build) on every PR and push to main.
+- Sitemap, robots, per-profile Open Graph images, security headers, Vercel Web Analytics.
+- Methodology documents the status rules.
+
+**Known content gaps:** promise titles are mostly broad focus areas (“Urban infrastructure and employment”)
+rather than specific pledges, which caps how precise any status can be. Rewriting them into measurable
+commitments from manifestos is the next content task. 13 candidates still lack licensed photos.
+
 ---
 
 ## Phase 2 — Evidence & Canonical Data Layer (next)
@@ -89,7 +107,7 @@ moderation. Seeded engagement is replaced, never mixed.
 
 ## Candidate next steps beyond the phases
 
-- Promise evidence research pass for the 32 “Unable to verify” items (web sources, dated)
+- Rewrite vague promise titles into specific, dated manifesto pledges; split bundled promises
 - Photos for the 13 candidates still on initials (PIB / Wikimedia licensed only)
 - Telugu and Hindi UI strings (i18n scaffold)
 - Constituency pages once more than one election per seat is in the data
