@@ -11,6 +11,9 @@ import { LOCALES, getDictionary, isLocale, type Locale } from "@/i18n";
 import { localeHref } from "@/i18n/href";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { getDataIndex } from "@/lib/index-rows";
+import { communityMode } from "@/lib/community/env";
+import { CommunityProvider } from "@/components/community/CommunityProvider";
+import AccountButton from "@/components/community/AccountButton";
 import "../globals.css";
 import { Suspense } from "react";
 
@@ -73,6 +76,7 @@ export default async function RootLayout({ children, params }: { children: React
   const t = getDictionary(locale);
   const h = (p: string) => localeHref(locale, p);
   const index = getDataIndex();
+  const mode = communityMode();
 
   const NAV = [
     { href: h("/candidates"), label: t.nav.representatives },
@@ -87,6 +91,7 @@ export default async function RootLayout({ children, params }: { children: React
     <html lang={locale === "en" ? "en-IN" : locale} className={fontClass}>
       <body className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
         <LocaleProvider locale={locale} dict={t} index={index}>
+        <CommunityProvider mode={mode}>
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:shadow-lift"
@@ -125,6 +130,7 @@ export default async function RootLayout({ children, params }: { children: React
               <Suspense fallback={null}>
                 <LanguageSwitcher compact />
               </Suspense>
+              <AccountButton />
             </div>
           </header>
 
@@ -156,6 +162,9 @@ export default async function RootLayout({ children, params }: { children: React
                   <li><Link href={h("/candidates?state=Telangana")} className="text-slate-600 hover:text-indigo-700">Telangana</Link></li>
                   <li><Link href={h("/#parties")} className="text-slate-600 hover:text-indigo-700">{t.nav.parties}</Link></li>
                   <li><Link href={h("/methodology")} className="text-slate-600 hover:text-indigo-700">{t.nav.methodology}</Link></li>
+                  <li><Link href={h("/privacy")} className="text-slate-600 hover:text-indigo-700">{t.legal.privacy}</Link></li>
+                  <li><Link href={h("/terms")} className="text-slate-600 hover:text-indigo-700">{t.legal.terms}</Link></li>
+                  <li><Link href={h("/grievance")} className="text-slate-600 hover:text-indigo-700">{t.legal.grievance}</Link></li>
                 </ul>
               </div>
               <div>
@@ -172,6 +181,7 @@ export default async function RootLayout({ children, params }: { children: React
           </footer>
           <Analytics />
           <PwaRegister />
+        </CommunityProvider>
         </LocaleProvider>
       </body>
     </html>

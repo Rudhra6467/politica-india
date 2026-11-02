@@ -7,6 +7,7 @@ const ONE_YEAR = 60 * 60 * 24 * 365;
 /** Paths that are not pages and must never be rewritten. */
 function isStatic(pathname: string) {
   return (
+    pathname.startsWith("/api/") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/_vercel") ||
     pathname.startsWith("/icons/") ||
@@ -90,7 +91,7 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   // Everything except Next internals and files with an extension.
-  matcher: ["/((?!_next|_vercel|.*\\..*).*)"],
+  matcher: ["/((?!api/|_next|_vercel|.*\\..*).*)"],
 };
 
 export { LOCALES };
