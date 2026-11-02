@@ -4,6 +4,7 @@ import Link from "next/link";
 import VelMark from "@/components/VelMark";
 import SearchBox from "@/components/SearchBox";
 import { Analytics } from "@vercel/analytics/react";
+import PwaRegister from "@/components/PwaRegister";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -30,6 +31,12 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },
+  manifest: "/manifest.webmanifest",
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "Politica" },
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }, { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export const viewport: Viewport = {
@@ -130,6 +137,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </div>
         </footer>
         <Analytics />
+        <PwaRegister />
       </body>
     </html>
   );
