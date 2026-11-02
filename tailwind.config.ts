@@ -10,6 +10,8 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
+        telugu: ["var(--font-telugu)", "var(--font-sans)", "system-ui", "sans-serif"],
+        devanagari: ["var(--font-devanagari)", "var(--font-sans)", "system-ui", "sans-serif"],
       },
       colors: {
         sindoor: {

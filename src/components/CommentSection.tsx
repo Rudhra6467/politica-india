@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useVerification } from "./VerificationBanner";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 interface Comment {
   id: string;
@@ -31,6 +32,7 @@ function saveComments(promiseId: string, comments: Comment[]) {
 }
 
 export default function CommentSection({ promiseId }: { promiseId: string }) {
+  const { t } = useLocale();
   const { isVerified, hydrated, toggle } = useVerification();
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
@@ -64,7 +66,7 @@ export default function CommentSection({ promiseId }: { promiseId: string }) {
                 <span className="text-sm font-medium text-slate-800">{c.name}</span>
                 {c.verified && (
                   <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
-                    Verified
+                    {t.comments.verified}
                   </span>
                 )}
                 <span className="ml-auto text-[10px] text-slate-400">
@@ -79,38 +81,35 @@ export default function CommentSection({ promiseId }: { promiseId: string }) {
 
       {!isVerified ? (
         <div className="rounded-lg border border-dashed border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-500">
-          <p>
-            Comments are reserved for verified citizens. Real verification (offline Aadhaar e-KYC) arrives with
-            user accounts; this pilot has a mock toggle so the flow can be reviewed.
-          </p>
+          <p>{t.comments.reserved}</p>
           <button
             type="button"
             onClick={toggle}
             className="mt-2 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-indigo-700"
           >
-            Simulate verification (pilot)
+            {t.comments.simulate}
           </button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-2">
           <div className="flex items-center justify-between gap-2 text-[11px] text-slate-500">
             <span>
-              Posting as <span className="font-medium text-emerald-700">verified</span> (pilot mock)
+              {t.comments.postingAs} <span className="font-medium text-emerald-700">{t.comments.verified}</span> {t.comments.pilotMock}
             </span>
             <button type="button" onClick={toggle} className="text-slate-400 hover:text-slate-600">
-              Remove verification
+              {t.comments.remove}
             </button>
           </div>
           <input
             type="text"
-            placeholder="Display name"
+            placeholder={t.comments.displayName}
             value={name}
             onChange={(e) => setName(e.target.value)}
             maxLength={40}
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
           <textarea
-            placeholder="Write a comment… keep it factual and civil."
+            placeholder={t.comments.placeholder}
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={2}
@@ -118,13 +117,13 @@ export default function CommentSection({ promiseId }: { promiseId: string }) {
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-slate-400">Stored only in your browser during the pilot.</span>
+            <span className="text-[10px] text-slate-400">{t.comments.storedLocally}</span>
             <button
               type="submit"
               disabled={!text.trim() || !name.trim()}
               className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-40"
             >
-              Post comment
+              {t.comments.post}
             </button>
           </div>
         </form>

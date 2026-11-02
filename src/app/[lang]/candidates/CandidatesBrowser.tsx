@@ -2,8 +2,9 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { pilotCandidates, resultOf, type PilotCandidate } from "@/data/pilot-candidates";
+import { useLocale } from "@/i18n/LocaleProvider";
 import PartyBadge from "@/components/PartyBadge";
 import CandidateAvatar from "@/components/CandidateAvatar";
 
@@ -15,7 +16,9 @@ function norm(s: string) {
 
 export default function CandidatesBrowser() {
   const router = useRouter();
+  const pathname = usePathname();
   const sp = useSearchParams();
+  const { t, href } = useLocale();
 
   const q = sp.get("q") ?? "";
   const state = sp.get("state") ?? "";
@@ -28,7 +31,7 @@ export default function CandidatesBrowser() {
     const next = new URLSearchParams(sp.toString());
     if (value) next.set(key, value);
     else next.delete(key);
-    router.replace(`/candidates${next.toString() ? `?${next}` : ""}`, { scroll: false });
+    router.replace(`${pathname}${next.toString() ? `?${next}` : ""}`, { scroll: false });
   };
 
   const states = useMemo(() => Array.from(new Set(pilotCandidates.map((c) => c.state))).sort(), []);
@@ -67,16 +70,14 @@ export default function CandidatesBrowser() {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Representatives</h1>
-          <p className="mt-1 text-sm text-slate-500">
-            MLAs and MPs in the pilot, with ECI Form 26 facts. Elected first, then candidates who lost.
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{t.list.title}</h1>
+          <p className="mt-1 text-sm text-slate-500">{t.list.subtitle}</p>
         </div>
         <label className="relative block w-full sm:w-72">
-          <span className="sr-only">Filter by name, party or place</span>
+          <span className="sr-only">{t.list.filterPlaceholder}</span>
           <input
             type="search"
-            placeholder="Filter by name, party, place…"
+            placeholder={t.list.filterPlaceholder}
             value={q}
             onChange={(e) => setParam("q", e.target.value)}
             className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-100"
@@ -87,11 +88,10 @@ export default function CandidatesBrowser() {
         </label>
       </div>
 
-      {/* Filters */}
       <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-card">
         <div className="flex flex-wrap gap-x-5 gap-y-3">
           <ChipGroup
-            label="State"
+            label={t.list.state}
             value={state}
             options={states.map((s) => ({ value: s, label: s }))}
             onChange={(v) => {
@@ -99,48 +99,48 @@ export default function CandidatesBrowser() {
               if (party && v && !pilotCandidates.some((c) => c.state === v && c.partyAbbr === party)) setParam("party", "");
             }}
           />
-          <ChipGroup label="Party" value={party} options={parties.map((p) => ({ value: p, label: p }))} onChange={(v) => setParam("party", v)} />
+          <ChipGroup label={t.list.party} value={party} options={parties.map((p) => ({ value: p, label: p }))} onChange={(v) => setParam("party", v)} />
           <ChipGroup
-            label="Role"
+            label={t.list.role}
             value={role}
             options={[
-              { value: "MLA", label: "MLA" },
-              { value: "MP", label: "MP" },
+              { value: "MLA", label: t.common.mla },
+              { value: "MP", label: t.common.mp },
             ]}
             onChange={(v) => setParam("role", v)}
           />
           <ChipGroup
-            label="Result"
+            label={t.list.result}
             value={result}
             options={[
-              { value: "won", label: "Elected" },
-              { value: "lost", label: "Lost" },
+              { value: "won", label: t.list.elected },
+              { value: "lost", label: t.list.lost },
             ]}
             onChange={(v) => setParam("result", v)}
           />
         </div>
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5 text-xs text-slate-500">
           <span className="tabular">
-            Showing <span className="font-semibold text-slate-800">{filtered.length}</span> of {pilotCandidates.length}
+            {t.list.showing} <span className="font-semibold text-slate-800">{filtered.length}</span> {t.list.of} {pilotCandidates.length}
             {activeFilters > 0 || q ? (
               <>
                 {" · "}
-                <Link href="/candidates" className="font-medium text-indigo-600 hover:underline">
-                  Clear all
+                <Link href={href("/candidates")} className="font-medium text-indigo-600 hover:underline">
+                  {t.list.clearAll}
                 </Link>
               </>
             ) : null}
           </span>
           <label className="inline-flex items-center gap-1.5">
-            Sort
+            {t.list.sort}
             <select
               value={sort}
               onChange={(e) => setParam("sort", e.target.value === "role" ? "" : e.target.value)}
               className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none"
             >
-              <option value="role">By role (CM first)</option>
-              <option value="name">Name A–Z</option>
-              <option value="cases">Declared cases</option>
+              <option value="role">{t.list.sortRole}</option>
+              <option value="name">{t.list.sortName}</option>
+              <option value="cases">{t.list.sortCases}</option>
             </select>
           </label>
         </div>
@@ -148,8 +148,9 @@ export default function CandidatesBrowser() {
 
       {filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-12 text-center text-sm text-slate-500">
-          No representative matches{q ? ` “${q}”` : ""}
-          {state ? ` in ${state}` : ""}. The pilot covers Andhra Pradesh and Telangana only.
+          {t.list.noMatch}
+          {q ? ` “${q}”` : ""}
+          {state ? ` · ${state}` : ""}. {t.list.pilotOnly}
         </div>
       ) : (
         <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -164,17 +165,7 @@ export default function CandidatesBrowser() {
   );
 }
 
-function ChipGroup({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  options: { value: string; label: string }[];
-  onChange: (v: string) => void;
-}) {
+function ChipGroup({ label, value, options, onChange }: { label: string; value: string; options: { value: string; label: string }[]; onChange: (v: string) => void }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       <span className="mr-0.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">{label}</span>
@@ -186,12 +177,7 @@ function ChipGroup({
             type="button"
             aria-pressed={on}
             onClick={() => onChange(on ? "" : o.value)}
-            className={
-              "rounded-full border px-2.5 py-1 text-xs font-medium transition " +
-              (on
-                ? "border-slate-900 bg-slate-900 text-white"
-                : "border-slate-200 bg-white text-slate-600 hover:border-slate-400")
-            }
+            className={"rounded-full border px-2.5 py-1 text-xs font-medium transition " + (on ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-slate-400")}
           >
             {o.label}
           </button>
@@ -202,11 +188,12 @@ function ChipGroup({
 }
 
 function CandidateCard({ c }: { c: PilotCandidate }) {
+  const { t, href } = useLocale();
   const won = resultOf(c) === "won";
-  const roleLabel = c.electionType === "Lok Sabha" ? "MP" : "MLA";
+  const roleLabel = c.electionType === "Lok Sabha" ? t.common.mp : t.common.mla;
   return (
     <Link
-      href={`/candidates/${c.id}`}
+      href={href(`/candidates/${c.id}`)}
       className="group flex h-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-card transition hover:border-indigo-200 hover:shadow-lift active:scale-[0.995]"
     >
       <CandidateAvatar name={c.name} photoUrl={c.photoUrl} size="md" partyAbbr={c.partyAbbr} />
@@ -215,30 +202,27 @@ function CandidateCard({ c }: { c: PilotCandidate }) {
           <h2 className="truncate text-sm font-semibold leading-tight text-slate-900 group-hover:text-indigo-700">{c.name}</h2>
           {!won && (
             <span className="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-slate-500">
-              Lost
+              {t.list.lost}
             </span>
           )}
           {c.officeStatus && (
-            <span
-              title={c.officeStatus.summary}
-              className="shrink-0 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-amber-700"
-            >
-              Status changed
+            <span title={c.officeStatus.summary} className="shrink-0 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-amber-700">
+              {t.list.statusChanged}
             </span>
           )}
         </div>
         <p className="truncate text-[11px] text-slate-500">
-          {roleLabel} · {c.constituency}, {c.state === "Andhra Pradesh" ? "AP" : "TG"}
+          {roleLabel} · {c.constituency}, {c.state === "Andhra Pradesh" ? t.common.ap : t.common.tg}
         </p>
         <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] tabular text-slate-500">
-          <span className="inline-flex items-center gap-1">
-            <PartyBadge abbr={c.partyAbbr} size="sm" preferSymbol={false} />
-          </span>
+          <PartyBadge abbr={c.partyAbbr} size="sm" preferSymbol={false} />
           <span className={c.criminalCases > 0 ? "font-medium text-amber-700" : ""}>
-            {c.criminalCases} case{c.criminalCases === 1 ? "" : "s"}
+            {c.criminalCases} {c.criminalCases === 1 ? t.list.case : t.list.cases}
           </span>
           <span>·</span>
-          <span>{c.promises.length} promise{c.promises.length === 1 ? "" : "s"}</span>
+          <span>
+            {c.promises.length} {c.promises.length === 1 ? t.list.promise : t.list.promises}
+          </span>
         </div>
       </div>
       <span className="text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" aria-hidden>

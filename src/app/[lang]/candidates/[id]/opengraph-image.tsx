@@ -1,12 +1,13 @@
 import { ImageResponse } from "next/og";
 import { getCandidateById, pilotCandidates, resultOf } from "@/data/pilot-candidates";
+import { LOCALES } from "@/i18n";
 
 export const alt = "Politica India profile card";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export function generateStaticParams() {
-  return pilotCandidates.map((c) => ({ id: c.id }));
+  return LOCALES.flatMap((lang) => pilotCandidates.map((c) => ({ lang, id: c.id })));
 }
 
 function Stat({ label, value, color = "#0f172a", width = 200 }: { label: string; value: string; color?: string; width?: number }) {
@@ -29,7 +30,7 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-export default async function Image({ params }: { params: Promise<{ id: string }> }) {
+export default async function Image({ params }: { params: Promise<{ lang: string; id: string }> }) {
   const { id } = await params;
   const c = getCandidateById(id);
   const name = c?.name ?? "Politica India";

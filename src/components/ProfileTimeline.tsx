@@ -8,6 +8,7 @@
 import { useState } from "react";
 import type { PilotCandidate } from "@/data/pilot-candidates";
 import { resultOf } from "@/data/pilot-candidates";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 type TimelineItem = {
   id: string;
@@ -74,6 +75,7 @@ const typeLabel: Record<TimelineItem["type"], string> = {
 };
 
 export default function ProfileTimeline({ candidate }: { candidate: PilotCandidate }) {
+  const { t } = useLocale();
   const items = buildTimeline(candidate);
   const [open, setOpen] = useState(false);
   const preview = items.slice(0, 2);
@@ -88,11 +90,11 @@ export default function ProfileTimeline({ candidate }: { candidate: PilotCandida
       >
         <div className="flex items-center gap-2 min-w-0">
           <span className="h-1.5 w-1.5 rounded-full bg-violet-500 shrink-0" />
-          <span className="text-xs font-semibold text-slate-800">Timeline</span>
+          <span className="text-xs font-semibold text-slate-800">{t.profile.timeline}</span>
           <span className="text-[10px] text-slate-400 tabular-nums">{items.length}</span>
         </div>
         <span className="text-[11px] font-medium text-slate-500 shrink-0">
-          {open ? "Less" : "All"}
+          {open ? t.profile.less : t.profile.timelineAll}
         </span>
       </button>
 

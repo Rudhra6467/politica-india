@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
@@ -9,11 +10,9 @@ type BeforeInstallPromptEvent = Event & {
 
 const DISMISS_KEY = "politica-install-dismissed";
 
-/**
- * Shows a one-line "Add to home screen" card once the browser says the app is
- * installable (Chrome/Edge/Android). Hidden when already installed or dismissed.
- */
+/** One-line "Add to home screen" card once the browser reports the app is installable. */
 export default function InstallPrompt() {
+  const { t } = useLocale();
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -51,27 +50,12 @@ export default function InstallPrompt() {
   };
 
   return (
-    <div
-      role="region"
-      aria-label="Install Politica India"
-      className="flex items-center gap-3 rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-900 shadow-card"
-    >
-      <span className="flex-1">
-        Add Politica to your home screen. It opens like an app and keeps profiles you have viewed available offline.
-      </span>
-      <button
-        type="button"
-        onClick={install}
-        className="shrink-0 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-indigo-700"
-      >
-        Install
+    <div role="region" aria-label={t.install.install} className="flex items-center gap-3 rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-900 shadow-card">
+      <span className="flex-1">{t.install.text}</span>
+      <button type="button" onClick={install} className="shrink-0 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-indigo-700">
+        {t.install.install}
       </button>
-      <button
-        type="button"
-        onClick={dismiss}
-        aria-label="Dismiss"
-        className="shrink-0 rounded-lg px-2 py-1 text-xs text-indigo-500 hover:bg-indigo-100"
-      >
+      <button type="button" onClick={dismiss} aria-label={t.install.dismiss} className="shrink-0 rounded-lg px-2 py-1 text-xs text-indigo-500 hover:bg-indigo-100">
         ×
       </button>
     </div>

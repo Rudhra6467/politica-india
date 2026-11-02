@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import PartyBadge from "./PartyBadge";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 type PartyRow = { abbr: string; name: string; count: number; won: number };
 
@@ -15,6 +16,7 @@ interface StateExplorerProps {
 const STATE_KEY = "politica-selected-state";
 
 export default function StateExplorer({ states, partiesByState, allParties }: StateExplorerProps) {
+  const { t, href } = useLocale();
   const [selected, setSelected] = useState<string | null>(null);
   const [mode, setMode] = useState<"state" | "all">("all");
 
@@ -42,42 +44,26 @@ export default function StateExplorer({ states, partiesByState, allParties }: St
 
   const showState = mode === "state" && selected;
   const rows = showState ? partiesByState[selected] ?? [] : [];
+  const tab = (on: boolean) =>
+    "rounded-lg px-3 py-1.5 text-sm font-medium transition " + (on ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50");
+  const card =
+    "group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 shadow-card transition hover:border-indigo-200 hover:shadow-lift";
 
   return (
     <section id="parties" className="scroll-mt-20">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
-            {showState ? `Parties in ${selected}` : "Parties in the pilot"}
+            {showState ? `${t.home.partiesIn} ${selected}` : t.home.partiesInPilot}
           </h2>
-          <p className="mt-0.5 text-xs text-slate-500">
-            {showState
-              ? "Elected representatives first, then candidates who lost."
-              : "Choose your state to see who represents you."}
-          </p>
+          <p className="mt-0.5 text-xs text-slate-500">{showState ? t.home.electedFirst : t.home.chooseState}</p>
         </div>
         <div className="flex rounded-xl border border-slate-200 bg-white p-0.5 shadow-sm" role="tablist">
-          <button
-            role="tab"
-            aria-selected={mode === "state"}
-            onClick={() => setMode("state")}
-            className={
-              "rounded-lg px-3 py-1.5 text-sm font-medium transition " +
-              (mode === "state" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50")
-            }
-          >
-            My state
+          <button role="tab" aria-selected={mode === "state"} onClick={() => setMode("state")} className={tab(mode === "state")}>
+            {t.home.myState}
           </button>
-          <button
-            role="tab"
-            aria-selected={mode === "all"}
-            onClick={() => setMode("all")}
-            className={
-              "rounded-lg px-3 py-1.5 text-sm font-medium transition " +
-              (mode === "all" ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50")
-            }
-          >
-            All
+          <button role="tab" aria-selected={mode === "all"} onClick={() => setMode("all")} className={tab(mode === "all")}>
+            {t.home.allTab}
           </button>
         </div>
       </div>
@@ -92,9 +78,7 @@ export default function StateExplorer({ states, partiesByState, allParties }: St
               aria-pressed={selected === s}
               className={
                 "rounded-full border px-3.5 py-1.5 text-sm font-medium shadow-sm transition " +
-                (selected === s
-                  ? "border-indigo-600 bg-indigo-600 text-white"
-                  : "border-slate-200 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50")
+                (selected === s ? "border-indigo-600 bg-indigo-600 text-white" : "border-slate-200 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50")
               }
             >
               {s}
@@ -104,25 +88,20 @@ export default function StateExplorer({ states, partiesByState, allParties }: St
       )}
 
       {mode === "state" && !selected && (
-        <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
-          Pick a state above. The pilot currently covers Andhra Pradesh and Telangana; more states follow depth-first.
-        </div>
+        <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-500">{t.home.pickState}</div>
       )}
 
       {showState && (
         <>
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {rows.map((p) => (
-              <Link
-                key={p.abbr}
-                href={`/party/${p.abbr}?state=${encodeURIComponent(selected)}`}
-                className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 shadow-card transition hover:border-indigo-200 hover:shadow-lift"
-              >
+              <Link key={p.abbr} href={href(`/party/${p.abbr}?state=${encodeURIComponent(selected)}`)} className={card}>
                 <PartyBadge abbr={p.abbr} size="lg" />
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-semibold text-slate-900 group-hover:text-indigo-700">{p.name}</div>
                   <div className="mt-0.5 text-[11px] text-slate-500">
-                    {p.won} elected{p.count - p.won > 0 ? ` · ${p.count - p.won} lost` : ""}
+                    {p.won} {t.home.elected}
+                    {p.count - p.won > 0 ? ` · ${p.count - p.won} ${t.home.lost}` : ""}
                   </div>
                 </div>
                 <span className="text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" aria-hidden>
@@ -132,11 +111,8 @@ export default function StateExplorer({ states, partiesByState, allParties }: St
             ))}
           </div>
           <div className="mt-3 text-center">
-            <Link
-              href={`/candidates?state=${encodeURIComponent(selected)}`}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-800"
-            >
-              All representatives in {selected} →
+            <Link href={href(`/candidates?state=${encodeURIComponent(selected)}`)} className="text-sm font-medium text-indigo-600 hover:text-indigo-800">
+              {t.home.allIn} {selected} →
             </Link>
           </div>
         </>
@@ -145,16 +121,12 @@ export default function StateExplorer({ states, partiesByState, allParties }: St
       {mode === "all" && (
         <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {allParties.map((p) => (
-            <Link
-              key={p.abbr}
-              href={`/party/${p.abbr}`}
-              className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3 shadow-card transition hover:border-indigo-200 hover:shadow-lift"
-            >
+            <Link key={p.abbr} href={href(`/party/${p.abbr}`)} className={card}>
               <PartyBadge abbr={p.abbr} size="lg" />
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm font-semibold text-slate-900 group-hover:text-indigo-700">{p.name}</div>
                 <div className="mt-0.5 truncate text-[11px] text-slate-500">
-                  {p.count} in pilot · {p.states.join(", ")}
+                  {p.count} {t.home.inPilotCount} · {p.states.join(", ")}
                 </div>
               </div>
               <span className="text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" aria-hidden>
