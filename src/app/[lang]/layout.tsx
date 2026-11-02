@@ -10,10 +10,11 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { LOCALES, getDictionary, isLocale, type Locale } from "@/i18n";
 import { localeHref } from "@/i18n/href";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
+import { getDataIndex } from "@/lib/index-rows";
 import "../globals.css";
 import { Suspense } from "react";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "optional" });
 const telugu = Noto_Sans_Telugu({ subsets: ["telugu"], variable: "--font-telugu", display: "swap", weight: ["400", "500", "600", "700"] });
 const devanagari = Noto_Sans_Devanagari({ subsets: ["devanagari"], variable: "--font-devanagari", display: "swap", weight: ["400", "500", "600", "700"] });
 
@@ -71,6 +72,7 @@ export default async function RootLayout({ children, params }: { children: React
   const locale: Locale = lang;
   const t = getDictionary(locale);
   const h = (p: string) => localeHref(locale, p);
+  const index = getDataIndex();
 
   const NAV = [
     { href: h("/candidates"), label: t.nav.representatives },
@@ -84,7 +86,7 @@ export default async function RootLayout({ children, params }: { children: React
   return (
     <html lang={locale === "en" ? "en-IN" : locale} className={fontClass}>
       <body className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
-        <LocaleProvider locale={locale} dict={t}>
+        <LocaleProvider locale={locale} dict={t} index={index}>
           <a
             href="#main"
             className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:shadow-lift"
@@ -147,7 +149,7 @@ export default async function RootLayout({ children, params }: { children: React
                 </div>
               </div>
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t.footer.explore}</h2>
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t.footer.explore}</h2>
                 <ul className="mt-3 space-y-2 text-sm">
                   <li><Link href={h("/candidates")} className="text-slate-600 hover:text-indigo-700">{t.footer.allRepresentatives}</Link></li>
                   <li><Link href={h("/candidates?state=Andhra%20Pradesh")} className="text-slate-600 hover:text-indigo-700">Andhra Pradesh</Link></li>
@@ -157,16 +159,16 @@ export default async function RootLayout({ children, params }: { children: React
                 </ul>
               </div>
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-400">{t.footer.sourcesTrust}</h2>
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t.footer.sourcesTrust}</h2>
                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
                   <li>{t.footer.declarations}</li>
                   <li>{t.footer.results}</li>
                   <li>{t.footer.photos}</li>
-                  <li className="text-slate-400">{t.footer.disclaimer}</li>
+                  <li className="text-slate-500">{t.footer.disclaimer}</li>
                 </ul>
               </div>
             </div>
-            <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-400">{t.footer.bottom}</div>
+            <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-500">{t.footer.bottom}</div>
           </footer>
           <Analytics />
           <PwaRegister />

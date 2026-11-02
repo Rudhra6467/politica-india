@@ -28,7 +28,7 @@ export default async function PartyPage({ params }: { params: Params }) {
   const { abbr } = await params;
   if (!pilotCandidates.some((c) => c.partyAbbr === abbr)) notFound();
   return (
-    <Suspense fallback={<div className="py-12 text-center text-sm text-slate-400">…</div>}>
+    <Suspense fallback={<div className="py-12 text-center text-sm text-slate-500">…</div>}>
       <PartyContent abbr={abbr} />
     </Suspense>
   );

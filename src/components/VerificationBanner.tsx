@@ -75,7 +75,7 @@ export default function VerificationBanner({ dismissible = false }: Verification
       {dismissible && (
         <button
           onClick={handleDismiss}
-          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-lg text-slate-400 hover:bg-slate-200/60 hover:text-slate-600 flex items-center justify-center transition"
+          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-lg text-slate-500 hover:bg-slate-200/60 hover:text-slate-600 flex items-center justify-center transition"
           aria-label="Dismiss"
           title="Close"
         >

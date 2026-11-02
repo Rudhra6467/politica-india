@@ -7,7 +7,6 @@
 
 import { useState } from "react";
 import type { PilotCandidate } from "@/data/pilot-candidates";
-import { resultOf } from "@/data/pilot-candidates";
 import { useLocale } from "@/i18n/LocaleProvider";
 
 type TimelineItem = {
@@ -21,7 +20,7 @@ type TimelineItem = {
 
 function buildTimeline(c: PilotCandidate): TimelineItem[] {
   const items: TimelineItem[] = [];
-  const result = resultOf(c);
+  const result = c.electionResult ?? "won";
   const role = c.electionType === "Lok Sabha" ? "MP" : "MLA";
 
   items.push({
@@ -91,7 +90,7 @@ export default function ProfileTimeline({ candidate }: { candidate: PilotCandida
         <div className="flex items-center gap-2 min-w-0">
           <span className="h-1.5 w-1.5 rounded-full bg-violet-500 shrink-0" />
           <span className="text-xs font-semibold text-slate-800">{t.profile.timeline}</span>
-          <span className="text-[10px] text-slate-400 tabular-nums">{items.length}</span>
+          <span className="text-[10px] text-slate-500 tabular-nums">{items.length}</span>
         </div>
         <span className="text-[11px] font-medium text-slate-500 shrink-0">
           {open ? t.profile.less : t.profile.timelineAll}
@@ -104,7 +103,7 @@ export default function ProfileTimeline({ candidate }: { candidate: PilotCandida
             <span className="text-[11px] font-semibold text-slate-500 tabular-nums w-10 shrink-0 pt-0.5">
               {item.year}
             </span>
-            <span className="text-[10px] font-medium text-slate-400 w-7 shrink-0 pt-0.5">
+            <span className="text-[10px] font-medium text-slate-500 w-7 shrink-0 pt-0.5">
               {typeLabel[item.type]}
             </span>
             <div className="min-w-0 flex-1">
@@ -113,7 +112,7 @@ export default function ProfileTimeline({ candidate }: { candidate: PilotCandida
                 <p className="mt-0.5 text-[10px] text-slate-500 leading-snug">{item.detail}</p>
               )}
               {open && (
-                <p className="mt-0.5 text-[10px] text-slate-400">{item.source}</p>
+                <p className="mt-0.5 text-[10px] text-slate-500">{item.source}</p>
               )}
             </div>
           </li>

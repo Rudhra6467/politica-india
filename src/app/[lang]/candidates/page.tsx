@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
 export default function CandidatesPage() {
   return (
-    <Suspense fallback={<div className="py-16 text-center text-sm text-slate-400">…</div>}>
+    <Suspense fallback={<div className="py-16 text-center text-sm text-slate-500">…</div>}>
       <CandidatesBrowser />
     </Suspense>
   );
