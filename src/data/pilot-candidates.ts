@@ -216,6 +216,26 @@ export const pilotCandidates: PilotCandidate[] = [
         likes: 1680,
         dislikes: 420,
       },
+      {
+        id: "ap-p24",
+        title: "Handri-Neeva: Krishna water to Kuppam branch canal by end of July 2025",
+        sourceNote: "Chief Minister's statement, July 2025",
+        announcedDate: "2025-07",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Target announced in July 2025. Whether water reached the Kuppam branch canal by the stated date has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "In renewed push to drought-proof Rayalaseema, Andhra CM Naidu commissions Handri-Neeva canal works",
+            publisher: "South First",
+            url: "https://thesouthfirst.com/news/in-renewed-push-to-drought-proof-rayalaseema-andhra-cm-naidu-commissions-handri-neeva-canal-works",
+            date: "2025-07-17",
+            quote: "By the end of July, water will flow to the Kuppam and Punganur branch canals.",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
+      },
     ],
   },
   {
@@ -249,13 +269,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "ap-p03",
-        title: "Skill development and employment push for youth",
+        title: "Yuvagalam: 20 lakh jobs for youth, or ₹3,000 a month until employed",
         sourceNote: "Campaign focus",
         announcedDate: "2024",
         status: "IN_PROGRESS",
-        evidenceNote: "A skill census began in Lokesh's Mangalagiri constituency in late 2024, with a first phase covering 1.12 lakh households reported complete by December 2024, and the AP Skill Development Corporation signed an MoU with Infosys in January 2025 for pre-validation of skills. No source found giving statewide completion or job-placement figures.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "A skill census began in Lokesh's Mangalagiri constituency in late 2024, with a first phase covering 1.12 lakh households reported complete by December 2024, and the AP Skill Development Corporation signed an MoU with Infosys in January 2025 for pre-validation of skills. No source found giving statewide completion or job-placement figures. No source yet on jobs created against the 20 lakh target or on the ₹3,000 allowance being paid.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "TDP's Nara Lokesh promises 'super six' guarantees ahead of state polls",
+            publisher: "Telangana Today (ANI)",
+            url: "https://telanganatoday.com/tdps-nara-lokesh-promises-super-six-guarantees-ahead-of-state-polls",
+            date: "2024-02-11",
+            quote: "the TDP and the Jana Sena government will create 20 lakh jobs for the youth",
+          },
           {
             title: "Minister Nara Lokesh Unveils Skill Census To Boost Youth Employment",
             publisher: "Deccan Chronicle",
@@ -276,12 +303,12 @@ export const pilotCandidates: PilotCandidate[] = [
       },
       {
         id: "ap-p21",
-        title: "Digital governance and ease of doing business",
+        title: "Mana Mitra: 500 government services on WhatsApp by 30 June 2025",
         sourceNote: "Public agenda",
         announcedDate: "2024",
         status: "IN_PROGRESS",
         evidenceNote: "The AP government launched the Mana Mitra WhatsApp governance platform on 30 January 2025 with 161 services; by 18 March 2025 the minister told the Assembly 200 services were active with a target of 500 by 30 June 2025. No fetched source confirms whether the 500-service target was met.",
-        lastChecked: "2026-11-01",
+        lastChecked: "2026-11-02",
         sources: [
           {
             title: "Andhra govt launches WhatsApp Governance with 161 citizen services",
@@ -367,12 +394,12 @@ export const pilotCandidates: PilotCandidate[] = [
       },
       {
         id: "ap-p22",
-        title: "Farmers welfare and marketing support in north coastal AP",
+        title: "Annadata Sukhibhava: ₹20,000 a year to every eligible farmer (incl. ₹6,000 PM-Kisan)",
         sourceNote: "Minister portfolio focus",
         announcedDate: "2024",
         status: "IN_PROGRESS",
         evidenceNote: "As Agriculture Minister, Atchannaidu has overseen the statewide Annadata Sukhibhava farmer support scheme: a first tranche was disbursed on 2 August 2025 and a second instalment covering 46.62 lakh farmers was scheduled for 19 November 2025. No source gives a north coastal AP-specific breakdown or addresses marketing support separately.",
-        lastChecked: "2026-11-01",
+        lastChecked: "2026-11-02",
         sources: [
           {
             title: "Atchanna assures Sukhibhava benefit to all eligible farmers",
@@ -398,6 +425,26 @@ export const pilotCandidates: PilotCandidate[] = [
         ],
         likes: 360,
         dislikes: 55,
+      },
+      {
+        id: "ap-p25",
+        title: "New crop insurance policy covering kharif and rabi seasons from 2025",
+        sourceNote: "Minister's announcement, July 2024",
+        announcedDate: "2024-07",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Announced as Agriculture Minister in July 2024. Implementation has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "AP to introduce best crop insurance policy: Minister",
+            publisher: "Deccan Chronicle",
+            url: "https://deccanchronicle.com/southern-states/andhra-pradesh/ap-to-introduce-best-crop-insurance-policy-minister-1812250",
+            date: "2024-07-25",
+            quote: "would cover both the kharif and rabi seasons",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
       },
     ],
   },
@@ -431,12 +478,12 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "ap-p15",
-        title: "Youth and infrastructure focus in north coastal AP",
+        title: "Complete Vamsadhara project Phase II by June 2025",
         sourceNote: "Campaign",
         announcedDate: "2024",
         status: "IN_PROGRESS",
-        evidenceNote: "As of November 2024 the minister announced a Rs 20,000 crore industrial project near Mulapeta Port projected to create 20,000 youth jobs and said Vamsadhara Phase II would be completed by June 2025; as of June 2025 he launched a Rs 265 crore water scheme and classroom construction in Srikakulam district. The promise title is broad, so this reflects reported activity rather than completion of a defined target.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "In November 2024 the minister said Phase II of the Vamsadhara project would be completed by June 2025. No source has been collected confirming completion by that date.",
+        lastChecked: "2026-11-02",
         sources: [
           {
             title: "Union Civil Aviation Minister K. Rammohan Naidu Emphasizes Government's Focus on Irrigation and Industrial Growth",
@@ -444,13 +491,6 @@ export const pilotCandidates: PilotCandidate[] = [
             url: "https://www.newsonair.gov.in/union-civil-aviation-minister-k-rammohan-naidu-emphasizes-governments-focus-on-irrigation-and-industrial-growth",
             date: "2024-11-03",
             quote: "Phase II of the Vamsadhara Project will be completed by June 2025.",
-          },
-          {
-            title: "Rammohan Naidu Launches ₹265-Crore Water Scheme In Srikakulam",
-            publisher: "Deccan Chronicle",
-            url: "https://www.deccanchronicle.com/southern-states/andhra-pradesh/rammohan-naidu-launches-265-crore-water-scheme-in-srikakulam-1888164",
-            date: "2025-06-29",
-            quote: "This ₹265-crore initiative aims to resolve the longstanding water crisis in Pathapatnam of Srikakulam district.",
           },
         ],
         likes: 720,
@@ -483,6 +523,26 @@ export const pilotCandidates: PilotCandidate[] = [
         likes: 640,
         dislikes: 90,
       },
+      {
+        id: "ap-p26",
+        title: "Bhogapuram international airport operational by June 2026",
+        sourceNote: "Minister's statement, September 2024",
+        announcedDate: "2024-09",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Target stated as Civil Aviation Minister in September 2024. Whether the airport opened by June 2026 has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "Bhogapuram airport to be operational by June 2026: Rammohan Naidu",
+            publisher: "Construction World",
+            url: "https://www.constructionworld.in/transport-infrastructure/aviation-and-airport-infra/bhogapuram-airport-to-be-operational-by-june-2026-rammohan-naidu/62815",
+            date: "2024-09-23",
+            quote: "will be operational by June 2026, six months ahead of the initial schedule",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
+      },
     ],
   },
   {
@@ -507,7 +567,7 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
     affidavitYear: "2024",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Shri_Ravindra_Kollu.png/330px-Shri_Ravindra_Kollu.png",
-    photoSource: "Wikimedia Commons \u00b7 GODL-India",
+    photoSource: "Wikimedia Commons · GODL-India",
     lastUpdated: "2026-08-16",
     sortOrder: 4,
     likes: 760,
@@ -515,13 +575,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "ap-p05",
-        title: "Coastal development and fisheries support",
+        title: "Machilipatnam port: 24-berth major port; completion targeted by 2026",
         sourceNote: "Campaign statements 2024",
         announcedDate: "2024-04",
         status: "IN_PROGRESS",
-        evidenceNote: "Press reports from January and August 2026 show the Machilipatnam (Bandar) deep-water port under construction, reported as over 50 per cent complete in January 2026 with operations targeted for March 2027, and the adjacent Gilakaladindi fishing harbour targeted for completion by June 2026. No source confirms completion of either project.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "Press reports from January and August 2026 show the Machilipatnam (Bandar) deep-water port under construction, reported as over 50 per cent complete in January 2026 with operations targeted for March 2027, and the adjacent Gilakaladindi fishing harbour targeted for completion by June 2026. No source confirms completion of either project. The original target of 2026 has slipped: operations with four berths are now targeted for March 2027.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "Port inauguration an election stunt, criticises TDP",
+            publisher: "The Hans India",
+            url: "https://assets.thehansindia.com/andhra-pradesh/port-inauguration-an-election-stunt-criticises-tdp-798848",
+            date: "2023-05-24",
+            quote: "assured that after coming to power they would construct a major port with 24 berths at Machilipatnam",
+          },
           {
             title: "Machilipatnam Port to be Operational with Four Berths by March 2027",
             publisher: "Deccan Chronicle",
@@ -640,13 +707,20 @@ export const pilotCandidates: PilotCandidate[] = [
       },
       {
         id: "ap-p17",
-        title: "Curb illegal sand mining and protect environment",
+        title: "Free sand policy: restore free supply of sand (TDP–JSP joint manifesto)",
         sourceNote: "Jana Sena public positions",
         announcedDate: "2024",
-        status: "IN_PROGRESS",
-        evidenceNote: "The coalition government issued a free sand policy order on 8 July 2024 whose stated objectives include preventing illegal sand excavation, and in March 2025 the mines minister told the Legislative Council that 369 cases had been booked, 810 vehicles seized and Rs 1.87 crore in fines imposed. In January 2026 the opposition YSRCP alleged the policy enables illegal mining by ruling-party leaders; that allegation is not independently verified.",
-        lastChecked: "2026-11-01",
+        status: "REPORTED_COMPLETED",
+        evidenceNote: "The TDP–JSP joint manifesto of November 2023 promised free sand. The coalition government issued the free sand policy on 8 July 2024, so the pledge itself is reported implemented. Enforcement remains contested: in March 2025 the mines minister told the Legislative Council that 369 cases had been booked and 810 vehicles seized, and in January 2026 the opposition alleged the policy enables illegal mining, an allegation not independently verified.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "TDP-Jana Sena to release joint manifesto; welfare, single capital, and free sand policy are key points",
+            publisher: "South First",
+            url: "https://thesouthfirst.com/news/tdp-jana-sena-to-release-joint-manifesto-welfare-single-capital-and-free-sand-policy-are-key-points",
+            date: "2023-11-14",
+            quote: "Interestingly, key political issues were also mentioned in the 11-point manifesto, such as free sand.",
+          },
           {
             title: "TDP government implements free sand policy in Andhra Pradesh: Here's what's in it",
             publisher: "The South First",
@@ -671,6 +745,26 @@ export const pilotCandidates: PilotCandidate[] = [
         ],
         likes: 2100,
         dislikes: 310,
+      },
+      {
+        id: "ap-p27",
+        title: "Pithapuram: funds to modernise Yeleru reservoir and jobs for local youth",
+        sourceNote: "Campaign speech, Pithapuram 2024",
+        announcedDate: "2024-05",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Campaign pledge recorded in May 2024. Progress has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "Pawan Kalyan promises making Pithapuram an ideal constituency",
+            publisher: "Deccan Chronicle",
+            url: "https://deccanchronicle.com/nation/politics/pawan-kalyan-promises-making-pithapuram-an-ideal-constituency-893435",
+            date: "2024-05-11",
+            quote: "bring funds for modernization of Yeleru Reservoir",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
       },
     ],
   },
@@ -704,13 +798,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "ap-p12",
-        title: "Local development and party organisational strength",
+        title: "Tenali: 50-bed AYUSH hospital at Kothapeta, ₹26 crore",
         sourceNote: "Campaign",
         announcedDate: "2024",
         status: "UNABLE_TO_VERIFY",
-        evidenceNote: "The only fetched source shows Manohar conducting a ward inspection in Tenali in January 2025 and announcing fixes to a school wall, cancelled pensions and housing defects; no source with budget figures, sanctioned works or completed projects for Tenali was found, and the 'party organisational strength' part of the title is not researchable.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "A 50-bed AYUSH hospital for Tenali at an estimated ₹26 crore was reported in January 2026. Construction progress has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "Tenali to get 50-bed AYUSH Hospital at Rs 26 crore, says AP Minister",
+            publisher: "Medical Dialogues",
+            url: "https://medicaldialogues.in/news/health/hospital-diagnostics/tenali-to-get-50-bed-ayush-hospital-at-rs-26-crore-says-ap-minister-163191",
+            date: "2026-01-26",
+            quote: "The sanction of an AYUSH hospital for Tenali is a matter of pride.",
+          },
           {
             title: "AP civil supplies minister conducts ward inspection in Tenali",
             publisher: "Deccan Chronicle",
@@ -827,6 +928,26 @@ export const pilotCandidates: PilotCandidate[] = [
         likes: 680,
         dislikes: 140,
       },
+      {
+        id: "ap-p28",
+        title: "Diwancheruvu elevated corridor (₹385 cr) complete before Godavari Pushkaralu, July 2027",
+        sourceNote: "MP's statement, June 2026",
+        announcedDate: "2026-06",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Target stated by the MP in June 2026. Construction progress has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "Diwancheruvu Elevated Corridor To Be Ready Before Godavari Pushkaralu: Purandeswari",
+            publisher: "Deccan Chronicle",
+            url: "https://www.deccanchronicle.com/southern-states/andhra-pradesh/diwancheruvu-elevated-corridor-to-be-ready-before-godavari-pushkaralu-purandeswari-1963450",
+            date: "2026-06-14",
+            quote: "expected to be completed by July 2027 ahead of the Godavari Pushkaralu",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
+      },
     ],
   },
   {
@@ -859,13 +980,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "ap-p06",
-        title: "Continue major welfare schemes with stronger delivery",
+        title: "Navaratnalu Plus: raise welfare pension to ₹3,500 a month",
         sourceNote: "Campaign announcements",
         announcedDate: "2024",
         status: "UNABLE_TO_VERIFY",
-        evidenceNote: "YSRCP lost the 2024 Andhra Pradesh assembly election and Jagan Mohan Reddy sits in opposition, so he is not in a position to implement the promise; an August 2025 report shows him criticising the NDA government for rolling back YSRCP-era schemes. No source shows delivery of the promise by the candidate.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "YSRCP manifesto pledge released by Jagan Mohan Reddy in April 2024. YSRCP lost the 2024 election, so he is not in a position to implement it. YSRCP lost the 2024 Andhra Pradesh assembly election and Jagan Mohan Reddy sits in opposition, so he is not in a position to implement the promise; an August 2025 report shows him criticising the NDA government for rolling back YSRCP-era schemes. No source shows delivery of the promise by the candidate.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "YSRCP chief Jagan releases manifesto with strong welfare flavour, promises pension hike, Vizag as executive capital",
+            publisher: "South First",
+            url: "https://thesouthfirst.com/news/ysrcp-chief-jagan-releases-manifesto-with-strong-welfare-flavour-promises-pension-hike-vizag-as-executive-capital",
+            date: "2024-04-27",
+            quote: "₹3,500 per month in two instalments",
+          },
           {
             title: "Jagan accuses Andhra CM Naidu of betraying farmers, slams rollback of welfare schemes",
             publisher: "ThePrint",
@@ -948,7 +1076,7 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
     affidavitYear: "2024",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Botsa_Satyanarayana_%28cropped%29.png/330px-Botsa_Satyanarayana_%28cropped%29.png",
-    photoSource: "Wikimedia Commons \u00b7 CC BY 3.0",
+    photoSource: "Wikimedia Commons · CC BY 3.0",
     lastUpdated: "2026-08-16",
     sortOrder: 3,
     likes: 720,
@@ -1002,7 +1130,7 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
     affidavitYear: "2024",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Ambati_Rambabu_2020-08-17.png/330px-Ambati_Rambabu_2020-08-17.png",
-    photoSource: "Wikimedia Commons \u00b7 CC BY 3.0",
+    photoSource: "Wikimedia Commons · CC BY 3.0",
     lastUpdated: "2026-08-16",
     sortOrder: 4,
     likes: 650,
@@ -1042,7 +1170,7 @@ export const pilotCandidates: PilotCandidate[] = [
     criminalCases: 0,
     affidavitYear: "2024",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/KRJ_Bharath.jpg/330px-KRJ_Bharath.jpg",
-    photoSource: "Wikimedia Commons \u00b7 CC BY-SA 4.0",
+    photoSource: "Wikimedia Commons · CC BY-SA 4.0",
     lastUpdated: "2026-08-16",
     sortOrder: 90,
     likes: 210,
@@ -1107,13 +1235,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "tg-p06",
-        title: "Implement six guarantees and welfare delivery",
+        title: "Six Guarantees: implement all six schemes within 100 days of taking office",
         sourceNote: "Government agenda / Congress manifesto TG 2023",
         announcedDate: "2023–2024",
         status: "IN_PROGRESS",
-        evidenceNote: "As of November 2024, press reported that free bus travel for women, the Aarogyasri cap increase, 200 units free power and Rs 500 LPG refills had been rolled out while remaining guarantees including the Rs 2,500 monthly Mahalakshmi payment had not. The 2025-26 state budget earmarked Rs 56,084 crore for the Six Guarantees and the 2026-27 budget about Rs 51,000 crore, indicating continued but partial implementation.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "As of November 2024, press reported that free bus travel for women, the Aarogyasri cap increase, 200 units free power and Rs 500 LPG refills had been rolled out while remaining guarantees including the Rs 2,500 monthly Mahalakshmi payment had not. The 2025-26 state budget earmarked Rs 56,084 crore for the Six Guarantees and the 2026-27 budget about Rs 51,000 crore, indicating continued but partial implementation. The 100-day target set in September 2023 was not met: in November 2024 press reported the remaining guarantees still not implemented.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "Congress will fulfill promises within 100 days: Revanth",
+            publisher: "Siasat",
+            url: "https://www.siasat.com/congress-to-fulfill-promises-within-100-days-revanth-2700085",
+            date: "2023-09-19",
+            quote: "ensure the swift implementation of six guarantees within the first 100 days of coming into power",
+          },
           {
             title: "Telangana budget 2025-26: Congress government allocates over one-third for welfare schemes",
             publisher: "The South First",
@@ -1141,13 +1276,20 @@ export const pilotCandidates: PilotCandidate[] = [
       },
       {
         id: "tg-p18",
-        title: "₹500 gas cylinder and women support measures",
+        title: "Mahalakshmi: ₹500 LPG cylinder and free TSRTC bus travel for women",
         sourceNote: "Congress six guarantees (public)",
         announcedDate: "2023",
-        status: "IN_PROGRESS",
-        evidenceNote: "The Rs 500 LPG refill scheme for white ration card holders was launched on 27 February 2024 and an RTI reply reported 42,90,246 beneficiaries by 24 August 2024 with Rs 723.33 crore sanctioned for 2024-25; the 2025-26 budget again earmarked Rs 723 crore for LPG subsidies. The related Rs 2,500 monthly payment to women under Mahalakshmi was reported as not implemented as of November 2024.",
-        lastChecked: "2026-11-01",
+        status: "REPORTED_COMPLETED",
+        evidenceNote: "The Congress manifesto of November 2023 promised ₹500 LPG cylinders and free bus travel for women. The ₹500 refill for white ration card holders was launched on 27 February 2024 and an RTI reply recorded 42,90,246 beneficiaries by 24 August 2024; press in November 2024 listed free bus travel among the guarantees rolled out. Reported by press, not independently verified against an official completion record.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "Congress unveils 6 guarantees in Telangana Assembly poll manifesto",
+            publisher: "Deccan Chronicle",
+            url: "https://deccanchronicle.com/nation/politics/171123/congress-unveils-6-guarantees-in-telangana-assembly-poll-manifesto.html",
+            date: "2023-11-17",
+            quote: "Rs. 2,500 monthly financial assistance for women. Gas cylinders at Rs. 500. Free travel for women in TSRTC buses across the state.",
+          },
           {
             title: "LPG cylinder at ₹500, free power up to 200 units: Guarantees launched in Telangana",
             publisher: "The South First",
@@ -1172,6 +1314,33 @@ export const pilotCandidates: PilotCandidate[] = [
         ],
         likes: 980,
         dislikes: 220,
+      },
+      {
+        id: "tg-p20",
+        title: "Mahalakshmi: ₹2,500 a month to eligible women",
+        sourceNote: "Congress manifesto, Telangana 2023",
+        announcedDate: "2023-11-17",
+        status: "NOT_STARTED",
+        evidenceNote: "The Congress manifesto of November 2023 promised ₹2,500 a month to the woman head of eligible households under Mahalakshmi. As of November 2024 press reported this component had not been implemented. No later source has been collected.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "Congress unveils 6 guarantees in Telangana Assembly poll manifesto",
+            publisher: "Deccan Chronicle",
+            url: "https://deccanchronicle.com/nation/politics/171123/congress-unveils-6-guarantees-in-telangana-assembly-poll-manifesto.html",
+            date: "2023-11-17",
+            quote: "Rs. 2,500 monthly financial assistance for women. Gas cylinders at Rs. 500. Free travel for women in TSRTC buses across the state.",
+          },
+          {
+            title: "Unfulfilled promises, discontent, graft charges as Congress set to celebrate one year of governance in Telangana",
+            publisher: "The South First",
+            url: "https://thesouthfirst.com/news/unfulfilled-promises-discontent-graft-charges-as-congress-set-to-celebrate-one-year-of-governance-in-telangana",
+            date: "2024-11-12",
+            quote: "₹2,500 to the woman head of households a month under the Mahalakshmi scheme",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
       },
     ],
   },
@@ -1205,13 +1374,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "tg-p07",
-        title: "Farm support and rural development",
+        title: "Rythu Bharosa: ₹15,000 per acre a year to farmers and ₹12,000 to farm labourers",
         sourceNote: "Government focus",
         announcedDate: "2023–2024",
         status: "IN_PROGRESS",
-        evidenceNote: "As Deputy Chief Minister and Finance Minister, Bhatti Vikramarka presented the 2025-26 Telangana budget on 19 March 2025 with Rs 24,439 crore for agriculture (including Rythu Bharosa) and Rs 31,605 crore for Panchayati Raj and Rural Development; a July 2024 report records the second phase of the crop loan waiver covering 17.75 lakh farmers across two phases. Sources show allocations and phased disbursement, not a completed programme.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "As Deputy Chief Minister and Finance Minister, Bhatti Vikramarka presented the 2025-26 Telangana budget on 19 March 2025 with Rs 24,439 crore for agriculture (including Rythu Bharosa) and Rs 31,605 crore for Panchayati Raj and Rural Development; a July 2024 report records the second phase of the crop loan waiver covering 17.75 lakh farmers across two phases. Sources show allocations and phased disbursement, not a completed programme. Sources show budget allocations for Rythu Bharosa, not the per-acre rate actually paid.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "Congress unveils 6 guarantees in Telangana Assembly poll manifesto",
+            publisher: "Deccan Chronicle",
+            url: "https://deccanchronicle.com/nation/politics/171123/congress-unveils-6-guarantees-in-telangana-assembly-poll-manifesto.html",
+            date: "2023-11-17",
+            quote: "Rs. 15,000 per acre financial assistance for farmers and tenant farmers. Rs. 12,000 annual aid for agricultural labor.",
+          },
           {
             title: "Telangana govt presents Rs 3.05 lakh cr budget for 2025-26",
             publisher: "Deccan Chronicle",
@@ -1261,7 +1437,7 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
     affidavitYear: "2023",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/N_Uttam_kumar_Reddy.jpg/330px-N_Uttam_kumar_Reddy.jpg",
-    photoSource: "Wikimedia Commons \u00b7 CC BY-SA 4.0",
+    photoSource: "Wikimedia Commons · CC BY-SA 4.0",
     lastUpdated: "2026-08-24",
     sortOrder: 3,
     likes: 1100,
@@ -1301,6 +1477,26 @@ export const pilotCandidates: PilotCandidate[] = [
         likes: 480,
         dislikes: 90,
       },
+      {
+        id: "tg-p21",
+        title: "SLBC tunnel: complete by June 2028 to irrigate 4 lakh acres in Nalgonda",
+        sourceNote: "Minister's statement, July 2026",
+        announcedDate: "2026-07",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Commitment recorded in July 2026 as Irrigation Minister. Progress on the tunnel has not yet been checked against sources; the completion date has been restated more than once.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "SLBC Tunnel Will Be Ready by June 2028: Uttam",
+            publisher: "Deccan Chronicle",
+            url: "https://www.deccanchronicle.com/southern-states/telangana/slbc-tunnel-will-be-ready-by-june-2028-uttam-1968916",
+            date: "2026-07-07",
+            quote: "The government is committed to completing the SLBC tunnel by June 2028.",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
+      },
     ],
   },
   {
@@ -1322,7 +1518,7 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
     affidavitYear: "2023",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Danasari-Anasuya-Seethakka_Garu.png/330px-Danasari-Anasuya-Seethakka_Garu.png",
-    photoSource: "Wikimedia Commons \u00b7 CC BY-SA 4.0",
+    photoSource: "Wikimedia Commons · CC BY-SA 4.0",
     lastUpdated: "2026-08-16",
     sortOrder: 5,
     likes: 780,
@@ -1362,6 +1558,26 @@ export const pilotCandidates: PilotCandidate[] = [
         likes: 340,
         dislikes: 55,
       },
+      {
+        id: "tg-p22",
+        title: "Scrap Dharani portal and issue land title documents to all farmers",
+        sourceNote: "Campaign statement, Mulug 2023",
+        announcedDate: "2023-11",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Campaign pledge recorded in November 2023. Progress has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "Mulugu Congress candidate Seethakka campaigns in constituency, seeks votes from people",
+            publisher: "The Hans India",
+            url: "https://www.thehansindia.com/telangana/mulugu-congress-candidate-seethakka-campaigns-in-constituency-seeks-votes-from-people-840802",
+            date: "2023-11-27",
+            quote: "She promised to cancel the Dharani portal and ensure that all farmers receive their degrees.",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
+      },
     ],
   },
   {
@@ -1394,13 +1610,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "tg-p01",
-        title: "Continue focus on irrigation and farm support legacy schemes",
+        title: "Rythu Bandhu: raise to ₹16,000 per acre a year, up ₹1,000 each year from ₹11,000",
         sourceNote: "Party platform",
         announcedDate: "2023",
         status: "UNABLE_TO_VERIFY",
-        evidenceNote: "BRS lost power in December 2023, so KCR, as Gajwel MLA and opposition leader, cannot continue the Rythu Bandhu or irrigation schemes from government. Sources show he was absent from the Assembly between 25 July 2024 and 12 March 2025 and in September 2026 announced agitation over the Kaleshwaram and Palamuru-Rangareddy projects; none shows delivery on the promise itself.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "BRS manifesto pledge of October 2023. BRS lost the 2023 election, so KCR is not in a position to implement it. BRS lost power in December 2023, so KCR, as Gajwel MLA and opposition leader, cannot continue the Rythu Bandhu or irrigation schemes from government. Sources show he was absent from the Assembly between 25 July 2024 and 12 March 2025 and in September 2026 announced agitation over the Kaleshwaram and Palamuru-Rangareddy projects; none shows delivery on the promise itself.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "KCR promises Rs 16,000 per acre for farmers; free life insurance cover: BRS manifesto details",
+            publisher: "The News Minute",
+            url: "https://www.thenewsminute.com/telangana/kcr-promises-rs-16000-per-acre-for-farmers-free-life-insurance-cover-brs-manifesto-details",
+            date: "2023-10-15",
+            quote: "Immediately it will go up to Rs 11000 and will increase by Rs 1000 per year (until it reaches Rs 16000).",
+          },
           {
             title: "KCR returns to Telangana Assembly after 8 long months; what changed?",
             publisher: "The Federal",
@@ -1451,13 +1674,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "tg-p02",
-        title: "Urban development and IT/industry growth focus",
+        title: "Sircilla: yarn depot within six months and underground drainage in next term",
         sourceNote: "Public positions",
         announcedDate: "2023–2024",
         status: "UNABLE_TO_VERIFY",
-        evidenceNote: "KTR retained the Sircilla seat but BRS lost power in 2023, so he holds no executive role to deliver urban development or IT/industry growth. The only post-2023 evidence found shows him, in January 2025, pressing the Congress government over Tier-II IT hubs set up under BRS; no delivery attributable to him was found.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "Pledges made at the final campaign roadshow in Sircilla in November 2023. BRS lost power in December 2023, and no source was found on a yarn depot or underground drainage works in Sircilla since.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "KTR promises to develop Sircilla on all fronts",
+            publisher: "Telangana Today",
+            url: "https://telanganatoday.com/ktr-promises-to-develop-sircilla-on-all-fronts",
+            date: "2023-11-28",
+            quote: "Promising to extend support to the cotton industry as well, he assured a yarn depot within six months.",
+          },
           {
             title: "KTR raises concern over lack of support to IT Hubs under Congress regime",
             publisher: "Telangana Today",
@@ -1543,7 +1773,7 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
     affidavitYear: "2023",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/The_Minister_for_Home_and_Jails%2C_Andhra_Pradesh%2C_Smt._Sabitha_Indra_Reddy_addressing_the_gathering_during_Bharat_Nirman_Public_Information_Campaign%2C_at_Maheswaram%2C_Rangareddy_district%2C_Andhra_Pradesh_on_August_03%2C_2010.jpg/330px-The_Minister_for_Home_and_Jails%2C_Andhra_Pradesh%2C_Smt._Sabitha_Indra_Reddy_addressing_the_gathering_during_Bharat_Nirman_Public_Information_Campaign%2C_at_Maheswaram%2C_Rangareddy_district%2C_Andhra_Pradesh_on_August_03%2C_2010.jpg",
-    photoSource: "Wikimedia Commons \u00b7 GODL-India",
+    photoSource: "Wikimedia Commons · GODL-India",
     lastUpdated: "2026-08-24",
     sortOrder: 4,
     likes: 980,
@@ -1551,13 +1781,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "tg-p04",
-        title: "Education and women’s welfare focus",
+        title: "Maheshwaram: medical college and Metro extension from Shamshabad airport to Kandukur",
         sourceNote: "Campaign",
         announcedDate: "2023",
         status: "UNABLE_TO_VERIFY",
-        evidenceNote: "Sabitha Indra Reddy sits as an opposition (BRS) MLA; searches for education or women's welfare measures delivered in Maheshwaram since 2023 found only her public criticism of the Congress government, such as over the April 2025 locking of the Maheshwaram government medical college for unpaid rent. No source shows a specific outcome attributable to her.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "Announced by the then Chief Minister in June 2023 at her request as Education Minister, and raised in her 2023 campaign. BRS lost power in December 2023; no source was found on either project since.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "CM KCR announces Hyderabad Metro Rail to Kandukur",
+            publisher: "Telangana Today",
+            url: "https://telanganatoday.com/cm-kcr-announces-hyderabad-metro-rail-to-kandukur",
+            date: "2023-06-19",
+            quote: "would be extended further to Kandukur in Maheshwaram constituency ... announced a medical college for Maheshwaram constituency",
+          },
           {
             title: "Maheshwaram Medical College Locked As Rent Dues Pile Up",
             publisher: "Deccan Chronicle",
@@ -1656,7 +1893,7 @@ export const pilotCandidates: PilotCandidate[] = [
     affidavitPdfUrl: "https://affidavit.eci.gov.in/",
     affidavitYear: "2023",
     photoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Talasani_Srinivas_Yadav_%28cropped%29.jpg/330px-Talasani_Srinivas_Yadav_%28cropped%29.jpg",
-    photoSource: "Wikimedia Commons \u00b7 CC BY-SA 4.0",
+    photoSource: "Wikimedia Commons · CC BY-SA 4.0",
     lastUpdated: "2026-11-01",
     sortOrder: 5,
     likes: 860,
@@ -1704,12 +1941,12 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "tg-p10",
-        title: "Strong opposition focus and constituency development",
+        title: "Karimnagar: road and infrastructure works as MP",
         sourceNote: "Campaign",
         announcedDate: "2024",
         status: "IN_PROGRESS",
-        evidenceNote: "In April 2025 Bandi Sanjay inaugurated a Rs 65 lakh road and inspected Rs 2.59 crore of CC roads in Kodimyala mandal; in May 2026 he launched a Rs 50 crore, 35-km Arnakonda-Mallyala road expansion under Central CRIF funds with a one-year completion target. The 'strong opposition focus' part of the title is not a measurable commitment and was not assessed.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "In April 2025 Bandi Sanjay inaugurated a Rs 65 lakh road and inspected Rs 2.59 crore of CC roads in Kodimyala mandal; in May 2026 he launched a Rs 50 crore, 35-km Arnakonda-Mallyala road expansion under Central CRIF funds with a one-year completion target.",
+        lastChecked: "2026-11-02",
         sources: [
           {
             title: "Karimnagar: Bandi launches road works",
@@ -1728,6 +1965,26 @@ export const pilotCandidates: PilotCandidate[] = [
         ],
         likes: 720,
         dislikes: 180,
+      },
+      {
+        id: "tg-p23",
+        title: "Karimnagar: secure ₹176 crore pending Smart City funds from the Centre",
+        sourceNote: "Statement as MP, July 2024",
+        announcedDate: "2024-07",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "Commitment made at a Karimnagar review in July 2024 as the newly elected MP and Union Minister of State. No later source collected on whether the pending funds were sanctioned.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "Bandi promises to develop Karimnagar",
+            publisher: "Telangana Today",
+            url: "https://telanganatoday.com/bandi-promises-to-develop-karimnagar",
+            date: "2024-07-14",
+            quote: "The corporation had already got Rs.765 crore while Rs.176 crore was pending. ... he would ensure that the funds pending from the Centre were sanctioned.",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
       },
     ],
   },
@@ -1778,6 +2035,26 @@ export const pilotCandidates: PilotCandidate[] = [
         likes: 580,
         dislikes: 95,
       },
+      {
+        id: "tg-p24",
+        title: "Chevella Sankalp Patra: rejuvenate 900 villages and rural tourism hubs in five mandals",
+        sourceNote: "Candidate manifesto, Chevella 2024",
+        announcedDate: "2024-04-27",
+        status: "UNABLE_TO_VERIFY",
+        evidenceNote: "From the candidate's own constituency manifesto released in April 2024. Progress has not yet been checked against sources.",
+        lastChecked: "2026-11-02",
+        sources: [
+          {
+            title: "Konda Vishweshwar Reddy unveils Manifesto for Chevella",
+            publisher: "Deccan Chronicle",
+            url: "https://www.deccanchronicle.com/nation/politics/konda-vishweshwar-reddy-unveils-manifesto-for-chevella-891341",
+            date: "2024-04-27",
+            quote: "aiming to rejuvenate 900 villages in the constituency ... across Parigi, Vikarabad, Chevella, Kandukur, and Tandur",
+          },
+        ],
+        likes: 0,
+        dislikes: 0,
+      },
     ],
   },
   {
@@ -1809,13 +2086,20 @@ export const pilotCandidates: PilotCandidate[] = [
     promises: [
       {
         id: "tg-p12",
-        title: "Constituency development and opposition role",
+        title: "BJP pledge: four free LPG cylinders a year to women if BJP forms government",
         sourceNote: "Campaign",
         announcedDate: "2023",
         status: "UNABLE_TO_VERIFY",
-        evidenceNote: "Etela Rajender lost Huzurabad in the 2023 assembly election by 16,873 votes and in June 2024 was elected MP from Malkajgiri, so he did not hold the Huzurabad seat during this term. No source was found showing constituency development in Huzurabad attributable to him after 2023.",
-        lastChecked: "2026-11-01",
+        evidenceNote: "BJP manifesto pledge he campaigned on as the party's campaign committee chairman in November 2023. It was conditional on a BJP government in Telangana, which did not form. Etela Rajender lost Huzurabad in the 2023 assembly election by 16,873 votes and in June 2024 was elected MP from Malkajgiri, so he did not hold the Huzurabad seat during this term. No source was found showing constituency development in Huzurabad attributable to him after 2023.",
+        lastChecked: "2026-11-02",
         sources: [
+          {
+            title: "Etela flays KCR, alleges he neglected sole aim of separate Telangana",
+            publisher: "The Hans India",
+            url: "https://www.thehansindia.com/telangana/etela-flays-kcr-alleges-he-neglected-sole-aim-of-separate-telangana-839700",
+            date: "2023-11-22",
+            quote: "4 free gas cylinders per year for women, and interest-free loans of Rs. 4200 crores.",
+          },
           {
             title: "Huzurabad result: BRS Kaushik Reddy turns giant killer; defeats BJP senior Eatala",
             publisher: "NewsMeter",
