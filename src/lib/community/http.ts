@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { isLive } from "./env";
+import { isLive, communityMissing } from "./env";
 
 export function json(data: unknown, init?: ResponseInit) {
   return NextResponse.json(data, { ...init, headers: { "Cache-Control": "no-store", ...(init?.headers ?? {}) } });
@@ -11,7 +11,12 @@ export function error(status: number, code: string, message?: string) {
 
 /** Guard for every community API route: feature flag, JSON body, same-origin. */
 export function guard(req: NextRequest, opts: { requireJson?: boolean } = {}): NextResponse | null {
-  if (!isLive()) return error(503, "community_disabled", "Community features are not enabled on this deployment.");
+  if (!isLive()) {
+    return json(
+      { error: "community_disabled", message: "Community features are not enabled on this deployment.", missing: communityMissing() },
+      { status: 503 },
+    );
+  }
   if (opts.requireJson) {
     const ct = req.headers.get("content-type") ?? "";
     if (!ct.includes("application/json")) return error(415, "json_required");

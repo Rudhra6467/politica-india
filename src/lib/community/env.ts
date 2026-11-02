@@ -12,6 +12,14 @@ export function isLive(): boolean {
   return communityMode() === "live";
 }
 
+/** Names the configuration still missing for live mode. Safe to expose: names only, never values. */
+export function communityMissing(): string[] {
+  const missing: string[] = [];
+  if (process.env.COMMUNITY_MODE !== "live") missing.push("COMMUNITY_MODE=live");
+  if (!process.env.DATABASE_URL) missing.push("DATABASE_URL");
+  return missing;
+}
+
 export function authSecret(): string {
   const s = process.env.AUTH_SECRET;
   if (!s || s.length < 32) throw new Error("AUTH_SECRET must be set (32+ characters) when COMMUNITY_MODE=live");
