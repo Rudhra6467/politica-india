@@ -165,6 +165,15 @@ const en = {
       EVIDENCE_CONFLICTING: "Credible sources disagree.",
     },
   },
+  promisePage: {
+    eyebrow: "Tracked promise",
+    by: "Promise tracked for",
+    viewProfile: "Full profile →",
+    sharePromise: "Share this promise",
+    allPromises: "All tracked promises of",
+    sourcesCount: "sources",
+    statusMeaning: "What this status means",
+  },
   comments: {
     reserved:
       "Comments are reserved for verified citizens. Real verification (offline Aadhaar e-KYC) arrives with user accounts; this pilot has a mock toggle so the flow can be reviewed.",
