@@ -94,6 +94,8 @@ Goal: make the pilot feel like a finished product for an ordinary citizen on a p
 - Canonical data (names, promise titles, evidence notes) stays in the language it was recorded in; the
   methodology page is English-only for now and says so in Telugu/Hindi.
 - 8 more licensed photos (24 of 29 now).
+- Promise pages (`/p/<id>`) with their own share cards, so a single promise and its status travel on
+  WhatsApp with the sources attached. Share link on every promise card.
 
 **Known content gaps:** promise titles are mostly broad focus areas (“Urban infrastructure and employment”)
 rather than specific pledges, which caps how precise any status can be. Rewriting them into measurable

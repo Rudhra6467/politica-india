@@ -4,6 +4,7 @@ import { useState } from "react";
 import LikeDislikeButtons from "@/components/LikeDislikeButtons";
 import CommentSection from "@/components/CommentSection";
 import type { PromiseStatus, EvidenceSource } from "@/data/pilot-candidates";
+import Link from "next/link";
 import { useLocale } from "@/i18n/LocaleProvider";
 
 export const STATUS_STYLE: Record<PromiseStatus, string> = {
@@ -99,8 +100,8 @@ export function StatusPill({ status, size = "md" }: { status: PromiseStatus; siz
   );
 }
 
-export default function PromiseCard({ promise }: { promise: PromiseCardData }) {
-  const { t } = useLocale();
+export default function PromiseCard({ promise, showShare = true }: { promise: PromiseCardData; showShare?: boolean }) {
+  const { t, href } = useLocale();
   const [commentsOpen, setCommentsOpen] = useState(false);
 
   return (
@@ -142,6 +143,18 @@ export default function PromiseCard({ promise }: { promise: PromiseCardData }) {
             initialDislikes={promise.dislikes}
             size="sm"
           />
+          <div className="flex items-center gap-4">
+          {showShare && (
+            <Link
+              href={href(`/p/${promise.id}`)}
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 transition hover:text-indigo-600"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.7 13.5l6.6 3.8M15.3 6.7l-6.6 3.8M18 20a3 3 0 100-6 3 3 0 000 6zM18 10a3 3 0 100-6 3 3 0 000 6zM6 15a3 3 0 100-6 3 3 0 000 6z" />
+              </svg>
+              {t.profile.share}
+            </Link>
+          )}
           <button
             type="button"
             onClick={() => setCommentsOpen(!commentsOpen)}
@@ -153,6 +166,7 @@ export default function PromiseCard({ promise }: { promise: PromiseCardData }) {
             </svg>
             {commentsOpen ? t.promise.hideComments : t.promise.comments}
           </button>
+          </div>
         </div>
 
         {commentsOpen && (

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { pilotCandidates } from "@/data/pilot-candidates";
+import { getAllPromises } from "@/lib/promises";
 import { LOCALES } from "@/i18n";
 import { localeHref } from "@/i18n/href";
 
@@ -35,6 +36,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 0.8,
       alternates: alt(`/candidates/${c.id}`),
+    })),
+    ...getAllPromises().map(({ promise }) => ({
+      url: `${SITE_URL}/p/${promise.id}`,
+      lastModified: promise.lastChecked ? new Date(promise.lastChecked) : now,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+      alternates: alt(`/p/${promise.id}`),
     })),
   ];
 }
