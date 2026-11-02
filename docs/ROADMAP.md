@@ -91,8 +91,8 @@ Goal: make the pilot feel like a finished product for an ordinary citizen on a p
   `/te/...` and `/hi/...`, all pre-rendered (212 static pages). First visit follows Accept-Language; the
   choice is remembered in a cookie; `hreflang` alternates in metadata and sitemap. Script-aware fonts
   (Noto Sans Telugu / Devanagari) load only for those locales.
-- Canonical data (names, promise titles, evidence notes) stays in the language it was recorded in; the
-  methodology page is English-only for now and says so in Telugu/Hindi.
+- Canonical data (names, promise titles, evidence notes) stays in the language it was recorded in. The
+  methodology page is fully translated into Telugu and Hindi (Nov 2026); legal pages remain English.
 - 8 more licensed photos (24 of 29 now).
 - Promise pages (`/p/<id>`) with their own share cards, so a single promise and its status travel on
   WhatsApp with the sources attached. Share link on every promise card.
@@ -149,7 +149,7 @@ every material fact traceable to a Source row. See `docs/SCHEMA.md` and `docs/TI
 
 - Evidence pass on the 22 “Unable to verify” promises (10 are new pledges not yet checked)
 - Photos for the 13 candidates still on initials (PIB / Wikimedia licensed only)
-- Translate methodology and promise titles into Telugu and Hindi
+- Translate promise titles and evidence notes into Telugu and Hindi
 - Constituency pages once more than one election per seat is in the data
 
 ---
