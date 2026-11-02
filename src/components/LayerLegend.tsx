@@ -1,30 +1,17 @@
-/**
- * Explains the information layers used across Politica India.
- */
+import type { Dictionary } from "@/i18n";
 
-const LAYERS = [
-  {
-    dot: "bg-blue-600",
-    title: "Verified record",
-    body: "Facts from official sources, mainly Election Commission of India Form 26 affidavits. Always attributed with year.",
-  },
-  {
-    dot: "bg-amber-500",
-    title: "Tracked promises",
-    body: "Commitments we follow, each with a source, a status and a last-checked date. “Unable to verify” beats guessing.",
-  },
-  {
-    dot: "bg-violet-500",
-    title: "Community",
-    body: "Likes, dislikes and comments from citizens. Reaction only. Never converted into a fact, score or ranking.",
-  },
-];
+/** Explains the information layers used across Politica India. */
+export default function LayerLegend({ dict, compact = false }: { dict: Dictionary; compact?: boolean }) {
+  const layers = [
+    { dot: "bg-blue-600", title: dict.layers.verified, body: dict.layers.verifiedBody },
+    { dot: "bg-amber-500", title: dict.layers.tracked, body: dict.layers.trackedBody },
+    { dot: "bg-violet-500", title: dict.layers.community, body: dict.layers.communityBody },
+  ];
 
-export default function LayerLegend({ compact = false }: { compact?: boolean }) {
   if (compact) {
     return (
       <div className="flex flex-wrap gap-4 text-xs text-slate-500">
-        {LAYERS.map((l) => (
+        {layers.map((l) => (
           <span key={l.title} className="inline-flex items-center gap-1.5">
             <span className={`h-1.5 w-1.5 rounded-full ${l.dot}`} />
             {l.title}
@@ -36,7 +23,7 @@ export default function LayerLegend({ compact = false }: { compact?: boolean }) 
 
   return (
     <div className="grid gap-2.5 sm:grid-cols-3">
-      {LAYERS.map((l) => (
+      {layers.map((l) => (
         <div key={l.title} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-card">
           <div className="flex items-center gap-2">
             <span className={`h-2 w-2 rounded-full ${l.dot}`} />

@@ -19,7 +19,8 @@ accounts exist.
 | **1** | Credibility | Done |
 | **1.5** | Pilot Completeness (content depth) | Done for 29-candidate set |
 | **1.8** | Premium visitor experience | Done (Nov 2026) |
-| **A** | **Trust foundation (evidence, CI, SEO)** | **Done (Nov 2026)** — see below |
+| **A** | Trust foundation (evidence, CI, SEO) | Done (Nov 2026) |
+| **A.5** | **Installable app + Telugu/Hindi interface** | **Done (Nov 2026)** |
 | **2** | Evidence & Canonical Data Layer | 2A scaffolded, 2B–2D next |
 | **3** | Knowledge Graph | Later |
 | **4** | Research Engine | Later |
@@ -82,9 +83,21 @@ Goal: make the pilot feel like a finished product for an ordinary citizen on a p
 - Sitemap, robots, per-profile Open Graph images, security headers, Vercel Web Analytics.
 - Methodology documents the status rules.
 
+## Phase A.5 — Installable app and regional languages (done Nov 2026)
+
+- Progressive Web App: manifest, icons, service worker with offline fallback, install card; Play Store
+  path via Trusted Web Activity documented in `docs/PWA_AND_PLAY_STORE.md`.
+- Telugu and Hindi interface. English stays at clean URLs (`/candidates/...`); regional pages live at
+  `/te/...` and `/hi/...`, all pre-rendered (212 static pages). First visit follows Accept-Language; the
+  choice is remembered in a cookie; `hreflang` alternates in metadata and sitemap. Script-aware fonts
+  (Noto Sans Telugu / Devanagari) load only for those locales.
+- Canonical data (names, promise titles, evidence notes) stays in the language it was recorded in; the
+  methodology page is English-only for now and says so in Telugu/Hindi.
+- 8 more licensed photos (24 of 29 now).
+
 **Known content gaps:** promise titles are mostly broad focus areas (“Urban infrastructure and employment”)
 rather than specific pledges, which caps how precise any status can be. Rewriting them into measurable
-commitments from manifestos is the next content task. 13 candidates still lack licensed photos.
+commitments from manifestos is the next content task. 5 candidates still lack licensed photos (Murugudu Lavanya, Panchakarla Ramesh Babu, Danam Nagender, Bellana Chandrasekhar, Raghunandan Rao — the last has a Commons file whose identity could not be confirmed).
 
 ---
 
@@ -109,7 +122,7 @@ moderation. Seeded engagement is replaced, never mixed.
 
 - Rewrite vague promise titles into specific, dated manifesto pledges; split bundled promises
 - Photos for the 13 candidates still on initials (PIB / Wikimedia licensed only)
-- Telugu and Hindi UI strings (i18n scaffold)
+- Translate methodology and promise titles into Telugu and Hindi
 - Constituency pages once more than one election per seat is in the data
 
 ---

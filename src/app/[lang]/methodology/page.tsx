@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getDictionary, isLocale, type Locale } from "@/i18n";
+import { localeHref } from "@/i18n/href";
 
 export const metadata = {
   title: "How Politica Works · Methodology",
@@ -6,16 +8,26 @@ export const metadata = {
     "How Politica India sources, tracks, and presents political information. What we do and what we do not do.",
 };
 
-export default function MethodologyPage() {
+export default async function MethodologyPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const locale: Locale = isLocale(lang) ? lang : "en";
+  const t = getDictionary(locale);
   return (
     <div className="max-w-3xl mx-auto space-y-8 pb-16">
       <div>
         <Link
-          href="/"
+          href={localeHref(locale, "/")}
           className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800"
         >
-          <span aria-hidden>←</span> Home
+          <span aria-hidden>←</span> {t.party.home}
         </Link>
+        {locale !== "en" && (
+          <p className="mt-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+            {locale === "te"
+              ? "ఈ పద్ధతి పేజీ ప్రస్తుతం ఇంగ్లీషులో మాత్రమే ఉంది. తెలుగు అనువాదం త్వరలో."
+              : "यह कार्यप्रणाली पेज अभी केवल अंग्रेज़ी में है। हिन्दी अनुवाद जल्द।"}
+          </p>
+        )}
         <h1 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
           How Politica Works
         </h1>

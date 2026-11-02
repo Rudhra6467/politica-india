@@ -1,22 +1,16 @@
 /**
  * Lightweight in-memory search over canonical pilot entities.
  * Searches candidates, parties and constituencies — never UI strings.
+ * Results carry structured fields; the UI formats labels per language.
  * Replace with a DB-backed query in Tier 2C.
  */
 import { pilotCandidates, type PilotCandidate } from "@/data/pilot-candidates";
 import { partyInfoMap } from "@/data/party-info";
 
 export type SearchResult =
-  | {
-      type: "candidate";
-      id: string;
-      title: string;
-      subtitle: string;
-      href: string;
-      candidate: PilotCandidate;
-    }
-  | { type: "party"; id: string; title: string; subtitle: string; href: string }
-  | { type: "constituency"; id: string; title: string; subtitle: string; href: string };
+  | { type: "candidate"; id: string; title: string; href: string; candidate: PilotCandidate }
+  | { type: "party"; id: string; title: string; href: string; abbr: string }
+  | { type: "constituency"; id: string; title: string; href: string; seatType: "AC" | "PC"; state: string };
 
 function norm(s: string) {
   return s
@@ -45,24 +39,11 @@ export function searchAll(query: string, limit = 8): SearchResult[] {
   const scored: { s: number; r: SearchResult }[] = [];
 
   for (const c of pilotCandidates) {
-    const s = Math.max(
-      score(c.name, q),
-      score(c.constituency, q) - 5,
-      score(c.partyAbbr, q) - 20,
-      score(c.party, q) - 25,
-    );
+    const s = Math.max(score(c.name, q), score(c.constituency, q) - 5, score(c.partyAbbr, q) - 20, score(c.party, q) - 25);
     if (s > 0) {
-      const role = c.electionType === "Lok Sabha" ? "MP" : "MLA";
       scored.push({
         s: s + (c.sortOrder != null ? Math.max(0, 6 - c.sortOrder) : 0),
-        r: {
-          type: "candidate",
-          id: c.id,
-          title: c.name,
-          subtitle: `${c.partyAbbr} · ${role} · ${c.constituency}, ${c.state}`,
-          href: `/candidates/${c.id}`,
-          candidate: c,
-        },
+        r: { type: "candidate", id: c.id, title: c.name, href: `/candidates/${c.id}`, candidate: c },
       });
     }
   }
@@ -76,13 +57,7 @@ export function searchAll(query: string, limit = 8): SearchResult[] {
       const info = partyInfoMap[c.partyAbbr];
       scored.push({
         s: s + 5,
-        r: {
-          type: "party",
-          id: c.partyAbbr,
-          title: info?.name ?? c.party,
-          subtitle: `Party · ${c.partyAbbr}`,
-          href: `/party/${c.partyAbbr}`,
-        },
+        r: { type: "party", id: c.partyAbbr, title: info?.name ?? c.party, href: `/party/${c.partyAbbr}`, abbr: c.partyAbbr },
       });
     }
   }
@@ -100,8 +75,9 @@ export function searchAll(query: string, limit = 8): SearchResult[] {
           type: "constituency",
           id: key,
           title: c.constituency,
-          subtitle: `${c.electionType === "Lok Sabha" ? "Lok Sabha seat" : "Assembly seat"} · ${c.state}`,
           href: `/candidates?q=${encodeURIComponent(c.constituency)}`,
+          seatType: c.electionType === "Lok Sabha" ? "PC" : "AC",
+          state: c.state,
         },
       });
     }

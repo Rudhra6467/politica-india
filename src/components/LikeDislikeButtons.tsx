@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLocale } from "@/i18n/LocaleProvider";
 
 interface LikeDislikeButtonsProps {
   id: string;
@@ -64,6 +65,7 @@ export default function LikeDislikeButtons({
   size = "md",
   showPilotLabel = true,
 }: LikeDislikeButtonsProps) {
+  const { t } = useLocale();
   const [likes, setLikes] = useState(initialLikes);
   const [dislikes, setDislikes] = useState(initialDislikes);
   const [userVote, setUserVote] = useState<"like" | "dislike" | null>(null);
@@ -113,7 +115,7 @@ export default function LikeDislikeButtons({
               ? "border-emerald-400 bg-emerald-50 text-emerald-700"
               : "border-slate-200 bg-white text-slate-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700")
           }
-          title="Like"
+          title={t.profile.like}
         >
           <ThumbIcon />
           {likes.toLocaleString("en-IN")}
@@ -130,7 +132,7 @@ export default function LikeDislikeButtons({
               ? "border-rose-400 bg-rose-50 text-rose-700"
               : "border-slate-200 bg-white text-slate-600 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700")
           }
-          title="Dislike"
+          title={t.profile.dislike}
         >
           <ThumbIcon down />
           {dislikes.toLocaleString("en-IN")}
@@ -138,7 +140,7 @@ export default function LikeDislikeButtons({
       </div>
       {showPilotLabel && (
         <p className="mt-1 text-[10px] leading-tight text-slate-400">
-          Pilot engagement (illustrative) · not live citizen votes
+          {t.profile.pilotEngagement}
         </p>
       )}
     </div>

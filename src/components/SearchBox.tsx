@@ -3,27 +3,18 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { searchAll, type SearchResult } from "@/lib/search";
+import { useLocale } from "@/i18n/LocaleProvider";
 import CandidateAvatar from "./CandidateAvatar";
 import PartyBadge from "./PartyBadge";
 
 interface SearchBoxProps {
   variant?: "header" | "hero";
-  placeholder?: string;
   autoFocus?: boolean;
 }
 
-const TYPE_LABEL: Record<SearchResult["type"], string> = {
-  candidate: "Representative",
-  party: "Party",
-  constituency: "Constituency",
-};
-
-export default function SearchBox({
-  variant = "header",
-  placeholder = "Search a leader, party or constituency",
-  autoFocus = false,
-}: SearchBoxProps) {
+export default function SearchBox({ variant = "header", autoFocus = false }: SearchBoxProps) {
   const router = useRouter();
+  const { t, href } = useLocale();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
@@ -33,7 +24,6 @@ export default function SearchBox({
 
   const results = q.trim() ? searchAll(q, 8) : [];
 
-  // "/" focuses the header search from anywhere on the page
   useEffect(() => {
     if (variant !== "header") return;
     const onKey = (e: KeyboardEvent) => {
@@ -60,14 +50,14 @@ export default function SearchBox({
   const go = (r: SearchResult) => {
     setOpen(false);
     setQ("");
-    router.push(r.href);
+    router.push(href(r.href));
   };
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!open || results.length === 0) {
       if (e.key === "Enter" && q.trim()) {
         setOpen(false);
-        router.push(`/candidates?q=${encodeURIComponent(q.trim())}`);
+        router.push(href(`/candidates?q=${encodeURIComponent(q.trim())}`));
       }
       return;
     }
@@ -86,18 +76,30 @@ export default function SearchBox({
     }
   };
 
+  const typeLabel: Record<SearchResult["type"], string> = {
+    candidate: t.search.typeCandidate,
+    party: t.search.typeParty,
+    constituency: t.search.typeConstituency,
+  };
+
+  const subtitle = (r: SearchResult) => {
+    if (r.type === "candidate") {
+      const role = r.candidate.electionType === "Lok Sabha" ? t.common.mp : t.common.mla;
+      return `${r.candidate.partyAbbr} · ${role} · ${r.candidate.constituency}, ${r.candidate.state}`;
+    }
+    if (r.type === "party") return `${t.search.typeParty} · ${r.abbr}`;
+    return `${r.seatType === "PC" ? t.search.lokSabhaSeat : t.search.assemblySeat} · ${r.state}`;
+  };
+
   const isHero = variant === "hero";
 
   return (
     <div ref={wrapRef} className={"relative " + (isHero ? "w-full" : "w-full max-w-md")}>
       <label htmlFor={listId + "-input"} className="sr-only">
-        Search
+        {t.search.placeholder}
       </label>
       <svg
-        className={
-          "pointer-events-none absolute top-1/2 -translate-y-1/2 text-slate-400 " +
-          (isHero ? "left-4 h-5 w-5" : "left-3 h-4 w-4")
-        }
+        className={"pointer-events-none absolute top-1/2 -translate-y-1/2 text-slate-400 " + (isHero ? "left-4 h-5 w-5" : "left-3 h-4 w-4")}
         fill="none"
         stroke="currentColor"
         strokeWidth={2}
@@ -116,7 +118,7 @@ export default function SearchBox({
         aria-expanded={open && results.length > 0}
         aria-controls={listId}
         aria-autocomplete="list"
-        placeholder={placeholder}
+        placeholder={isHero ? t.search.heroPlaceholder : t.search.placeholder}
         value={q}
         onChange={(e) => {
           setQ(e.target.value);
@@ -137,14 +139,10 @@ export default function SearchBox({
       )}
 
       {open && q.trim() && (
-        <div
-          id={listId}
-          role="listbox"
-          className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lift"
-        >
+        <div id={listId} role="listbox" className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lift">
           {results.length === 0 ? (
             <div className="px-4 py-4 text-sm text-slate-500">
-              No match for <span className="font-medium text-slate-700">“{q}”</span> in the pilot set.
+              {t.search.noMatch} <span className="font-medium text-slate-700">“{q}”</span> {t.search.inPilot}
             </div>
           ) : (
             <ul className="max-h-[22rem] overflow-y-auto py-1">
@@ -154,10 +152,7 @@ export default function SearchBox({
                     type="button"
                     onMouseEnter={() => setActive(i)}
                     onClick={() => go(r)}
-                    className={
-                      "flex w-full items-center gap-3 px-3 py-2 text-left transition " +
-                      (i === active ? "bg-indigo-50" : "hover:bg-slate-50")
-                    }
+                    className={"flex w-full items-center gap-3 px-3 py-2 text-left transition " + (i === active ? "bg-indigo-50" : "hover:bg-slate-50")}
                   >
                     {r.type === "candidate" ? (
                       <CandidateAvatar name={r.candidate.name} photoUrl={r.candidate.photoUrl} size="sm" />
@@ -173,19 +168,15 @@ export default function SearchBox({
                     )}
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-sm font-medium text-slate-900">{r.title}</span>
-                      <span className="block truncate text-xs text-slate-500">{r.subtitle}</span>
+                      <span className="block truncate text-xs text-slate-500">{subtitle(r)}</span>
                     </span>
-                    <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-slate-400">
-                      {TYPE_LABEL[r.type]}
-                    </span>
+                    <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-slate-400">{typeLabel[r.type]}</span>
                   </button>
                 </li>
               ))}
             </ul>
           )}
-          <div className="border-t border-slate-100 bg-slate-50 px-3 py-1.5 text-[10px] text-slate-400">
-            ↑↓ to move · Enter to open · Esc to close
-          </div>
+          <div className="border-t border-slate-100 bg-slate-50 px-3 py-1.5 text-[10px] text-slate-400">{t.search.hint}</div>
         </div>
       )}
     </div>
