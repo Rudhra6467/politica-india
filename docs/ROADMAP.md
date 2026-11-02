@@ -116,8 +116,8 @@ commitments from manifestos is the next content task. 5 candidates still lack li
 
 | Batch | Work | Status |
 |-------|------|--------|
-| **2A** | Prisma schema + stable IDs + seed from pilot | Scaffolded (never run against a live DB yet) |
-| **2B** | Source registry; affidavit & promise provenance; pages read from DB | Next |
+| **2A** | Prisma schema + stable IDs + seed from pilot | Done, verified on Postgres 16 (Nov 2026) |
+| **2B** | Source registry; affidavit & promise provenance | Seed done: every evidence source and office-status change is a row with provenance. Pages still read the TS file by design (see Phase B reasoning) |
 | **2C** | DB-backed search + Event timeline | After 2B |
 | **2D** | Read APIs, indexes | After 2C |
 

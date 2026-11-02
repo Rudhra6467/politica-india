@@ -22,9 +22,21 @@ npm run db:setup
 
 That runs `prisma generate` → `db push` → `seed`.
 
-4. Confirm seed counts in the terminal (states, parties, candidates, affidavits, promises, events, sources).
+4. Confirm seed counts in the terminal. Expected for the current pilot: 2 states, 6 parties, 27 constituencies, 29 candidates, 29 affidavits, 35 promises, 71 sources, 71 promise-source links, 60 events. Re-running the seed is idempotent.
 
 5. Optional: `npm run db:studio` to browse rows.
+
+## Local Postgres without Docker
+
+If you have the PostgreSQL 16 binaries but no service, a throwaway cluster works:
+
+```bash
+initdb -D ./pgdata -A trust -U postgres
+pg_ctl -D ./pgdata -o '-p 5433' start
+export DATABASE_URL="postgresql://postgres@localhost:5433/politica?schema=public"
+createdb -h localhost -p 5433 -U postgres politica
+npm run db:setup
+```
 
 ## Important
 

@@ -105,6 +105,13 @@ If the UI still hardcodes political facts → Tier 2 is not finished.
 `totalAssets?`, `totalLiabilities?`, `criminalCases?`, `education?`, `profession?`,  
 `pdfUrl?`, `lastCheckedAt?`, timestamps
 
+**PromiseSource** (added Nov 2026)  
+`id`, `promiseId`, `sourceId`, `quote?` — the dated Source behind a promise status plus the verbatim line relied on.  
+`@@unique([promiseId, sourceId])`. `Source.url` is unique so re-seeding is idempotent.
+
+**Candidate.officeStatusSummary / officeStatusAsOf** (added Nov 2026) — material post-election change
+(disqualification, resignation). Each such change is also an `Event` of type `OFFICE` with its own `sourceId`.
+
 ### Tracked commitments
 
 **Promise**  
@@ -147,8 +154,8 @@ Candidate → Event → Source?
 
 | Batch | Scope |
 |-------|--------|
-| **2A Foundation** | Prisma + stable IDs + relationships + migrate pilot |
-| **2B Evidence** | Source registry + affidavit/promise provenance + temporal status |
+| **2A Foundation** | Prisma + stable IDs + relationships + migrate pilot — **done, verified against Postgres 16 (Nov 2026)** |
+| **2B Evidence** | Source registry + affidavit/promise provenance + temporal status — **seed done: 71 Sources, 71 PromiseSource links, OFFICE events; pages still read the TS file** |
 | **2C Discovery** | Search (entities + aliases + type) + Event timeline on profile |
 | **2D Harden** | Read APIs, indexes, community persistence if needed |
 

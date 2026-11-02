@@ -36,6 +36,19 @@ function parseStatus(s: string): PromiseStatus {
   return map[s] ?? "NOT_STARTED";
 }
 
+const GOV_HOSTS = ["pib.gov.in", "newsonair.gov.in", "eci.gov.in", "ap.gov.in", "telangana.gov.in", ".gov.in", ".nic.in"];
+
+function classify(url: string): { sourceType: SourceType; reliabilityClass: ReliabilityClass } {
+  let host = "";
+  try {
+    host = new URL(url).hostname;
+  } catch {
+    host = url;
+  }
+  if (GOV_HOSTS.some((h) => host.endsWith(h))) return { sourceType: "GOVERNMENT", reliabilityClass: "OFFICIAL" };
+  return { sourceType: "NEWS", reliabilityClass: "REPUTABLE" };
+}
+
 function parseDate(s?: string): Date | null {
   if (!s) return null;
   // Accept "2024", "2024-04", "2026-08-16"
@@ -149,18 +162,29 @@ async function main() {
         totalLiabilities: c.totalLiabilities ?? null,
         criminalCases: c.criminalCases,
         photoUrl: c.photoUrl ?? null,
+        officeStatusSummary: c.officeStatus?.summary ?? null,
+        officeStatusAsOf: parseDate(c.officeStatus?.asOf),
         sortOrder: c.sortOrder ?? 99,
       },
       update: {
         canonicalName: c.name,
+        aliases: [c.name],
         partyId: c.partyAbbr,
         constituencyId: cid,
         stateId: slugState(c.state),
+        electionType: c.electionType,
+        electionYear: c.electionYear,
         electionResult: c.electionResult ?? null,
         marginVotes: c.marginVotes ?? null,
+        age: c.age ?? null,
+        education: c.education ?? null,
+        profession: c.profession ?? null,
         totalAssets: c.totalAssets ?? null,
         totalLiabilities: c.totalLiabilities ?? null,
         criminalCases: c.criminalCases,
+        photoUrl: c.photoUrl ?? null,
+        officeStatusSummary: c.officeStatus?.summary ?? null,
+        officeStatusAsOf: parseDate(c.officeStatus?.asOf),
         sortOrder: c.sortOrder ?? 99,
       },
     });
@@ -199,7 +223,7 @@ async function main() {
 
     // Election event
     await prisma.event.deleteMany({
-      where: { candidateId: c.id, type: EventType.ELECTION },
+      where: { candidateId: c.id, type: { in: [EventType.ELECTION, EventType.AFFIDAVIT] } },
     });
     await prisma.event.create({
       data: {
@@ -252,6 +276,48 @@ async function main() {
           evidenceNote: p.evidenceNote ?? null,
         },
       });
+
+      for (const src of p.sources ?? []) {
+        const source = await prisma.source.upsert({
+          where: { url: src.url },
+          create: {
+            publisher: src.publisher,
+            title: src.title,
+            url: src.url,
+            publishedAt: parseDate(src.date),
+            retrievedAt: lastChecked,
+            ...classify(src.url),
+          },
+          update: { publisher: src.publisher, title: src.title, publishedAt: parseDate(src.date), retrievedAt: lastChecked },
+        });
+        await prisma.promiseSource.upsert({
+          where: { promiseId_sourceId: { promiseId: p.id, sourceId: source.id } },
+          create: { promiseId: p.id, sourceId: source.id, quote: src.quote ?? null },
+          update: { quote: src.quote ?? null },
+        });
+      }
+    }
+
+    // Office status change (disqualification, resignation) as an OFFICE event with its sources
+    await prisma.event.deleteMany({ where: { candidateId: c.id, type: EventType.OFFICE } });
+    if (c.officeStatus) {
+      for (const src of c.officeStatus.sources) {
+        const source = await prisma.source.upsert({
+          where: { url: src.url },
+          create: { publisher: src.publisher, title: src.title, url: src.url, publishedAt: parseDate(src.date), ...classify(src.url) },
+          update: { publisher: src.publisher, title: src.title, publishedAt: parseDate(src.date) },
+        });
+        await prisma.event.create({
+          data: {
+            candidateId: c.id,
+            type: "OFFICE",
+            title: "Office status changed",
+            description: c.officeStatus.summary,
+            occurredAt: parseDate(c.officeStatus.asOf) ?? new Date(),
+            sourceId: source.id,
+          },
+        });
+      }
     }
   }
 
@@ -264,6 +330,7 @@ async function main() {
     promises: await prisma.promise.count(),
     events: await prisma.event.count(),
     sources: await prisma.source.count(),
+    promiseSources: await prisma.promiseSource.count(),
   };
   console.log("Seed complete:", counts);
 }

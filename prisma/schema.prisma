@@ -80,6 +80,8 @@ model Candidate {
   totalAssets      String?
   totalLiabilities String?
   criminalCases    Int     @default(0)
+  officeStatusSummary String?
+  officeStatusAsOf    DateTime?
   photoUrl         String?
   sortOrder        Int     @default(99)
 
@@ -135,6 +137,10 @@ model Source {
   affidavits Affidavit[]
   promises   Promise[]
   events     Event[]
+
+  promiseSources PromiseSource[]
+
+  @@unique([url])
 }
 
 model Affidavit {
@@ -189,6 +195,8 @@ model Promise {
 
   @@index([candidateId])
   @@index([status])
+
+  promiseSources PromiseSource[]
 }
 
 // ─── Timeline events ────────────────────────────────────────
@@ -200,6 +208,20 @@ enum EventType {
   ANNOUNCEMENT
   OFFICE
   OTHER
+}
+
+/// Evidence behind a promise status: a dated Source plus the verbatim line relied on.
+model PromiseSource {
+  id        String   @id @default(cuid())
+  promiseId String
+  promise   Promise  @relation(fields: [promiseId], references: [id], onDelete: Cascade)
+  sourceId  String
+  source    Source   @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  quote     String?
+  createdAt DateTime @default(now())
+
+  @@unique([promiseId, sourceId])
+  @@index([sourceId])
 }
 
 model Event {
