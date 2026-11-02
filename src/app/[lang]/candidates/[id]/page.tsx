@@ -83,7 +83,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
                 <Link href={partyHref} className="transition hover:opacity-80" title={candidate.party}>
                   <PartyBadge abbr={candidate.partyAbbr} size="sm" />
                 </Link>
-                <span className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                <span className="text-[11px] font-medium uppercase tracking-wide text-slate-500">
                   {role} · {candidate.electionType} {candidate.electionYear}
                 </span>
                 <span className={"rounded-full border px-1.5 py-0.5 text-[11px] font-medium " + (won ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-slate-200 bg-slate-100 text-slate-600")}>
@@ -165,7 +165,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
           <h2 id="verified-heading" className="text-xs font-semibold tracking-wide text-slate-800">
             {t.profile.verifiedRecord}
           </h2>
-          <span className="text-[10px] text-slate-400">{eciSource}</span>
+          <span className="text-[10px] text-slate-500">{eciSource}</span>
         </div>
         <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
           <MetricCard label={t.profile.age} value={candidate.age?.toString() ?? "—"} />
@@ -193,7 +193,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
             <h2 id="promises-heading" className="text-xs font-semibold tracking-wide text-slate-800">
               {t.profile.trackedPromises}
             </h2>
-            <span className="text-[10px] tabular text-slate-400">{candidate.promises.length}</span>
+            <span className="text-[10px] tabular text-slate-500">{candidate.promises.length}</span>
           </div>
           {statusCounts.length > 0 && (
             <div className="flex flex-wrap items-center gap-1.5">
@@ -208,7 +208,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
         </div>
 
         {candidate.promises.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-8 text-center text-xs text-slate-400">{t.profile.noPromises}</div>
+          <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-8 text-center text-xs text-slate-500">{t.profile.noPromises}</div>
         ) : (
           <div className="space-y-2.5">
             {candidate.promises.map((p) => (
@@ -247,7 +247,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
         </section>
       )}
 
-      <p className="mx-auto max-w-md text-center text-[10px] leading-relaxed text-slate-400">{t.profile.footnote}</p>
+      <p className="mx-auto max-w-md text-center text-[10px] leading-relaxed text-slate-500">{t.profile.footnote}</p>
     </div>
   );
 }
@@ -259,7 +259,7 @@ function OpponentBlock({
 }) {
   const inner = (
     <>
-      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
+      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{label}</div>
       <div className={"mt-0.5 text-sm font-semibold leading-snug " + (href ? "text-indigo-700" : "text-slate-800")}>
         {name}
         {href ? " →" : ""}
@@ -269,7 +269,7 @@ function OpponentBlock({
         {party && margin != null ? " · " : ""}
         {margin != null ? `${margin.toLocaleString("en-IN")} ${marginLabel}` : ""}
       </div>
-      <div className="text-[10px] text-slate-400">{sourceLabel}</div>
+      <div className="text-[10px] text-slate-500">{sourceLabel}</div>
     </>
   );
   const cls = align === "right" ? "text-right" : "";
@@ -285,7 +285,7 @@ function OpponentBlock({
 function MetricCard({ label, value, accent, warning, hint }: { label: string; value: string; accent?: boolean; warning?: boolean; hint?: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-card" title={hint}>
-      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{label}</div>
+      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{label}</div>
       <div className={"mt-0.5 line-clamp-2 text-sm font-semibold leading-tight tracking-tight sm:text-base " + (warning ? "text-amber-700" : accent ? "text-emerald-700" : "text-slate-900")}>
         {value}
       </div>

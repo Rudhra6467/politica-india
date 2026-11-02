@@ -57,7 +57,7 @@ export default async function PromisePage({ params }: { params: Params }) {
       >
         <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="md" partyAbbr={candidate.partyAbbr} priority />
         <div className="min-w-0 flex-1">
-          <div className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{t.promisePage.by}</div>
+          <div className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{t.promisePage.by}</div>
           <div className="truncate text-sm font-semibold text-slate-900">{candidate.name}</div>
           <div className="truncate text-[11px] text-slate-500">
             {role} · {candidate.constituency}, {candidate.state}
@@ -66,11 +66,11 @@ export default async function PromisePage({ params }: { params: Params }) {
         <PartyBadge abbr={candidate.partyAbbr} size="md" />
       </Link>
 
-      <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">{t.promisePage.eyebrow}</p>
+      <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">{t.promisePage.eyebrow}</p>
       <PromiseCard promise={promise} showShare={false} />
 
       <section className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600 shadow-card">
-        <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{t.promisePage.statusMeaning}</div>
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{t.promisePage.statusMeaning}</div>
         <p className="mt-1">
           <span className="font-medium text-slate-800">{t.promise.status[promise.status]}</span> — {t.promise.statusHint[promise.status]}
         </p>

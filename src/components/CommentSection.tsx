@@ -69,7 +69,7 @@ export default function CommentSection({ promiseId }: { promiseId: string }) {
                     {t.comments.verified}
                   </span>
                 )}
-                <span className="ml-auto text-[10px] text-slate-400">
+                <span className="ml-auto text-[10px] text-slate-500">
                   {new Date(c.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                 </span>
               </div>
@@ -96,7 +96,7 @@ export default function CommentSection({ promiseId }: { promiseId: string }) {
             <span>
               {t.comments.postingAs} <span className="font-medium text-emerald-700">{t.comments.verified}</span> {t.comments.pilotMock}
             </span>
-            <button type="button" onClick={toggle} className="text-slate-400 hover:text-slate-600">
+            <button type="button" onClick={toggle} className="text-slate-500 hover:text-slate-600">
               {t.comments.remove}
             </button>
           </div>
@@ -117,7 +117,7 @@ export default function CommentSection({ promiseId }: { promiseId: string }) {
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
           />
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-slate-400">{t.comments.storedLocally}</span>
+            <span className="text-[10px] text-slate-500">{t.comments.storedLocally}</span>
             <button
               type="submit"
               disabled={!text.trim() || !name.trim()}

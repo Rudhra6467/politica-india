@@ -139,7 +139,7 @@ export default function LikeDislikeButtons({
         </button>
       </div>
       {showPilotLabel && (
-        <p className="mt-1 text-[10px] leading-tight text-slate-400">
+        <p className="mt-1 text-[10px] leading-tight text-slate-500">
           {t.profile.pilotEngagement}
         </p>
       )}

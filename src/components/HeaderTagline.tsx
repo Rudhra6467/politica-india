@@ -54,7 +54,7 @@ export default function HeaderTagline() {
               comments from users. Reaction only, not official data.
             </li>
           </ul>
-          <p className="mt-3 text-[11px] text-slate-400">
+          <p className="mt-3 text-[11px] text-slate-500">
             This platform reflects claims and citizen reaction. It does not rank or endorse
             candidates.
           </p>
@@ -68,7 +68,7 @@ export default function HeaderTagline() {
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-2 block text-xs text-slate-400 hover:text-slate-600"
+            className="mt-2 block text-xs text-slate-500 hover:text-slate-600"
           >
             Close
           </button>

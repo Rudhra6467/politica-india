@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { pilotCandidates, resultOf, type PilotCandidate } from "@/data/pilot-candidates";
+import type { CandidateRow } from "@/lib/index-rows";
 import { useLocale } from "@/i18n/LocaleProvider";
 import PartyBadge from "@/components/PartyBadge";
 import CandidateAvatar from "@/components/CandidateAvatar";
@@ -18,7 +18,8 @@ export default function CandidatesBrowser() {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
-  const { t, href } = useLocale();
+  const { t, href, index } = useLocale();
+  const all = index.candidates;
 
   const q = sp.get("q") ?? "";
   const state = sp.get("state") ?? "";
@@ -34,20 +35,20 @@ export default function CandidatesBrowser() {
     router.replace(`${pathname}${next.toString() ? `?${next}` : ""}`, { scroll: false });
   };
 
-  const states = useMemo(() => Array.from(new Set(pilotCandidates.map((c) => c.state))).sort(), []);
+  const states = useMemo(() => Array.from(new Set(all.map((c) => c.state))).sort(), [all]);
   const parties = useMemo(() => {
-    const pool = state ? pilotCandidates.filter((c) => c.state === state) : pilotCandidates;
+    const pool = state ? all.filter((c) => c.state === state) : all;
     return Array.from(new Set(pool.map((c) => c.partyAbbr))).sort();
-  }, [state]);
+  }, [state, all]);
 
   const filtered = useMemo(() => {
     const nq = norm(q.trim());
-    let list = pilotCandidates.filter((c) => {
+    let list = all.filter((c) => {
       if (state && c.state !== state) return false;
       if (party && c.partyAbbr !== party) return false;
-      if (role === "MP" && c.electionType !== "Lok Sabha") return false;
-      if (role === "MLA" && c.electionType !== "Assembly") return false;
-      if (result && resultOf(c) !== result) return false;
+      if (role && c.role !== role) return false;
+      if (result === "won" && !c.won) return false;
+      if (result === "lost" && c.won) return false;
       if (nq) {
         const hay = norm(`${c.name} ${c.party} ${c.partyAbbr} ${c.constituency} ${c.state}`);
         if (!hay.includes(nq)) return false;
@@ -57,12 +58,12 @@ export default function CandidatesBrowser() {
     list = [...list].sort((a, b) => {
       if (sort === "name") return a.name.localeCompare(b.name);
       if (sort === "cases") return b.criminalCases - a.criminalCases || a.name.localeCompare(b.name);
-      const la = resultOf(a) === "lost" ? 1 : 0;
-      const lb = resultOf(b) === "lost" ? 1 : 0;
-      return la - lb || (a.sortOrder ?? 99) - (b.sortOrder ?? 99) || a.state.localeCompare(b.state);
+      const la = a.won ? 0 : 1;
+      const lb = b.won ? 0 : 1;
+      return la - lb || a.sortOrder - b.sortOrder || a.state.localeCompare(b.state);
     });
     return list;
-  }, [q, state, party, role, result, sort]);
+  }, [q, state, party, role, result, sort, all]);
 
   const activeFilters = [state, party, role, result].filter(Boolean).length;
 
@@ -82,7 +83,7 @@ export default function CandidatesBrowser() {
             onChange={(e) => setParam("q", e.target.value)}
             className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-100"
           />
-          <svg className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
+          <svg className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.2-5.2m1.7-4.3a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </label>
@@ -96,7 +97,7 @@ export default function CandidatesBrowser() {
             options={states.map((s) => ({ value: s, label: s }))}
             onChange={(v) => {
               setParam("state", v);
-              if (party && v && !pilotCandidates.some((c) => c.state === v && c.partyAbbr === party)) setParam("party", "");
+              if (party && v && !all.some((c) => c.state === v && c.partyAbbr === party)) setParam("party", "");
             }}
           />
           <ChipGroup label={t.list.party} value={party} options={parties.map((p) => ({ value: p, label: p }))} onChange={(v) => setParam("party", v)} />
@@ -121,7 +122,7 @@ export default function CandidatesBrowser() {
         </div>
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5 text-xs text-slate-500">
           <span className="tabular">
-            {t.list.showing} <span className="font-semibold text-slate-800">{filtered.length}</span> {t.list.of} {pilotCandidates.length}
+            {t.list.showing} <span className="font-semibold text-slate-800">{filtered.length}</span> {t.list.of} {all.length}
             {activeFilters > 0 || q ? (
               <>
                 {" · "}
@@ -168,7 +169,7 @@ export default function CandidatesBrowser() {
 function ChipGroup({ label, value, options, onChange }: { label: string; value: string; options: { value: string; label: string }[]; onChange: (v: string) => void }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="mr-0.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">{label}</span>
+      <span className="mr-0.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</span>
       {options.map((o) => {
         const on = value === o.value;
         return (
@@ -187,10 +188,10 @@ function ChipGroup({ label, value, options, onChange }: { label: string; value: 
   );
 }
 
-function CandidateCard({ c }: { c: PilotCandidate }) {
+function CandidateCard({ c }: { c: CandidateRow }) {
   const { t, href } = useLocale();
-  const won = resultOf(c) === "won";
-  const roleLabel = c.electionType === "Lok Sabha" ? t.common.mp : t.common.mla;
+  const won = c.won;
+  const roleLabel = c.role === "MP" ? t.common.mp : t.common.mla;
   return (
     <Link
       href={href(`/candidates/${c.id}`)}
@@ -205,8 +206,8 @@ function CandidateCard({ c }: { c: PilotCandidate }) {
               {t.list.lost}
             </span>
           )}
-          {c.officeStatus && (
-            <span title={c.officeStatus.summary} className="shrink-0 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-amber-700">
+          {c.officeSummary && (
+            <span title={c.officeSummary} className="shrink-0 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-amber-700">
               {t.list.statusChanged}
             </span>
           )}
@@ -221,7 +222,7 @@ function CandidateCard({ c }: { c: PilotCandidate }) {
           </span>
           <span>·</span>
           <span>
-            {c.promises.length} {c.promises.length === 1 ? t.list.promise : t.list.promises}
+            {c.promiseCount} {c.promiseCount === 1 ? t.list.promise : t.list.promises}
           </span>
         </div>
       </div>

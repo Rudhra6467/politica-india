@@ -14,7 +14,7 @@ interface SearchBoxProps {
 
 export default function SearchBox({ variant = "header", autoFocus = false }: SearchBoxProps) {
   const router = useRouter();
-  const { t, href } = useLocale();
+  const { t, href, index } = useLocale();
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
@@ -22,7 +22,7 @@ export default function SearchBox({ variant = "header", autoFocus = false }: Sea
   const wrapRef = useRef<HTMLDivElement>(null);
   const listId = useId();
 
-  const results = q.trim() ? searchAll(q, 8) : [];
+  const results = q.trim() ? searchAll(index, q, 8) : [];
 
   useEffect(() => {
     if (variant !== "header") return;
@@ -84,7 +84,7 @@ export default function SearchBox({ variant = "header", autoFocus = false }: Sea
 
   const subtitle = (r: SearchResult) => {
     if (r.type === "candidate") {
-      const role = r.candidate.electionType === "Lok Sabha" ? t.common.mp : t.common.mla;
+      const role = r.candidate.role === "MP" ? t.common.mp : t.common.mla;
       return `${r.candidate.partyAbbr} · ${role} · ${r.candidate.constituency}, ${r.candidate.state}`;
     }
     if (r.type === "party") return `${t.search.typeParty} · ${r.abbr}`;
@@ -99,7 +99,7 @@ export default function SearchBox({ variant = "header", autoFocus = false }: Sea
         {t.search.placeholder}
       </label>
       <svg
-        className={"pointer-events-none absolute top-1/2 -translate-y-1/2 text-slate-400 " + (isHero ? "left-4 h-5 w-5" : "left-3 h-4 w-4")}
+        className={"pointer-events-none absolute top-1/2 -translate-y-1/2 text-slate-500 " + (isHero ? "left-4 h-5 w-5" : "left-3 h-4 w-4")}
         fill="none"
         stroke="currentColor"
         strokeWidth={2}
@@ -133,7 +133,7 @@ export default function SearchBox({ variant = "header", autoFocus = false }: Sea
         }
       />
       {!isHero && !q && (
-        <kbd className="pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-medium text-slate-400 sm:block">
+        <kbd className="pointer-events-none absolute right-2.5 top-1/2 hidden -translate-y-1/2 rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-medium text-slate-500 sm:block">
           /
         </kbd>
       )}
@@ -170,13 +170,13 @@ export default function SearchBox({ variant = "header", autoFocus = false }: Sea
                       <span className="block truncate text-sm font-medium text-slate-900">{r.title}</span>
                       <span className="block truncate text-xs text-slate-500">{subtitle(r)}</span>
                     </span>
-                    <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-slate-400">{typeLabel[r.type]}</span>
+                    <span className="shrink-0 text-[10px] font-medium uppercase tracking-wider text-slate-500">{typeLabel[r.type]}</span>
                   </button>
                 </li>
               ))}
             </ul>
           )}
-          <div className="border-t border-slate-100 bg-slate-50 px-3 py-1.5 text-[10px] text-slate-400">{t.search.hint}</div>
+          <div className="border-t border-slate-100 bg-slate-50 px-3 py-1.5 text-[10px] text-slate-500">{t.search.hint}</div>
         </div>
       )}
     </div>

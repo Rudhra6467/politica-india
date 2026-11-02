@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { pilotCandidates, getCandidatesByPartyAndState, resultOf, type PilotCandidate } from "@/data/pilot-candidates";
+import type { CandidateRow } from "@/lib/index-rows";
 import { getPartyInfo } from "@/data/party-info";
 import { useLocale } from "@/i18n/LocaleProvider";
 import PartyBadge from "@/components/PartyBadge";
 import CandidateAvatar from "@/components/CandidateAvatar";
 
-function CandidateRow({ candidate, backHref }: { candidate: PilotCandidate; backHref: string }) {
+function CandidateRowItem({ candidate, backHref }: { candidate: CandidateRow; backHref: string }) {
   const { t, href } = useLocale();
-  const role = candidate.electionType === "Lok Sabha" ? t.common.mp : t.common.mla;
+  const role = candidate.role === "MP" ? t.common.mp : t.common.mla;
   const profileHref = href(`/candidates/${candidate.id}?from=${encodeURIComponent(backHref)}`);
-  const won = resultOf(candidate) === "won";
+  const won = candidate.won;
 
   return (
     <Link href={profileHref} className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-card transition hover:border-indigo-200 hover:shadow-lift">
@@ -29,10 +29,10 @@ function CandidateRow({ candidate, backHref }: { candidate: PilotCandidate; back
           {!won && (
             <>
               <span className="text-slate-300">·</span>
-              <span className="text-slate-400">{t.list.lost}</span>
+              <span className="text-slate-500">{t.list.lost}</span>
             </>
           )}
-          {candidate.officeStatus && (
+          {candidate.officeSummary && (
             <>
               <span className="text-slate-300">·</span>
               <span className="text-amber-700">{t.list.statusChanged}</span>
@@ -45,7 +45,7 @@ function CandidateRow({ candidate, backHref }: { candidate: PilotCandidate; back
           {candidate.criminalCases} {candidate.criminalCases === 1 ? t.list.case : t.list.cases}
         </div>
         <div>
-          {candidate.promises.length} {candidate.promises.length === 1 ? t.list.promise : t.list.promises}
+          {candidate.promiseCount} {candidate.promiseCount === 1 ? t.list.promise : t.list.promises}
         </div>
       </div>
       <span className="shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" aria-hidden>
@@ -55,7 +55,7 @@ function CandidateRow({ candidate, backHref }: { candidate: PilotCandidate; back
   );
 }
 
-function CollapsibleRoleSection({ title, subtitle, candidates, backHref, defaultOpen = true }: { title: string; subtitle: string; candidates: PilotCandidate[]; backHref: string; defaultOpen?: boolean }) {
+function CollapsibleRoleSection({ title, subtitle, candidates, backHref, defaultOpen = true }: { title: string; subtitle: string; candidates: CandidateRow[]; backHref: string; defaultOpen?: boolean }) {
   const { t } = useLocale();
   const [open, setOpen] = useState(defaultOpen);
   if (candidates.length === 0) return null;
@@ -69,12 +69,12 @@ function CollapsibleRoleSection({ title, subtitle, candidates, backHref, default
             {subtitle} · {candidates.length}
           </div>
         </div>
-        <span className="shrink-0 text-xs font-medium text-slate-400">{open ? t.party.hide : t.party.showSection}</span>
+        <span className="shrink-0 text-xs font-medium text-slate-500">{open ? t.party.hide : t.party.showSection}</span>
       </button>
       {open && (
         <div className="space-y-1.5">
           {candidates.map((c) => (
-            <CandidateRow key={c.id} candidate={c} backHref={backHref} />
+            <CandidateRowItem key={c.id} candidate={c} backHref={backHref} />
           ))}
         </div>
       )}
@@ -83,18 +83,19 @@ function CollapsibleRoleSection({ title, subtitle, candidates, backHref, default
 }
 
 export default function PartyContent({ abbr }: { abbr: string }) {
-  const { t, href } = useLocale();
+  const { t, href, index } = useLocale();
   const searchParams = useSearchParams();
   const state = searchParams.get("state");
   const info = getPartyInfo(abbr);
   const [moreOpen, setMoreOpen] = useState(false);
 
-  const allForParty = state ? getCandidatesByPartyAndState(abbr, state) : pilotCandidates.filter((c) => c.partyAbbr === abbr).sort((a, b) => (a.sortOrder ?? 99) - (b.sortOrder ?? 99));
-  const winners = allForParty.filter((c) => resultOf(c) === "won");
-  const losers = allForParty.filter((c) => resultOf(c) === "lost");
-  const mps = winners.filter((c) => c.electionType === "Lok Sabha");
-  const mlas = winners.filter((c) => c.electionType === "Assembly");
-  const statesCovered = Array.from(new Set(pilotCandidates.filter((c) => c.partyAbbr === abbr).map((c) => c.state))).sort();
+  const forParty = index.candidates.filter((c) => c.partyAbbr === abbr);
+  const allForParty = (state ? forParty.filter((c) => c.state === state) : forParty).slice().sort((a, b) => a.sortOrder - b.sortOrder);
+  const winners = allForParty.filter((c) => c.won);
+  const losers = allForParty.filter((c) => !c.won);
+  const mps = winners.filter((c) => c.role === "MP");
+  const mlas = winners.filter((c) => c.role === "MLA");
+  const statesCovered = Array.from(new Set(forParty.map((c) => c.state))).sort();
 
   const backHref = href(state ? `/party/${abbr}?state=${encodeURIComponent(state)}` : `/party/${abbr}`);
   const partyName = info?.name || allForParty[0]?.party || abbr;
@@ -123,15 +124,15 @@ export default function PartyContent({ abbr }: { abbr: string }) {
 
         <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 sm:max-w-md">
           <div>
-            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{t.party.mps}</dt>
+            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{t.party.mps}</dt>
             <dd className="text-xl font-bold tabular text-slate-900">{mps.length}</dd>
           </div>
           <div>
-            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{t.party.mlas}</dt>
+            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{t.party.mlas}</dt>
             <dd className="text-xl font-bold tabular text-slate-900">{mlas.length}</dd>
           </div>
           <div>
-            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-400">{t.party.statesInPilot}</dt>
+            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{t.party.statesInPilot}</dt>
             <dd className="text-xl font-bold tabular text-slate-900">{statesCovered.length}</dd>
           </div>
         </dl>
@@ -156,7 +157,7 @@ export default function PartyContent({ abbr }: { abbr: string }) {
 
         {statesCovered.length > 1 && (
           <div className="mt-4 flex flex-wrap items-center gap-1.5 text-xs">
-            <span className="text-slate-400">{t.party.show}</span>
+            <span className="text-slate-500">{t.party.show}</span>
             <Link href={href(`/party/${abbr}`)} className={chip(!state)}>
               {t.party.allStates}
             </Link>

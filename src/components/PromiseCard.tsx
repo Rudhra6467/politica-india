@@ -43,7 +43,7 @@ function SourceList({ sources }: { sources: EvidenceSource[] }) {
   const shown = open ? sources : sources.slice(0, 2);
   return (
     <div className="mt-3">
-      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
         <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
         {t.promise.evidenceSources} · {sources.length}
       </div>
@@ -113,7 +113,7 @@ export default function PromiseCard({ promise, showShare = true }: { promise: Pr
             <span className="text-xs text-slate-500">{t.promise.announced} {promise.announcedDate}</span>
           )}
           {promise.lastChecked && (
-            <span className="text-xs text-slate-400">{t.promise.checked} {promise.lastChecked}</span>
+            <span className="text-xs text-slate-500">{t.promise.checked} {promise.lastChecked}</span>
           )}
         </div>
 

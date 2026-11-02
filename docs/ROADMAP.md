@@ -97,6 +97,15 @@ Goal: make the pilot feel like a finished product for an ordinary citizen on a p
 - Promise pages (`/p/<id>`) with their own share cards, so a single promise and its status travel on
   WhatsApp with the sources attached. Share link on every promise card.
 
+## Performance and accessibility pass (Nov 2026)
+
+- Client bundles no longer include the full dataset: server components build a compact index
+  (`src/lib/index-rows.ts`) that search, the list and party pages use. Profile first-load JS 139 → 122 kB,
+  total blocking time 620 → 210 ms (Lighthouse mobile, simulated).
+- Lighthouse mobile on a profile: performance 80, accessibility 100, best practices 96, SEO 100.
+- Small labels moved from slate-400 to slate-500 to pass contrast. Inter loads with `display: optional`
+  so slow connections get the system font without a layout shift; Telugu/Devanagari fonts still swap in.
+
 **Known content gaps:** promise titles are mostly broad focus areas (“Urban infrastructure and employment”)
 rather than specific pledges, which caps how precise any status can be. Rewriting them into measurable
 commitments from manifestos is the next content task. 5 candidates still lack licensed photos (Murugudu Lavanya, Panchakarla Ramesh Babu, Danam Nagender, Bellana Chandrasekhar, Raghunandan Rao — the last has a Commons file whose identity could not be confirmed).

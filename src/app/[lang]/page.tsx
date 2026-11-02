@@ -41,7 +41,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
             <SearchBox variant="hero" />
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-            <span className="text-slate-400">{t.home.try}</span>
+            <span className="text-slate-500">{t.home.try}</span>
             {states.map((s) => (
               <Link
                 key={s}
@@ -90,7 +90,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
               <span className="line-clamp-2 w-full text-center text-[11px] font-medium leading-tight text-slate-800 group-hover:text-indigo-700">
                 {c.name.replace(/^[A-Z]\.(\s?[A-Z]\.)*\s*/, "")}
               </span>
-              <span className="text-[10px] text-slate-400">
+              <span className="text-[10px] text-slate-500">
                 {c.state === "Andhra Pradesh" ? t.common.ap : t.common.tg} · {c.partyAbbr}
               </span>
             </Link>
@@ -116,7 +116,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </p>
       </section>
 
-      <p className="text-center text-[11px] text-slate-400">
+      <p className="text-center text-[11px] text-slate-500">
         {t.home.lastUpdated} {stats.lastUpdated} · {t.home.footnote}
       </p>
     </div>
@@ -126,7 +126,7 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
 function Stat({ value, label }: { value: number | string; label: string }) {
   return (
     <div>
-      <dt className="text-[11px] font-medium uppercase tracking-wider text-slate-400">{label}</dt>
+      <dt className="text-[11px] font-medium uppercase tracking-wider text-slate-500">{label}</dt>
       <dd className="mt-0.5 text-2xl font-bold tabular tracking-tight text-slate-900 sm:text-3xl">{value}</dd>
     </div>
   );
