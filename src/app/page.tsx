@@ -5,6 +5,7 @@ import SearchBox from "@/components/SearchBox";
 import StateExplorer from "@/components/StateExplorer";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import LayerLegend from "@/components/LayerLegend";
+import InstallPrompt from "@/components/InstallPrompt";
 
 export default function HomePage() {
   const states = getAllStates();
@@ -15,6 +16,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-10 sm:space-y-12">
+      <InstallPrompt />
       {/* Hero */}
       <section className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white px-5 py-8 shadow-card sm:px-10 sm:py-12">
         <div
