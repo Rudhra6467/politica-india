@@ -113,7 +113,13 @@ guarantee, campaign statement, or a commitment the office-holder owns), and adde
 pledge found was a different subject from the evidence already attached. Rule applied: a sharper title keeps its
 status only when the existing evidence still supports it; otherwise the pledge is a new promise starting at
 “Unable to verify”. Two promises moved to “Reported completed” (₹500 LPG + free bus travel; free sand policy),
-one to “Not started” (₹2,500 Mahalakshmi payment). 45 promises, 43 with sources.
+one to “Not started” (₹2,500 Mahalakshmi payment).
+
+A third pass (Nov 2026) checked the 17 unverified pledges of sitting representatives against sources dated after
+the pledge. Result across all 45 promises: 26 in progress, 3 reported completed, 1 verified completed
+(Bhogapuram airport, inaugurated 1 Aug 2026 per News On AIR, six weeks past its June target), 2 not started,
+1 evidence conflicting, 12 unable to verify. 44 of 45 carry sources (131 in total). Opposition pledges are
+never marked complete or not-started on the current government's account; the note says who delivered.
 
 Still broad because no sourced constituency pledge was found: tg-p03, tg-p05, tg-p09, tg-p14, ap-p08, ap-p09,
 ap-p10, ap-p13; and the original umbrella items ap-p02, ap-p04, ap-p11, ap-p14, ap-p23 kept alongside their
@@ -147,7 +153,7 @@ every material fact traceable to a Source row. See `docs/SCHEMA.md` and `docs/TI
 
 ## Candidate next steps beyond the phases
 
-- Evidence pass on the 22 “Unable to verify” promises (10 are new pledges not yet checked)
+- Quarterly re-check of every promise status (the lastChecked date is shown on each card)
 - Photos for the 13 candidates still on initials (PIB / Wikimedia licensed only)
 - Translate promise titles and evidence notes into Telugu and Hindi
 - Constituency pages once more than one election per seat is in the data
