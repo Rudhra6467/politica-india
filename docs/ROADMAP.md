@@ -106,9 +106,18 @@ Goal: make the pilot feel like a finished product for an ordinary citizen on a p
 - Small labels moved from slate-400 to slate-500 to pass contrast. Inter loads with `display: optional`
   so slow connections get the system font without a layout shift; Telugu/Devanagari fonts still swap in.
 
-**Known content gaps:** promise titles are mostly broad focus areas (“Urban infrastructure and employment”)
-rather than specific pledges, which caps how precise any status can be. Rewriting them into measurable
-commitments from manifestos is the next content task. 5 candidates still lack licensed photos (Murugudu Lavanya, Panchakarla Ramesh Babu, Danam Nagender, Bellana Chandrasekhar, Raghunandan Rao — the last has a Commons file whose identity could not be confirmed).
+## Promise titles: from focus areas to pledges (Nov 2026)
+
+A second research pass replaced 16 broad titles with the specific, sourced pledge behind them (manifesto
+guarantee, campaign statement, or a commitment the office-holder owns), and added 10 new promises where the
+pledge found was a different subject from the evidence already attached. Rule applied: a sharper title keeps its
+status only when the existing evidence still supports it; otherwise the pledge is a new promise starting at
+“Unable to verify”. Two promises moved to “Reported completed” (₹500 LPG + free bus travel; free sand policy),
+one to “Not started” (₹2,500 Mahalakshmi payment). 45 promises, 43 with sources.
+
+Still broad because no sourced constituency pledge was found: tg-p03, tg-p05, tg-p09, tg-p14, ap-p08, ap-p09,
+ap-p10, ap-p13; and the original umbrella items ap-p02, ap-p04, ap-p11, ap-p14, ap-p23 kept alongside their
+new specific pledges. 5 candidates still lack licensed photos (Murugudu Lavanya, Panchakarla Ramesh Babu, Danam Nagender, Bellana Chandrasekhar, Raghunandan Rao — the last has a Commons file whose identity could not be confirmed).
 
 ---
 
@@ -138,7 +147,7 @@ every material fact traceable to a Source row. See `docs/SCHEMA.md` and `docs/TI
 
 ## Candidate next steps beyond the phases
 
-- Rewrite vague promise titles into specific, dated manifesto pledges; split bundled promises
+- Evidence pass on the 22 “Unable to verify” promises (10 are new pledges not yet checked)
 - Photos for the 13 candidates still on initials (PIB / Wikimedia licensed only)
 - Translate methodology and promise titles into Telugu and Hindi
 - Constituency pages once more than one election per seat is in the data
