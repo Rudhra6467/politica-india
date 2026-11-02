@@ -91,8 +91,6 @@ model Candidate {
   affidavits Affidavit[]
   promises   Promise[]
   events     Event[]
-  likes      Like[]
-  comments   Comment[]
 
   @@index([canonicalName])
   @@index([partyId])
@@ -190,8 +188,6 @@ model Promise {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
-  likes    Like[]
-  comments Comment[]
 
   @@index([candidateId])
   @@index([status])
@@ -242,50 +238,106 @@ model Event {
   @@index([occurredAt])
 }
 
-// ─── Community (minimal) ────────────────────────────────────
+// ─── Community (Phase C) ────────────────────────────────────
+// Minimal personal data: phone numbers are stored only as a peppered hash
+// (plus the last four digits for display). No Aadhaar, no email, no name required.
 
-model User {
-  id                 String   @id @default(cuid())
-  email              String?  @unique
-  phone              String?  @unique
-  name               String?
-  isVerified         Boolean  @default(false)
-  verificationMethod String?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-
-  likes    Like[]
-  comments Comment[]
+enum UserTier {
+  BASIC    // phone-verified: can vote and post comments (pre-moderated)
+  VERIFIED // stronger verification (DigiLocker), reserved for later
 }
 
-model Like {
-  id          String     @id @default(cuid())
-  userId      String?
-  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  candidateId String?
-  candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  promiseId   String?
-  promise     Promise?   @relation(fields: [promiseId], references: [id], onDelete: Cascade)
-  isLike      Boolean
-  createdAt   DateTime   @default(now())
+model User {
+  id          String    @id @default(cuid())
+  phoneHash   String    @unique
+  phoneLast4  String
+  displayName String?
+  tier        UserTier  @default(BASIC)
+  isAdmin     Boolean   @default(false)
+  isBanned    Boolean   @default(false)
+  consentAt   DateTime
+  createdAt   DateTime  @default(now())
+  lastSeenAt  DateTime  @default(now())
 
-  @@index([candidateId])
-  @@index([promiseId])
+  sessions Session[]
+  votes    Vote[]
+  comments Comment[]
+  reports  Report[]
+}
+
+model OtpCode {
+  id         String    @id @default(cuid())
+  phoneHash  String
+  ipHash     String?
+  codeHash   String
+  attempts   Int       @default(0)
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([phoneHash, createdAt])
+  @@index([ipHash, createdAt])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  userAgent String?
+
+  @@index([userId])
+}
+
+/// One reaction per user per target. targetKey is "candidate:<id>" or "promise:<id>".
+model Vote {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetKey String
+  value     Int // 1 = like, -1 = dislike
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, targetKey])
+  @@index([targetKey])
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 model Comment {
-  id          String     @id @default(cuid())
-  userId      String?
-  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  candidateId String?
-  candidate   Candidate? @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  promiseId   String?
-  promise     Promise?   @relation(fields: [promiseId], references: [id], onDelete: Cascade)
-  content     String
-  isHidden    Boolean    @default(false)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id          String        @id @default(cuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetKey   String
+  body        String
+  status      CommentStatus @default(PENDING)
+  reportCount Int           @default(0)
+  createdAt   DateTime      @default(now())
+  reviewedAt  DateTime?
+  reviewedBy  String?
+  reviewNote  String?
 
-  @@index([candidateId])
-  @@index([promiseId])
+  reports Report[]
+
+  @@index([targetKey, status, createdAt])
+  @@index([status, createdAt])
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  commentId String
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  reason    String
+  createdAt DateTime @default(now())
+
+  @@index([commentId])
 }

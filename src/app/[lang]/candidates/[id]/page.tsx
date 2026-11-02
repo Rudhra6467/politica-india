@@ -101,7 +101,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
               </p>
 
               <div className="mt-3">
-                <LikeDislikeButtons id={candidate.id} initialLikes={candidate.likes} initialDislikes={candidate.dislikes} />
+                <LikeDislikeButtons targetKey={`candidate:${candidate.id}`} initialLikes={candidate.likes} initialDislikes={candidate.dislikes} />
               </div>
             </div>
 

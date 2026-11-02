@@ -26,7 +26,7 @@ accounts exist.
 | **4** | Research Engine | Later |
 | **5** | National depth-first | Later |
 | **6** | Politica Data API | Later |
-| **7** | Community verified (real users) | After Phase 2 |
+| **7 / C** | Community: accounts, live reactions, moderated comments | **Built (Nov 2026), off until configured** — see `docs/COMMUNITY_SETUP.md` |
 
 ---
 
@@ -124,10 +124,17 @@ commitments from manifestos is the next content task. 5 candidates still lack li
 Needs `DATABASE_URL` (Neon/Supabase free tier). Exit test: 10 profiles reconstructable from the DB with
 every material fact traceable to a Source row. See `docs/SCHEMA.md` and `docs/TIER2A_SETUP.md`.
 
-## Phase 7 — Real users (after Phase 2)
+## Phase C — Community (built Nov 2026; enabled per deployment)
 
-Accounts (OTP/email), dual verification (offline Aadhaar e-KYC pattern), server-side likes and comments,
-moderation. Seeded engagement is replaced, never mixed.
+- Mobile-number sign-in with SMS code; the number is stored only as a peppered hash plus last four digits.
+- Live reactions (one per account per target) and pre-moderated comments with reports and a moderation queue.
+- Privacy policy, terms and grievance-officer pages (English, with te/hi notes).
+- Verified end to end on a local Postgres: sign-in, vote, comment, approve, public visibility, report,
+  rate limits (429 on the 4th code in an hour), origin check (403).
+- When `COMMUNITY_MODE=live`, seeded pilot counts are no longer shown; counts start from zero and are labelled
+  as live citizen reaction. Seeded engagement is replaced, never mixed.
+- Not yet: DigiLocker-based stronger verification (the `VERIFIED` tier exists in the schema), account
+  deletion self-service (handled by email request for now), push notifications.
 
 ## Candidate next steps beyond the phases
 

@@ -138,7 +138,7 @@ export default function PromiseCard({ promise, showShare = true }: { promise: Pr
 
         <div className="mt-4 flex flex-wrap items-end justify-between gap-3 border-t border-slate-100 pt-3">
           <LikeDislikeButtons
-            id={promise.id}
+            targetKey={`promise:${promise.id}`}
             initialLikes={promise.likes}
             initialDislikes={promise.dislikes}
             size="sm"
@@ -171,7 +171,7 @@ export default function PromiseCard({ promise, showShare = true }: { promise: Pr
 
         {commentsOpen && (
           <div className="mt-3">
-            <CommentSection promiseId={promise.id} />
+            <CommentSection targetKey={`promise:${promise.id}`} />
           </div>
         )}
       </div>
