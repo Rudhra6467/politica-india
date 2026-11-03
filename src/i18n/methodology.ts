@@ -14,7 +14,7 @@ const en: MethodologyContent = {
       layers: [
         { dot: "bg-blue-500", title: "Verified Record", body: "Facts from official or public records, primarily ECI Form 26 affidavits (assets, liabilities, education, declared criminal cases), with source attribution and links where available." },
         { dot: "bg-amber-500", title: "Tracked", body: "Promises and announcements with status and evidence notes. “Unable to verify” is preferred over unsupported certainty." },
-        { dot: "bg-violet-500", title: "Community", body: "Likes and dislikes as reaction only, never an official fact, score, or ranking of candidates." },
+        { dot: "bg-violet-500", title: "Community", body: "Star ratings and promise verdicts are citizen opinion only, never an official fact, score, or editorial ranking of candidates." },
       ],
     },
     {
@@ -38,7 +38,7 @@ const en: MethodologyContent = {
     },
     {
       heading: "Pilot engagement (current site)",
-      paragraphs: ["Until citizen accounts are switched on, like and dislike counts are illustrative seeds so the interface can be reviewed. They are not live citizen votes and never an overall “Politica rating”. When accounts are live, counts start from zero and are labelled as live citizen reaction."],
+      paragraphs: ["Citizens rate leaders one to five stars and judge each promise as kept, partly kept or not kept. One rating per verified mobile number, changeable any time. Averages are shown only after 50 ratings so a few accounts cannot paint a number. The mood board sorts by how many people rated, never by score. Ratings are public opinion shown next to the record; they are never an official fact or an overall “Politica rating”."],
     },
     {
       heading: "Photos and party marks",
@@ -50,7 +50,7 @@ const en: MethodologyContent = {
         "Does not endorse or oppose any candidate or party.",
         "Does not assign overall performance scores or rankings.",
         "Does not treat allegations as convictions.",
-        "Does not convert likes into factual claims.",
+        "Does not convert ratings into factual claims.",
         "Does not sell candidate visibility or store Aadhaar numbers.",
       ],
     },
@@ -77,7 +77,7 @@ const te: MethodologyContent = {
       layers: [
         { dot: "bg-blue-500", title: "ధృవీకృత రికార్డు", body: "అధికారిక లేదా బహిరంగ రికార్డుల నుండి వాస్తవాలు, ప్రధానంగా ECI ఫారం 26 అఫిడవిట్లు (ఆస్తులు, అప్పులు, విద్య, ప్రకటించిన క్రిమినల్ కేసులు); మూలం, లింకుతో సహా." },
         { dot: "bg-amber-500", title: "ట్రాక్ చేసినవి", body: "హామీలు, ప్రకటనలు — స్థితి, ఆధారాల గమనికలతో. ఆధారం లేని ఖచ్చితత్వం కంటే “ధృవీకరించలేకపోయాం” అని చెప్పడమే మేలు." },
-        { dot: "bg-violet-500", title: "సమాజం", body: "లైక్‌లు, డిస్‌లైక్‌లు స్పందన మాత్రమే. అధికారిక వాస్తవం, స్కోరు లేదా అభ్యర్థుల ర్యాంకింగ్ ఎప్పుడూ కాదు." },
+        { dot: "bg-violet-500", title: "సమాజం", body: "స్టార్ రేటింగ్‌లు, హామీ తీర్పులు పౌరుల అభిప్రాయం మాత్రమే. అధికారిక వాస్తవం, స్కోరు లేదా సంపాదకీయ ర్యాంకింగ్ ఎప్పుడూ కాదు." },
       ],
     },
     {
@@ -101,7 +101,7 @@ const te: MethodologyContent = {
     },
     {
       heading: "పైలట్ స్పందన (ప్రస్తుత సైట్)",
-      paragraphs: ["పౌరుల ఖాతాలు ప్రారంభమయ్యే వరకు లైక్, డిస్‌లైక్ సంఖ్యలు ఇంటర్‌ఫేస్ సమీక్ష కోసం ఉదాహరణ విత్తనాలు మాత్రమే. అవి నిజమైన పౌర ఓట్లు కావు, “పొలిటికా రేటింగ్” అసలే కాదు. ఖాతాలు ప్రత్యక్షమయ్యాక సంఖ్యలు సున్నా నుండి మొదలై ప్రత్యక్ష పౌర స్పందనగా గుర్తించబడతాయి."],
+      paragraphs: ["పౌరులు నాయకులకు 1 నుండి 5 నక్షత్రాలు ఇస్తారు, ప్రతి హామీని నెరవేర్చారు / పాక్షికంగా / నెరవేర్చలేదు అని తీర్పు చెబుతారు. ధృవీకృత మొబైల్ నంబర్‌కు ఒక రేటింగ్, ఎప్పుడైనా మార్చుకోవచ్చు. కొద్దిమంది ఖాతాలు సంఖ్యను మార్చకుండా 50 రేటింగ్‌ల తర్వాతే సగటు చూపిస్తాం. మనోభావ బోర్డు స్కోరుతో కాదు, ఎంతమంది రేట్ చేశారో ఆ క్రమంలో ఉంటుంది. రేటింగ్‌లు రికార్డు పక్కన చూపించే ప్రజాభిప్రాయం మాత్రమే; అధికారిక వాస్తవం లేదా “పొలిటికా రేటింగ్” ఎప్పుడూ కాదు."],
     },
     {
       heading: "ఫోటోలు, పార్టీ గుర్తులు",
@@ -113,7 +113,7 @@ const te: MethodologyContent = {
         "ఏ అభ్యర్థిని, పార్టీని సమర్థించదు, వ్యతిరేకించదు.",
         "మొత్తం పనితీరు స్కోర్లు లేదా ర్యాంకులు ఇవ్వదు.",
         "ఆరోపణలను నేరనిర్ధారణలుగా చూడదు.",
-        "లైక్‌లను వాస్తవ వాదనలుగా మార్చదు.",
+        "రేటింగ్‌లను వాస్తవ వాదనలుగా మార్చదు.",
         "అభ్యర్థుల ప్రచారం అమ్మదు, ఆధార్ నంబర్లు నిల్వ చేయదు.",
       ],
     },
@@ -140,7 +140,7 @@ const hi: MethodologyContent = {
       layers: [
         { dot: "bg-blue-500", title: "सत्यापित रिकॉर्ड", body: "आधिकारिक या सार्वजनिक रिकॉर्ड से तथ्य, मुख्यतः ECI फ़ॉर्म 26 शपथपत्र (संपत्ति, देनदारियाँ, शिक्षा, घोषित आपराधिक मामले), स्रोत और लिंक सहित।" },
         { dot: "bg-amber-500", title: "ट्रैक किए गए", body: "वादे और घोषणाएँ, स्थिति और साक्ष्य-टिप्पणी के साथ। निराधार निश्चितता से बेहतर है “सत्यापित नहीं कर सके” कहना।" },
-        { dot: "bg-violet-500", title: "समुदाय", body: "लाइक और डिसलाइक केवल प्रतिक्रिया हैं, कभी आधिकारिक तथ्य, स्कोर या उम्मीदवारों की रैंकिंग नहीं।" },
+        { dot: "bg-violet-500", title: "समुदाय", body: "स्टार रेटिंग और वादों पर फ़ैसले केवल नागरिकों की राय हैं, कभी आधिकारिक तथ्य, स्कोर या संपादकीय रैंकिंग नहीं।" },
       ],
     },
     {
@@ -164,7 +164,7 @@ const hi: MethodologyContent = {
     },
     {
       heading: "पायलट प्रतिक्रिया (वर्तमान साइट)",
-      paragraphs: ["नागरिक खाते चालू होने तक लाइक और डिसलाइक की संख्याएँ इंटरफ़ेस की समीक्षा के लिए उदाहरण मात्र हैं। ये वास्तविक नागरिक वोट नहीं हैं और कभी “पॉलिटिका रेटिंग” नहीं। खाते चालू होने पर गिनती शून्य से शुरू होगी और उसे वास्तविक नागरिक प्रतिक्रिया के रूप में दिखाया जाएगा।"],
+      paragraphs: ["नागरिक नेताओं को 1 से 5 स्टार देते हैं और हर वादे पर पूरा किया / आंशिक / पूरा नहीं किया का फ़ैसला देते हैं। प्रति सत्यापित मोबाइल नंबर एक रेटिंग, जिसे कभी भी बदला जा सकता है। औसत 50 रेटिंग के बाद ही दिखता है ताकि कुछ खाते संख्या न बदल सकें। मिज़ाज बोर्ड स्कोर से नहीं, कितनों ने रेट किया उस क्रम में है। रेटिंग रिकॉर्ड के बगल में दिखाई जाने वाली जनता की राय है; कभी आधिकारिक तथ्य या “पॉलिटिका रेटिंग” नहीं।"],
     },
     {
       heading: "तस्वीरें और पार्टी चिह्न",
@@ -176,7 +176,7 @@ const hi: MethodologyContent = {
         "किसी उम्मीदवार या पार्टी का समर्थन या विरोध नहीं करता।",
         "समग्र प्रदर्शन स्कोर या रैंकिंग नहीं देता।",
         "आरोपों को दोषसिद्धि नहीं मानता।",
-        "लाइक को तथ्यात्मक दावों में नहीं बदलता।",
+        "रेटिंग को तथ्यात्मक दावों में नहीं बदलता।",
         "उम्मीदवारों की दृश्यता नहीं बेचता, आधार नंबर संग्रहीत नहीं करता।",
       ],
     },

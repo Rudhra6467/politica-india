@@ -5,7 +5,8 @@ import { getCandidateById, pilotCandidates, resultOf } from "@/data/pilot-candid
 import { promiseStatusCounts } from "@/lib/stats";
 import { LOCALES, getDictionary, isLocale, type Locale } from "@/i18n";
 import { localeHref } from "@/i18n/href";
-import LikeDislikeButtons from "@/components/LikeDislikeButtons";
+import StarRating from "@/components/rate/StarRating";
+import Collapsible from "@/components/rate/Collapsible";
 import CandidateAvatar from "@/components/CandidateAvatar";
 import PartyBadge from "@/components/PartyBadge";
 import PromiseCard, { StatusPill } from "@/components/PromiseCard";
@@ -101,7 +102,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
               </p>
 
               <div className="mt-3">
-                <LikeDislikeButtons targetKey={`candidate:${candidate.id}`} initialLikes={candidate.likes} initialDislikes={candidate.dislikes} />
+                <StarRating targetKey={`candidate:${candidate.id}`} />
               </div>
             </div>
 
@@ -159,6 +160,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
         </section>
       )}
 
+      <Collapsible title={t.rate.facts} hint={eciSource}>
       <section aria-labelledby="verified-heading">
         <div className="mb-1.5 flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
@@ -185,6 +187,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
       />
 
       <ProfileTimeline candidate={candidate} />
+      </Collapsible>
 
       <section aria-labelledby="promises-heading">
         <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">

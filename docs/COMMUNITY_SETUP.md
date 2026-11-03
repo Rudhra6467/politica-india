@@ -67,7 +67,9 @@ Codes also print to the server log as `[otp] code for +91******3210: 123456`.
 | `/api/auth/logout` | POST | revokes session |
 | `/api/me` | GET / PATCH | current user / set display name |
 | `/api/reactions?keys=…` | GET | counts + caller's vote for up to 60 targets |
-| `/api/vote` | POST | `{targetKey, value: 1 \| -1 \| 0}` |
+| `/api/vote` | POST | `{targetKey, value: 1 \| -1 \| 0}` (legacy thumbs; UI no longer uses it) |
+| `/api/ratings?keys=…` | GET | star summaries for up to 60 targets: `count`, `avg` and `dist` (null until 50 ratings), caller's `mine` |
+| `/api/rate` | POST | `{targetKey, stars: 0–5}` — one rating per user per target; promises use 5 = Kept, 3 = Partly, 1 = Not kept; 0 removes |
 | `/api/comments?key=…` | GET / POST | approved comments (+ own pending) / post |
 | `/api/comments/:id/report` | POST | `{reason}` |
 | `/api/admin/comments` | GET / POST | queue / approve, reject, ban |

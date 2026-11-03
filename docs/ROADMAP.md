@@ -164,3 +164,27 @@ every material fact traceable to a Source row. See `docs/SCHEMA.md` and `docs/TI
 
 Next.js 15 App Router + TypeScript + Prisma + PostgreSQL + Tailwind.
 Density-first white UI. Aggressive depth over thin national coverage.
+
+## Phase D — Rating-first redesign (done)
+
+The product is no longer a reference site with reactions bolted on. Citizens already know their leaders;
+they come to rate. Everything else is one tap deeper.
+
+- **Home = the feed.** Pick a state (remembered on the device), see every tracked leader as a large card
+  with a five-star row. One tap rates. Winners first, then editorial sort order.
+- **Promises page.** One promise, one verdict: Kept / Partly / Not kept (stored as 5 / 3 / 1 stars on
+  `promise:<id>`). The sourced record status sits small beside the buttons with a link to the sources.
+- **Mood board** (`/mood`). Leaders rated in the last 7 days, sorted by *how many* rated, never by score.
+  Averages and distributions are hidden until 50 ratings (`MIN_PUBLIC_RATINGS`) so a handful of accounts
+  cannot paint a number.
+- **Profile.** Stars directly under the name; affidavit facts, record and timeline collapsed under
+  "Facts & record"; each promise card carries the verdict buttons.
+- **Sign-in only at the first tap.** The tap that opened the dialog is applied automatically after OTP,
+  so the person never has to find the card again.
+- **Phone tab bar** (Rate · Promises · Mood · Search · Me) under `md`; desktop keeps the header nav.
+- **Data:** `Rating` model (`userId`, `targetKey`, `stars`, unique per user+target), `GET /api/ratings`,
+  `POST /api/rate`. Thumbs up/down (`Vote`, `/api/vote`) stay in the schema for now but are unused in UI.
+- Doctrine unchanged: ratings are displayed as citizen opinion next to the record, never as an
+  editorial score or ranking. Run `npm run db:push` (or `db:setup`) in production to add the table.
+
+**Next:** usability test with five citizens on phones, MSG91 SMS, then widen coverage beyond the 29 pilot leaders.

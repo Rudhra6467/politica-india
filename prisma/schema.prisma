@@ -261,6 +261,7 @@ model User {
 
   sessions Session[]
   votes    Vote[]
+  ratings  Rating[]
   comments Comment[]
   reports  Report[]
 }
@@ -298,6 +299,20 @@ model Vote {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   targetKey String
   value     Int // 1 = like, -1 = dislike
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, targetKey])
+  @@index([targetKey])
+}
+
+/// One star rating per user per target. Leaders: 1–5 stars. Promises: 1 (not kept), 3 (partly), 5 (kept).
+model Rating {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetKey String
+  stars     Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

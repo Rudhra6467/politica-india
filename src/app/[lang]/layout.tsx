@@ -14,6 +14,7 @@ import { getDataIndex } from "@/lib/index-rows";
 import { communityMode } from "@/lib/community/env";
 import { CommunityProvider } from "@/components/community/CommunityProvider";
 import AccountButton from "@/components/community/AccountButton";
+import BottomNav from "@/components/rate/BottomNav";
 import "../globals.css";
 import { Suspense } from "react";
 
@@ -79,8 +80,10 @@ export default async function RootLayout({ children, params }: { children: React
   const mode = communityMode();
 
   const NAV = [
+    { href: h("/"), label: t.rate.navRate },
+    { href: h("/promises"), label: t.rate.navPromises },
+    { href: h("/mood"), label: t.rate.navMood },
     { href: h("/candidates"), label: t.nav.representatives },
-    { href: h("/#parties"), label: t.nav.parties },
     { href: h("/methodology"), label: t.nav.methodology },
   ];
 
@@ -134,11 +137,11 @@ export default async function RootLayout({ children, params }: { children: React
             </div>
           </header>
 
-          <main id="main" className="mx-auto max-w-6xl px-4 py-6 sm:py-8">
+          <main id="main" className="mx-auto max-w-6xl px-4 py-5 pb-24 sm:py-8 md:pb-8">
             {children}
           </main>
 
-          <footer className="mt-12 border-t border-slate-200 bg-white sm:mt-16">
+          <footer className="mt-12 border-t border-slate-200 bg-white pb-16 sm:mt-16 md:pb-0">
             <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-3">
               <div>
                 <div className="flex items-center gap-2">
@@ -160,7 +163,8 @@ export default async function RootLayout({ children, params }: { children: React
                   <li><Link href={h("/candidates")} className="text-slate-600 hover:text-indigo-700">{t.footer.allRepresentatives}</Link></li>
                   <li><Link href={h("/candidates?state=Andhra%20Pradesh")} className="text-slate-600 hover:text-indigo-700">Andhra Pradesh</Link></li>
                   <li><Link href={h("/candidates?state=Telangana")} className="text-slate-600 hover:text-indigo-700">Telangana</Link></li>
-                  <li><Link href={h("/#parties")} className="text-slate-600 hover:text-indigo-700">{t.nav.parties}</Link></li>
+                  <li><Link href={h("/promises")} className="text-slate-600 hover:text-indigo-700">{t.rate.navPromises}</Link></li>
+                  <li><Link href={h("/mood")} className="text-slate-600 hover:text-indigo-700">{t.rate.mood}</Link></li>
                   <li><Link href={h("/methodology")} className="text-slate-600 hover:text-indigo-700">{t.nav.methodology}</Link></li>
                   <li><Link href={h("/privacy")} className="text-slate-600 hover:text-indigo-700">{t.legal.privacy}</Link></li>
                   <li><Link href={h("/terms")} className="text-slate-600 hover:text-indigo-700">{t.legal.terms}</Link></li>
@@ -179,6 +183,9 @@ export default async function RootLayout({ children, params }: { children: React
             </div>
             <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-500">{t.footer.bottom}</div>
           </footer>
+          <Suspense fallback={null}>
+            <BottomNav />
+          </Suspense>
           <Analytics />
           <PwaRegister />
         </CommunityProvider>
