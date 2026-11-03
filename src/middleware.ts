@@ -45,21 +45,17 @@ export function middleware(req: NextRequest) {
 
   const first = pathname.split("/")[1];
 
-  // /te/... or /hi/... : serve as-is and remember the choice.
-  if (isLocale(first) && first !== DEFAULT_LOCALE) {
-    const res = NextResponse.next();
-    res.cookies.set(COOKIE, first, { path: "/", maxAge: ONE_YEAR, sameSite: "lax" });
-    return res;
-  }
+  // /te/... or /hi/... : serve as-is. The rendered page remembers the choice (LocaleProvider),
+  // because Next strips its prefetch headers before middleware runs and link prefetches of the
+  // language switcher must not change what the visitor sees next.
+  if (isLocale(first) && first !== DEFAULT_LOCALE) return NextResponse.next();
 
   // /en/... : English is canonical without a prefix.
   if (first === DEFAULT_LOCALE) {
     const rest = pathname.slice(("/" + DEFAULT_LOCALE).length) || "/";
     const url = req.nextUrl.clone();
     url.pathname = rest;
-    const res = NextResponse.redirect(url, 308);
-    res.cookies.set(COOKIE, DEFAULT_LOCALE, { path: "/", maxAge: ONE_YEAR, sameSite: "lax" });
-    return res;
+    return NextResponse.redirect(url, 308);
   }
 
   // Unprefixed path: decide whether this visitor should see a regional language.
@@ -84,9 +80,7 @@ export function middleware(req: NextRequest) {
   // Serve English from the [lang] tree while keeping the clean URL.
   const url = req.nextUrl.clone();
   url.pathname = `/${DEFAULT_LOCALE}${pathname === "/" ? "" : pathname}`;
-  const res = NextResponse.rewrite(url);
-  if (!cookie) res.cookies.set(COOKIE, DEFAULT_LOCALE, { path: "/", maxAge: ONE_YEAR, sameSite: "lax" });
-  return res;
+  return NextResponse.rewrite(url);
 }
 
 export const config = {

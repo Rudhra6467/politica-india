@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, useEffect, type ReactNode } from "react";
 import type { Dictionary, Locale } from "./index";
 import type { DataIndex } from "@/lib/index-rows";
 import { localeHref } from "./href";
@@ -11,6 +11,14 @@ const LocaleContext = createContext<Ctx | null>(null);
 
 export function LocaleProvider({ locale, dict, index, children }: { locale: Locale; dict: Dictionary; index: DataIndex; children: ReactNode }) {
   const value: Ctx = { locale, t: dict, href: (p) => localeHref(locale, p), index };
+  // A rendered page is a real visit: remember its language for unprefixed URLs (middleware reads this).
+  useEffect(() => {
+    try {
+      document.cookie = `politica-lang=${locale}; path=/; max-age=31536000; samesite=lax`;
+    } catch {
+      // ignore
+    }
+  }, [locale]);
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;
 }
 

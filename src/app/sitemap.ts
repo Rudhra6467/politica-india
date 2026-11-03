@@ -22,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 0.7,
     })),
+    { url: `${SITE_URL}/promises`, lastModified: now, changeFrequency: "weekly", priority: 0.9, alternates: alt("/promises") },
+    { url: `${SITE_URL}/mood`, lastModified: now, changeFrequency: "daily", priority: 0.8, alternates: alt("/mood") },
     { url: `${SITE_URL}/methodology`, lastModified: now, changeFrequency: "monthly", priority: 0.5, alternates: alt("/methodology") },
     ...parties.map((p) => ({
       url: `${SITE_URL}/party/${p}`,

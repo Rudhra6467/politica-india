@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import LikeDislikeButtons from "@/components/LikeDislikeButtons";
+import VerdictButtons from "@/components/rate/VerdictButtons";
 import CommentSection from "@/components/CommentSection";
 import type { PromiseStatus, EvidenceSource } from "@/data/pilot-candidates";
 import Link from "next/link";
@@ -137,12 +137,9 @@ export default function PromiseCard({ promise, showShare = true }: { promise: Pr
         {promise.sources && promise.sources.length > 0 && <SourceList sources={promise.sources} />}
 
         <div className="mt-4 flex flex-wrap items-end justify-between gap-3 border-t border-slate-100 pt-3">
-          <LikeDislikeButtons
-            targetKey={`promise:${promise.id}`}
-            initialLikes={promise.likes}
-            initialDislikes={promise.dislikes}
-            size="sm"
-          />
+          <div className="w-full sm:max-w-sm">
+            <VerdictButtons promiseId={promise.id} />
+          </div>
           <div className="flex items-center gap-4">
           {showShare && (
             <Link
