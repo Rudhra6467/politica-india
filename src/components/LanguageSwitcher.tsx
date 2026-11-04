@@ -21,7 +21,7 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
   };
 
   return (
-    <nav aria-label={t.nav.language} className="flex items-center rounded-lg border border-slate-200 bg-white p-0.5 text-xs">
+    <nav aria-label={t.nav.language} className="flex items-center rounded-lg border border-line bg-surface p-0.5 text-xs">
       {LOCALES.map((l) => (
         <Link
           key={l}
@@ -30,7 +30,7 @@ export default function LanguageSwitcher({ compact = false }: { compact?: boolea
           aria-current={l === locale ? "true" : undefined}
           className={
             "rounded-md px-2 py-1 font-medium transition " +
-            (l === locale ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-100")
+            (l === locale ? "bg-ink text-bg" : "text-muted hover:bg-surface-2")
           }
         >
           {compact ? l.toUpperCase() : LOCALE_LABEL[l]}

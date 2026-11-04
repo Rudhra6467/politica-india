@@ -16,39 +16,39 @@ function CandidateRowItem({ candidate, backHref }: { candidate: CandidateRow; ba
   const won = candidate.won;
 
   return (
-    <Link href={profileHref} className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-card transition hover:border-indigo-200 hover:shadow-lift">
+    <Link href={profileHref} className="group flex items-center gap-3 rounded-2xl border border-line bg-surface px-3 py-2.5 shadow-card transition hover:border-accent/60 hover:shadow-lift">
       <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="md" />
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-semibold leading-snug text-slate-900 group-hover:text-indigo-700">{candidate.name}</div>
-        <div className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-[11px] text-slate-500">
+        <div className="truncate text-sm font-semibold leading-snug text-ink group-hover:text-accent-bright">{candidate.name}</div>
+        <div className="mt-0.5 flex flex-wrap items-center gap-x-1.5 text-[11px] text-muted">
           <span>{role}</span>
-          <span className="text-slate-300">·</span>
+          <span className="text-faint">·</span>
           <span className="truncate">{candidate.constituency}</span>
-          <span className="text-slate-300">·</span>
+          <span className="text-faint">·</span>
           <span className="tabular">{candidate.state === "Andhra Pradesh" ? t.common.ap : t.common.tg}</span>
           {!won && (
             <>
-              <span className="text-slate-300">·</span>
-              <span className="text-slate-500">{t.list.lost}</span>
+              <span className="text-faint">·</span>
+              <span className="text-muted">{t.list.lost}</span>
             </>
           )}
           {candidate.officeSummary && (
             <>
-              <span className="text-slate-300">·</span>
-              <span className="text-amber-700">{t.list.statusChanged}</span>
+              <span className="text-faint">·</span>
+              <span className="text-amber-300">{t.list.statusChanged}</span>
             </>
           )}
         </div>
       </div>
-      <div className="hidden shrink-0 text-right text-[11px] tabular text-slate-500 sm:block">
-        <div className={candidate.criminalCases > 0 ? "font-medium text-amber-700" : ""}>
+      <div className="hidden shrink-0 text-right text-[11px] tabular text-muted sm:block">
+        <div className={candidate.criminalCases > 0 ? "font-medium text-amber-300" : ""}>
           {candidate.criminalCases} {candidate.criminalCases === 1 ? t.list.case : t.list.cases}
         </div>
         <div>
           {candidate.promiseCount} {candidate.promiseCount === 1 ? t.list.promise : t.list.promises}
         </div>
       </div>
-      <span className="shrink-0 text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" aria-hidden>
+      <span className="shrink-0 text-faint transition group-hover:translate-x-0.5 group-hover:text-accent-bright" aria-hidden>
         →
       </span>
     </Link>
@@ -62,14 +62,14 @@ function CollapsibleRoleSection({ title, subtitle, candidates, backHref, default
 
   return (
     <section className="space-y-1.5">
-      <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full items-center justify-between gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-left transition hover:bg-slate-100">
+      <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex w-full items-center justify-between gap-2 rounded-xl border border-line bg-surface-2 px-3 py-2 text-left transition hover:bg-surface-2">
         <div className="min-w-0">
-          <div className="text-sm font-semibold text-slate-800">{title}</div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-sm font-semibold text-ink">{title}</div>
+          <div className="text-[11px] text-muted">
             {subtitle} · {candidates.length}
           </div>
         </div>
-        <span className="shrink-0 text-xs font-medium text-slate-500">{open ? t.party.hide : t.party.showSection}</span>
+        <span className="shrink-0 text-xs font-medium text-muted">{open ? t.party.hide : t.party.showSection}</span>
       </button>
       {open && (
         <div className="space-y-1.5">
@@ -99,22 +99,22 @@ export default function PartyContent({ abbr }: { abbr: string }) {
 
   const backHref = href(state ? `/party/${abbr}?state=${encodeURIComponent(state)}` : `/party/${abbr}`);
   const partyName = info?.name || allForParty[0]?.party || abbr;
-  const chip = (on: boolean) => "rounded-full border px-2.5 py-1 font-medium " + (on ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-slate-400");
+  const chip = (on: boolean) => "rounded-full border px-2.5 py-1 font-medium " + (on ? "border-ink bg-ink text-bg" : "border-line bg-surface text-muted hover:border-faint");
 
   return (
     <div className="space-y-4 pb-10">
       <nav className="text-sm" aria-label="Breadcrumb">
-        <Link href={href("/")} className="inline-flex items-center gap-1.5 text-slate-500 transition hover:text-slate-800">
+        <Link href={href("/")} className="inline-flex items-center gap-1.5 text-muted transition hover:text-ink">
           <span aria-hidden>←</span> {t.party.home}
         </Link>
       </nav>
 
-      <section className="rounded-3xl border border-slate-200 bg-white p-4 shadow-card sm:p-6">
+      <section className="rounded-3xl border border-line bg-surface p-4 shadow-card sm:p-6">
         <div className="flex items-start gap-4">
           <PartyBadge abbr={abbr} size="lg" />
           <div className="min-w-0 flex-1">
-            <h1 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">{partyName}</h1>
-            <p className="mt-0.5 text-xs text-slate-500">
+            <h1 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">{partyName}</h1>
+            <p className="mt-0.5 text-xs text-muted">
               {abbr}
               {info?.founded ? ` · ${t.party.founded} ${info.founded}` : ""}
               {info?.currentLeader ? ` · ${info.currentLeader}` : ""}
@@ -122,33 +122,33 @@ export default function PartyContent({ abbr }: { abbr: string }) {
           </div>
         </div>
 
-        <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-slate-100 pt-4 sm:max-w-md">
+        <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-line/60 pt-4 sm:max-w-md">
           <div>
-            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{t.party.mps}</dt>
-            <dd className="text-xl font-bold tabular text-slate-900">{mps.length}</dd>
+            <dt className="text-[10px] font-medium uppercase tracking-wider text-muted">{t.party.mps}</dt>
+            <dd className="text-xl font-bold tabular text-ink">{mps.length}</dd>
           </div>
           <div>
-            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{t.party.mlas}</dt>
-            <dd className="text-xl font-bold tabular text-slate-900">{mlas.length}</dd>
+            <dt className="text-[10px] font-medium uppercase tracking-wider text-muted">{t.party.mlas}</dt>
+            <dd className="text-xl font-bold tabular text-ink">{mlas.length}</dd>
           </div>
           <div>
-            <dt className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{t.party.statesInPilot}</dt>
-            <dd className="text-xl font-bold tabular text-slate-900">{statesCovered.length}</dd>
+            <dt className="text-[10px] font-medium uppercase tracking-wider text-muted">{t.party.statesInPilot}</dt>
+            <dd className="text-xl font-bold tabular text-ink">{statesCovered.length}</dd>
           </div>
         </dl>
 
         {info?.short && (
-          <div className="mt-4 text-sm leading-relaxed text-slate-600">
+          <div className="mt-4 text-sm leading-relaxed text-muted">
             <p>{info.short.join(" ")}</p>
             {moreOpen && info.more && <p className="mt-2">{info.more.join(" ")}</p>}
             {moreOpen && info.founder && (
-              <p className="mt-2 text-xs text-slate-500">
-                <span className="font-medium text-slate-600">{t.party.founder} · </span>
+              <p className="mt-2 text-xs text-muted">
+                <span className="font-medium text-muted">{t.party.founder} · </span>
                 {info.founder}
               </p>
             )}
             {(info.more || info.founder) && (
-              <button type="button" onClick={() => setMoreOpen(!moreOpen)} className="mt-1.5 text-xs font-medium text-indigo-600 hover:text-indigo-800">
+              <button type="button" onClick={() => setMoreOpen(!moreOpen)} className="mt-1.5 text-xs font-medium text-accent hover:text-accent-bright">
                 {moreOpen ? t.party.less : t.party.more}
               </button>
             )}
@@ -157,7 +157,7 @@ export default function PartyContent({ abbr }: { abbr: string }) {
 
         {statesCovered.length > 1 && (
           <div className="mt-4 flex flex-wrap items-center gap-1.5 text-xs">
-            <span className="text-slate-500">{t.party.show}</span>
+            <span className="text-muted">{t.party.show}</span>
             <Link href={href(`/party/${abbr}`)} className={chip(!state)}>
               {t.party.allStates}
             </Link>
@@ -171,7 +171,7 @@ export default function PartyContent({ abbr }: { abbr: string }) {
       </section>
 
       {allForParty.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-10 text-center text-sm text-slate-500">
+        <div className="rounded-2xl border border-dashed border-line bg-surface py-10 text-center text-sm text-muted">
           {t.party.none} {abbr} · {state}
         </div>
       ) : (

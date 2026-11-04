@@ -71,8 +71,8 @@ export default function CandidatesBrowser() {
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{t.list.title}</h1>
-          <p className="mt-1 text-sm text-slate-500">{t.list.subtitle}</p>
+          <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">{t.list.title}</h1>
+          <p className="mt-1 text-sm text-muted">{t.list.subtitle}</p>
         </div>
         <label className="relative block w-full sm:w-72">
           <span className="sr-only">{t.list.filterPlaceholder}</span>
@@ -81,15 +81,15 @@ export default function CandidatesBrowser() {
             placeholder={t.list.filterPlaceholder}
             value={q}
             onChange={(e) => setParam("q", e.target.value)}
-            className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-sm shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-100"
+            className="w-full rounded-xl border border-line bg-surface py-2 pl-9 pr-3 text-sm shadow-sm focus:border-gold focus:outline-none focus:ring-4 focus:ring-gold/40"
           />
-          <svg className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
+          <svg className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.2-5.2m1.7-4.3a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </label>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-card">
+      <div className="rounded-2xl border border-line bg-surface p-3 shadow-card">
         <div className="flex flex-wrap gap-x-5 gap-y-3">
           <ChipGroup
             label={t.list.state}
@@ -120,13 +120,13 @@ export default function CandidatesBrowser() {
             onChange={(v) => setParam("result", v)}
           />
         </div>
-        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-2.5 text-xs text-slate-500">
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-line/60 pt-2.5 text-xs text-muted">
           <span className="tabular">
-            {t.list.showing} <span className="font-semibold text-slate-800">{filtered.length}</span> {t.list.of} {all.length}
+            {t.list.showing} <span className="font-semibold text-ink">{filtered.length}</span> {t.list.of} {all.length}
             {activeFilters > 0 || q ? (
               <>
                 {" · "}
-                <Link href={href("/candidates")} className="font-medium text-indigo-600 hover:underline">
+                <Link href={href("/candidates")} className="font-medium text-accent hover:underline">
                   {t.list.clearAll}
                 </Link>
               </>
@@ -137,7 +137,7 @@ export default function CandidatesBrowser() {
             <select
               value={sort}
               onChange={(e) => setParam("sort", e.target.value === "role" ? "" : e.target.value)}
-              className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs text-slate-700 focus:border-indigo-400 focus:outline-none"
+              className="rounded-lg border border-line bg-surface px-2 py-1 text-xs text-ink/85 focus:border-gold focus:outline-none"
             >
               <option value="role">{t.list.sortRole}</option>
               <option value="name">{t.list.sortName}</option>
@@ -148,7 +148,7 @@ export default function CandidatesBrowser() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-12 text-center text-sm text-slate-500">
+        <div className="rounded-2xl border border-dashed border-line bg-surface py-12 text-center text-sm text-muted">
           {t.list.noMatch}
           {q ? ` “${q}”` : ""}
           {state ? ` · ${state}` : ""}. {t.list.pilotOnly}
@@ -169,7 +169,7 @@ export default function CandidatesBrowser() {
 function ChipGroup({ label, value, options, onChange }: { label: string; value: string; options: { value: string; label: string }[]; onChange: (v: string) => void }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="mr-0.5 text-[11px] font-semibold uppercase tracking-wider text-slate-500">{label}</span>
+      <span className="mr-0.5 text-[11px] font-semibold uppercase tracking-wider text-muted">{label}</span>
       {options.map((o) => {
         const on = value === o.value;
         return (
@@ -178,7 +178,7 @@ function ChipGroup({ label, value, options, onChange }: { label: string; value: 
             type="button"
             aria-pressed={on}
             onClick={() => onChange(on ? "" : o.value)}
-            className={"rounded-full border px-2.5 py-1 text-xs font-medium transition " + (on ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-600 hover:border-slate-400")}
+            className={"rounded-full border px-2.5 py-1 text-xs font-medium transition " + (on ? "border-ink bg-ink text-bg" : "border-line bg-surface text-muted hover:border-faint")}
           >
             {o.label}
           </button>
@@ -195,29 +195,29 @@ function CandidateCard({ c }: { c: CandidateRow }) {
   return (
     <Link
       href={href(`/candidates/${c.id}`)}
-      className="group flex h-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-card transition hover:border-indigo-200 hover:shadow-lift active:scale-[0.995]"
+      className="group flex h-full items-center gap-3 rounded-2xl border border-line bg-surface px-3 py-2.5 shadow-card transition hover:border-accent/60 hover:shadow-lift active:scale-[0.995]"
     >
       <CandidateAvatar name={c.name} photoUrl={c.photoUrl} size="md" partyAbbr={c.partyAbbr} />
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5">
-          <h2 className="truncate text-sm font-semibold leading-tight text-slate-900 group-hover:text-indigo-700">{c.name}</h2>
+          <h2 className="truncate text-sm font-semibold leading-tight text-ink group-hover:text-accent-bright">{c.name}</h2>
           {!won && (
-            <span className="shrink-0 rounded-full border border-slate-200 bg-slate-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-slate-500">
+            <span className="shrink-0 rounded-full border border-line bg-surface-2 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-muted">
               {t.list.lost}
             </span>
           )}
           {c.officeSummary && (
-            <span title={c.officeSummary} className="shrink-0 rounded-full border border-amber-200 bg-amber-50 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-amber-700">
+            <span title={c.officeSummary} className="shrink-0 rounded-full border border-amber-500/35 bg-amber-500/15 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-amber-300">
               {t.list.statusChanged}
             </span>
           )}
         </div>
-        <p className="truncate text-[11px] text-slate-500">
+        <p className="truncate text-[11px] text-muted">
           {roleLabel} · {c.constituency}, {c.state === "Andhra Pradesh" ? t.common.ap : t.common.tg}
         </p>
-        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] tabular text-slate-500">
+        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] tabular text-muted">
           <PartyBadge abbr={c.partyAbbr} size="sm" preferSymbol={false} />
-          <span className={c.criminalCases > 0 ? "font-medium text-amber-700" : ""}>
+          <span className={c.criminalCases > 0 ? "font-medium text-amber-300" : ""}>
             {c.criminalCases} {c.criminalCases === 1 ? t.list.case : t.list.cases}
           </span>
           <span>·</span>
@@ -226,7 +226,7 @@ function CandidateCard({ c }: { c: CandidateRow }) {
           </span>
         </div>
       </div>
-      <span className="text-slate-300 transition group-hover:translate-x-0.5 group-hover:text-indigo-500" aria-hidden>
+      <span className="text-faint transition group-hover:translate-x-0.5 group-hover:text-accent-bright" aria-hidden>
         →
       </span>
     </Link>

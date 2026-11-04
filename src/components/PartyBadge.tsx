@@ -21,7 +21,7 @@ const PARTY_COLORS: Record<string, string> = {
   AAP: "bg-blue-500 text-white",
 };
 
-const DEFAULT_COLOR = "bg-slate-600 text-white";
+const DEFAULT_COLOR = "bg-surface-3 text-ink";
 
 interface PartyBadgeProps {
   abbr: string;
@@ -58,7 +58,7 @@ export default function PartyBadge({
     <span className="inline-flex items-center gap-1.5">
       {hasSymbol ? (
         <span
-          className={`inline-flex items-center justify-center rounded-lg overflow-hidden border border-slate-100 bg-white shadow-sm ${boxSize[size]}`}
+          className={`inline-flex items-center justify-center rounded-lg overflow-hidden border border-line/60 bg-surface shadow-sm ${boxSize[size]}`}
           title={name || abbr}
         >
           <PartySymbol abbr={abbr} size={size} />
@@ -72,7 +72,7 @@ export default function PartyBadge({
         </span>
       )}
       {showName && name && (
-        <span className="text-sm text-slate-600">{name}</span>
+        <span className="text-sm text-muted">{name}</span>
       )}
     </span>
   );

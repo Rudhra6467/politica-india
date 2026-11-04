@@ -51,7 +51,7 @@ function getInitials(name: string) {
 
 function getColor(name: string) {
   const colors = [
-    "bg-indigo-600",
+    "bg-accent",
     "bg-violet-600",
     "bg-blue-600",
     "bg-cyan-700",
@@ -91,11 +91,11 @@ export default function CandidateAvatar({
         quality={82}
         priority={priority}
         onError={() => setFailed(true)}
-        className={`${classes} object-cover object-top ring-2 ring-slate-200 shadow-sm bg-slate-100`}
+        className={`${classes} object-cover object-top ring-2 ring-line shadow-sm bg-surface-2`}
       />
     ) : (
       <div
-        className={`${classes} ${getColor(name)} flex items-center justify-center font-semibold text-white ring-2 ring-slate-200 shadow-sm select-none`}
+        className={`${classes} ${getColor(name)} flex items-center justify-center font-semibold text-white ring-2 ring-line shadow-sm select-none`}
         title={name}
         aria-label={name}
         role="img"
@@ -110,7 +110,7 @@ export default function CandidateAvatar({
     <div className="relative shrink-0 inline-block">
       {content}
       <span
-        className={`absolute -bottom-0.5 -right-0.5 ${overlayClass} rounded-md overflow-hidden border-2 border-white bg-white shadow-sm flex items-center justify-center`}
+        className={`absolute -bottom-0.5 -right-0.5 ${overlayClass} rounded-md overflow-hidden border-2 border-white bg-surface shadow-sm flex items-center justify-center`}
         title={partyAbbr || undefined}
       >
         <PartySymbol abbr={partyAbbr!} size="sm" />

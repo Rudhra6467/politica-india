@@ -68,14 +68,14 @@ export default function VerificationBanner({ dismissible = false }: Verification
     <div
       className={`relative rounded-xl border px-4 py-3 text-sm ${
         isVerified
-          ? "border-indigo-200 bg-indigo-50 text-indigo-800"
-          : "border-slate-200 bg-slate-50 text-slate-700"
+          ? "border-accent/40 bg-accent/10 text-accent"
+          : "border-line bg-surface-2 text-ink/85"
       }`}
     >
       {dismissible && (
         <button
           onClick={handleDismiss}
-          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-lg text-slate-500 hover:bg-slate-200/60 hover:text-slate-600 flex items-center justify-center transition"
+          className="absolute top-2.5 right-2.5 h-7 w-7 rounded-lg text-muted hover:bg-surface-3 hover:text-muted flex items-center justify-center transition"
           aria-label="Dismiss"
           title="Close"
         >
@@ -88,12 +88,12 @@ export default function VerificationBanner({ dismissible = false }: Verification
           {isVerified ? (
             <>
               <span className="font-medium">You are marked as Verified</span>
-              <span className="ml-2 text-indigo-600">· Comments will show a Verified badge</span>
+              <span className="ml-2 text-accent">· Comments will show a Verified badge</span>
             </>
           ) : (
             <>
               <span className="font-medium">Basic user</span>
-              <span className="ml-2 text-slate-500">
+              <span className="ml-2 text-muted">
                 · Like/dislike available. Simulate dual-verification to unlock comments.
               </span>
             </>
@@ -104,8 +104,8 @@ export default function VerificationBanner({ dismissible = false }: Verification
           onClick={toggle}
           className={`shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition ${
             isVerified
-              ? "bg-white border border-indigo-300 text-indigo-700 hover:bg-indigo-50"
-              : "bg-indigo-600 text-white hover:bg-indigo-700"
+              ? "bg-surface border border-accent/40 text-accent hover:bg-accent/10"
+              : "bg-accent text-bg text-white hover:bg-accent-bright"
           }`}
         >
           {isVerified ? "Remove verification" : "Simulate dual verification"}

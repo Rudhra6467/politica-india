@@ -27,7 +27,7 @@ export default function ShareButton({ title, text }: { title: string; text?: str
     <button
       type="button"
       onClick={share}
-      className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm transition hover:border-indigo-300 hover:text-indigo-700"
+      className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-xs font-medium text-muted shadow-sm transition hover:border-accent/60 hover:text-accent-bright"
       aria-live="polite"
     >
       <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24" aria-hidden>

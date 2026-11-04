@@ -68,13 +68,13 @@ export default async function CandidatePage({ params, searchParams }: { params: 
   return (
     <div className="space-y-4 pb-10">
       <nav className="flex items-center justify-between gap-2 text-sm" aria-label="Breadcrumb">
-        <Link href={backHref} className="inline-flex items-center gap-1 text-slate-500 transition hover:text-slate-800">
+        <Link href={backHref} className="inline-flex items-center gap-1 text-muted transition hover:text-ink">
           <span aria-hidden>←</span> {backLabel}
         </Link>
         <ShareButton title={`${candidate.name} · Politica India`} text={`${candidate.name}, ${candidate.partyAbbr} — ${candidate.constituency}`} />
       </nav>
 
-      <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-card">
+      <section className="overflow-hidden rounded-3xl border border-line bg-surface shadow-card">
         <div className="p-4 sm:p-6">
           <div className="flex items-start gap-4 sm:gap-6">
             <CandidateAvatar name={candidate.name} photoUrl={candidate.photoUrl} size="profile" partyAbbr={candidate.partyAbbr} priority />
@@ -84,19 +84,19 @@ export default async function CandidatePage({ params, searchParams }: { params: 
                 <Link href={partyHref} className="transition hover:opacity-80" title={candidate.party}>
                   <PartyBadge abbr={candidate.partyAbbr} size="sm" />
                 </Link>
-                <span className="text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                <span className="text-[11px] font-medium uppercase tracking-wide text-muted">
                   {role} · {candidate.electionType} {candidate.electionYear}
                 </span>
-                <span className={"rounded-full border px-1.5 py-0.5 text-[11px] font-medium " + (won ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-slate-200 bg-slate-100 text-slate-600")}>
+                <span className={"rounded-full border px-1.5 py-0.5 text-[11px] font-medium " + (won ? "border-emerald-500/35 bg-emerald-500/15 text-emerald-300" : "border-line bg-surface-2 text-muted")}>
                   {won ? t.profile.elected : t.profile.lost}
                 </span>
               </div>
 
-              <h1 className="mt-1 text-xl font-bold leading-tight tracking-tight text-slate-900 sm:text-3xl">{candidate.name}</h1>
-              <p className="mt-1 text-sm text-slate-500">
+              <h1 className="mt-1 text-xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">{candidate.name}</h1>
+              <p className="mt-1 text-sm text-muted">
                 {candidate.constituency}, {candidate.state}
-                <span className="text-slate-300"> · </span>
-                <Link href={partyHref} className="font-medium text-indigo-600 hover:text-indigo-800">
+                <span className="text-faint"> · </span>
+                <Link href={partyHref} className="font-medium text-accent hover:text-accent-bright">
                   {candidate.party}
                 </Link>
               </p>
@@ -107,7 +107,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
             </div>
 
             {hasOpponent && (
-              <div className="hidden w-[24%] max-w-[11rem] shrink-0 flex-col justify-center self-stretch border-l border-slate-100 pl-4 sm:flex">
+              <div className="hidden w-[24%] max-w-[11rem] shrink-0 flex-col justify-center self-stretch border-l border-line/60 pl-4 sm:flex">
                 <OpponentBlock
                   label={won ? t.profile.wonAgainst : t.profile.lostTo}
                   name={candidate.opponentName ?? opponent?.name ?? ""}
@@ -123,7 +123,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
           </div>
 
           {hasOpponent && (
-            <div className="mt-3 border-t border-slate-100 pt-3 sm:hidden">
+            <div className="mt-3 border-t border-line/60 pt-3 sm:hidden">
               <OpponentBlock
                 label={won ? t.profile.wonAgainst : t.profile.lostTo}
                 name={candidate.opponentName ?? opponent?.name ?? ""}
@@ -139,19 +139,19 @@ export default async function CandidatePage({ params, searchParams }: { params: 
       </section>
 
       {candidate.officeStatus && (
-        <section aria-label={t.profile.officeChanged} className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 shadow-card">
+        <section aria-label={t.profile.officeChanged} className="rounded-2xl border border-amber-500/35 bg-amber-500/15 px-4 py-3 shadow-card">
           <div className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-            <h2 className="text-xs font-semibold tracking-wide text-amber-900">{t.profile.officeChanged}</h2>
-            <span className="text-[10px] tabular text-amber-700">
+            <h2 className="text-xs font-semibold tracking-wide text-amber-300">{t.profile.officeChanged}</h2>
+            <span className="text-[10px] tabular text-amber-300">
               {t.profile.asOf} {candidate.officeStatus.asOf}
             </span>
           </div>
-          <p className="mt-1 text-sm leading-relaxed text-amber-900">{candidate.officeStatus.summary}</p>
+          <p className="mt-1 text-sm leading-relaxed text-amber-300">{candidate.officeStatus.summary}</p>
           <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs">
             {candidate.officeStatus.sources.map((s) => (
               <li key={s.url}>
-                <a href={s.url} target="_blank" rel="noopener noreferrer nofollow" className="font-medium text-indigo-700 hover:underline">
+                <a href={s.url} target="_blank" rel="noopener noreferrer nofollow" className="font-medium text-accent hover:underline">
                   {s.publisher} · {s.date} ↗
                 </a>
               </li>
@@ -164,10 +164,10 @@ export default async function CandidatePage({ params, searchParams }: { params: 
       <section aria-labelledby="verified-heading">
         <div className="mb-1.5 flex items-center gap-2">
           <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-          <h2 id="verified-heading" className="text-xs font-semibold tracking-wide text-slate-800">
+          <h2 id="verified-heading" className="text-xs font-semibold tracking-wide text-ink">
             {t.profile.verifiedRecord}
           </h2>
-          <span className="text-[10px] text-slate-500">{eciSource}</span>
+          <span className="text-[10px] text-muted">{eciSource}</span>
         </div>
         <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
           <MetricCard label={t.profile.age} value={candidate.age?.toString() ?? "—"} />
@@ -193,17 +193,17 @@ export default async function CandidatePage({ params, searchParams }: { params: 
         <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
           <div className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-            <h2 id="promises-heading" className="text-xs font-semibold tracking-wide text-slate-800">
+            <h2 id="promises-heading" className="text-xs font-semibold tracking-wide text-ink">
               {t.profile.trackedPromises}
             </h2>
-            <span className="text-[10px] tabular text-slate-500">{candidate.promises.length}</span>
+            <span className="text-[10px] tabular text-muted">{candidate.promises.length}</span>
           </div>
           {statusCounts.length > 0 && (
             <div className="flex flex-wrap items-center gap-1.5">
               {statusCounts.map((s) => (
                 <span key={s.status} className="inline-flex items-center gap-1">
                   <StatusPill status={s.status} size="sm" />
-                  <span className="text-[10px] tabular text-slate-500">×{s.count}</span>
+                  <span className="text-[10px] tabular text-muted">×{s.count}</span>
                 </span>
               ))}
             </div>
@@ -211,7 +211,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
         </div>
 
         {candidate.promises.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-8 text-center text-xs text-slate-500">{t.profile.noPromises}</div>
+          <div className="rounded-2xl border border-dashed border-line bg-surface py-8 text-center text-xs text-muted">{t.profile.noPromises}</div>
         ) : (
           <div className="space-y-2.5">
             {candidate.promises.map((p) => (
@@ -224,10 +224,10 @@ export default async function CandidatePage({ params, searchParams }: { params: 
       {peers.length > 0 && (
         <section aria-labelledby="peers-heading">
           <div className="mb-2 flex items-center justify-between">
-            <h2 id="peers-heading" className="text-xs font-semibold tracking-wide text-slate-800">
+            <h2 id="peers-heading" className="text-xs font-semibold tracking-wide text-ink">
               {t.profile.moreFrom} {candidate.partyAbbr} · {candidate.state}
             </h2>
-            <Link href={partyHref} className="text-xs font-medium text-indigo-600 hover:text-indigo-800">
+            <Link href={partyHref} className="text-xs font-medium text-accent hover:text-accent-bright">
               {t.profile.partyPage}
             </Link>
           </div>
@@ -236,12 +236,12 @@ export default async function CandidatePage({ params, searchParams }: { params: 
               <li key={p.id}>
                 <Link
                   href={h(`/candidates/${p.id}?from=${encodeURIComponent(h("/candidates/" + candidate.id))}`)}
-                  className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-2.5 py-2 shadow-card transition hover:border-indigo-200"
+                  className="flex items-center gap-2.5 rounded-xl border border-line bg-surface px-2.5 py-2 shadow-card transition hover:border-accent/60"
                 >
                   <CandidateAvatar name={p.name} photoUrl={p.photoUrl} size="sm" />
                   <span className="min-w-0">
-                    <span className="block truncate text-xs font-semibold text-slate-900">{p.name}</span>
-                    <span className="block truncate text-[10px] text-slate-500">{p.constituency}</span>
+                    <span className="block truncate text-xs font-semibold text-ink">{p.name}</span>
+                    <span className="block truncate text-[10px] text-muted">{p.constituency}</span>
                   </span>
                 </Link>
               </li>
@@ -250,7 +250,7 @@ export default async function CandidatePage({ params, searchParams }: { params: 
         </section>
       )}
 
-      <p className="mx-auto max-w-md text-center text-[10px] leading-relaxed text-slate-500">{t.profile.footnote}</p>
+      <p className="mx-auto max-w-md text-center text-[10px] leading-relaxed text-muted">{t.profile.footnote}</p>
     </div>
   );
 }
@@ -262,17 +262,17 @@ function OpponentBlock({
 }) {
   const inner = (
     <>
-      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{label}</div>
-      <div className={"mt-0.5 text-sm font-semibold leading-snug " + (href ? "text-indigo-700" : "text-slate-800")}>
+      <div className="text-[10px] font-medium uppercase tracking-wider text-muted">{label}</div>
+      <div className={"mt-0.5 text-sm font-semibold leading-snug " + (href ? "text-accent" : "text-ink")}>
         {name}
         {href ? " →" : ""}
       </div>
-      <div className="text-[11px] tabular text-slate-500">
+      <div className="text-[11px] tabular text-muted">
         {party ? party : ""}
         {party && margin != null ? " · " : ""}
         {margin != null ? `${margin.toLocaleString("en-IN")} ${marginLabel}` : ""}
       </div>
-      <div className="text-[10px] text-slate-500">{sourceLabel}</div>
+      <div className="text-[10px] text-muted">{sourceLabel}</div>
     </>
   );
   const cls = align === "right" ? "text-right" : "";
@@ -287,9 +287,9 @@ function OpponentBlock({
 
 function MetricCard({ label, value, accent, warning, hint }: { label: string; value: string; accent?: boolean; warning?: boolean; hint?: string }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-card" title={hint}>
-      <div className="text-[10px] font-medium uppercase tracking-wider text-slate-500">{label}</div>
-      <div className={"mt-0.5 line-clamp-2 text-sm font-semibold leading-tight tracking-tight sm:text-base " + (warning ? "text-amber-700" : accent ? "text-emerald-700" : "text-slate-900")}>
+    <div className="rounded-2xl border border-line bg-surface px-3 py-2.5 shadow-card" title={hint}>
+      <div className="text-[10px] font-medium uppercase tracking-wider text-muted">{label}</div>
+      <div className={"mt-0.5 line-clamp-2 text-sm font-semibold leading-tight tracking-tight sm:text-base " + (warning ? "text-amber-300" : accent ? "text-emerald-300" : "text-ink")}>
         {value}
       </div>
     </div>

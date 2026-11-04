@@ -31,17 +31,17 @@ export function StarMeter({ avg, count, size = "sm" }: { avg: number | null; cou
   const { t } = useLocale();
   const cls = size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4";
   if (avg == null) {
-    return <span className="text-[11px] text-slate-500">{count === 0 ? t.rate.beFirst : `${count.toLocaleString("en-IN")} ${count === 1 ? t.rate.rating : t.rate.ratings} · ${t.rate.needMore}`}</span>;
+    return <span className="text-[11px] text-muted">{count === 0 ? t.rate.beFirst : `${count.toLocaleString("en-IN")} ${count === 1 ? t.rate.rating : t.rate.ratings} · ${t.rate.needMore}`}</span>;
   }
   return (
     <span className="inline-flex items-center gap-1.5">
-      <span className="flex text-amber-500">
+      <span className="flex text-gold">
         {[1, 2, 3, 4, 5].map((i) => (
           <Star key={i} filled={avg >= i - 0.25} half={avg < i - 0.25 && avg >= i - 0.75} className={cls} />
         ))}
       </span>
-      <span className="text-xs font-semibold tabular text-slate-800">{avg.toFixed(1)}</span>
-      <span className="text-[11px] tabular text-slate-500">({count.toLocaleString("en-IN")})</span>
+      <span className="text-xs font-semibold tabular text-ink">{avg.toFixed(1)}</span>
+      <span className="text-[11px] tabular text-muted">({count.toLocaleString("en-IN")})</span>
     </span>
   );
 }
@@ -91,20 +91,20 @@ export default function StarRating({ targetKey, size = "lg", align = "left" }: {
               onClick={() => submit(mine === i ? 0 : i)}
               className={
                 `flex ${btnCls} items-center justify-center rounded-full transition active:scale-90 disabled:opacity-60 ` +
-                (active ? "text-amber-500" : "text-slate-300 hover:text-amber-400")
+                (active ? "text-gold" : "text-faint hover:text-gold")
               }
             >
-              <Star filled={active} className={starCls + " drop-shadow-sm"} />
+              <Star filled={active} className={starCls + (active ? " drop-shadow-[0_0_10px_rgba(255,194,75,0.45)]" : "")} />
             </button>
           );
         })}
       </div>
-      <p className={"mt-0.5 min-h-[1rem] text-[11px] leading-tight " + (mine ? "font-medium text-amber-700" : "text-slate-500")}>
+      <p className={"mt-0.5 min-h-[1rem] text-[11px] leading-tight " + (mine ? "font-medium text-gold" : "text-muted")}>
         {caption}
-        {!live && hydrated && <span className="text-slate-400"> · {t.rate.pilotStars}</span>}
+        {!live && hydrated && <span className="text-faint"> · {t.rate.pilotStars}</span>}
       </p>
       {live && hydrated && (
-        <p className="mt-0.5 text-[11px] text-slate-500">
+        <p className="mt-0.5 text-[11px] text-muted">
           {summary.avg != null ? (
             <StarMeter avg={summary.avg} count={summary.count} />
           ) : summary.count === 0 ? (

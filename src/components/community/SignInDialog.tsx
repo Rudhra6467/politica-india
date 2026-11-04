@@ -76,18 +76,18 @@ export default function SignInDialog({ onClose }: { onClose: () => void }) {
   };
 
   const input =
-    "w-full rounded-xl border border-slate-200 px-3 py-2.5 text-base text-slate-900 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-100";
+    "w-full rounded-xl border border-line px-3 py-2.5 text-base text-ink shadow-sm focus:border-gold focus:outline-none focus:ring-4 focus:ring-gold/40";
   const primary =
-    "w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-50";
+    "w-full rounded-xl bg-accent text-bg px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-accent-bright disabled:opacity-50";
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-end justify-center bg-slate-900/40 p-0 backdrop-blur-sm sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-labelledby="signin-title">
-      <div className="w-full max-w-md rounded-t-3xl bg-white p-5 shadow-lift sm:rounded-3xl sm:p-6">
+    <div className="fixed inset-0 z-[90] flex items-end justify-center bg-black/40 p-0 backdrop-blur-sm sm:items-center sm:p-4" role="dialog" aria-modal="true" aria-labelledby="signin-title">
+      <div className="w-full max-w-md rounded-t-3xl bg-surface p-5 shadow-lift sm:rounded-3xl sm:p-6">
         <div className="flex items-start justify-between gap-3">
-          <h2 id="signin-title" className="text-lg font-bold tracking-tight text-slate-900">
+          <h2 id="signin-title" className="text-lg font-bold tracking-tight text-ink">
             {step === "name" ? t.auth.nameTitle : t.auth.title}
           </h2>
-          <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg px-2 py-1 text-slate-500 hover:bg-slate-100">
+          <button type="button" onClick={onClose} aria-label="Close" className="rounded-lg px-2 py-1 text-muted hover:bg-surface-2">
             ×
           </button>
         </div>
@@ -100,28 +100,28 @@ export default function SignInDialog({ onClose }: { onClose: () => void }) {
               if (consent) sendCode();
             }}
           >
-            <p className="text-sm leading-relaxed text-slate-600">{t.auth.intro}</p>
+            <p className="text-sm leading-relaxed text-muted">{t.auth.intro}</p>
             <label className="block text-sm">
-              <span className="mb-1 block font-medium text-slate-700">{t.auth.phoneLabel}</span>
+              <span className="mb-1 block font-medium text-ink/85">{t.auth.phoneLabel}</span>
               <div className="flex items-stretch gap-2">
-                <span className="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-600">+91</span>
+                <span className="inline-flex items-center rounded-xl border border-line bg-surface-2 px-3 text-sm text-muted">+91</span>
                 <input ref={firstInput} className={input} inputMode="numeric" autoComplete="tel-national" placeholder={t.auth.phonePlaceholder} value={phone} onChange={(e) => setPhone(e.target.value.replace(/[^\d]/g, "").slice(0, 10))} />
               </div>
             </label>
-            <label className="flex items-start gap-2 text-xs text-slate-600">
+            <label className="flex items-start gap-2 text-xs text-muted">
               <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-0.5" />
               <span>
                 {t.auth.consent}{" "}
-                <Link href={href("/privacy")} className="text-indigo-600 underline" target="_blank">
+                <Link href={href("/privacy")} className="text-accent underline" target="_blank">
                   {t.legal.privacy}
                 </Link>{" "}
                 ·{" "}
-                <Link href={href("/terms")} className="text-indigo-600 underline" target="_blank">
+                <Link href={href("/terms")} className="text-accent underline" target="_blank">
                   {t.legal.terms}
                 </Link>
               </span>
             </label>
-            {err && <p className="text-sm text-rose-600">{err}</p>}
+            {err && <p className="text-sm text-rose-400">{err}</p>}
             <button type="submit" disabled={busy || !consent || phone.length !== 10} className={primary}>
               {t.auth.sendCode}
             </button>
@@ -136,27 +136,27 @@ export default function SignInDialog({ onClose }: { onClose: () => void }) {
               verify();
             }}
           >
-            <p className="text-sm text-slate-600">
-              {t.auth.codeSentTo} <span className="font-medium text-slate-800">+91 {phone}</span>
+            <p className="text-sm text-muted">
+              {t.auth.codeSentTo} <span className="font-medium text-ink">+91 {phone}</span>
             </p>
             {devCode && (
-              <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+              <p className="rounded-lg border border-amber-500/35 bg-amber-500/15 px-3 py-2 text-xs text-amber-300">
                 {t.auth.devCode} <b className="tabular">{devCode}</b>
               </p>
             )}
             <label className="block text-sm">
-              <span className="mb-1 block font-medium text-slate-700">{t.auth.codeLabel}</span>
+              <span className="mb-1 block font-medium text-ink/85">{t.auth.codeLabel}</span>
               <input ref={firstInput} className={input + " tracking-[0.3em]"} inputMode="numeric" autoComplete="one-time-code" maxLength={6} value={code} onChange={(e) => setCode(e.target.value.replace(/[^\d]/g, "").slice(0, 6))} />
             </label>
-            {err && <p className="text-sm text-rose-600">{err}</p>}
+            {err && <p className="text-sm text-rose-400">{err}</p>}
             <button type="submit" disabled={busy || code.length !== 6} className={primary}>
               {t.auth.verify}
             </button>
             <div className="flex justify-between text-xs">
-              <button type="button" onClick={() => setStep("phone")} className="text-slate-500 hover:text-slate-800">
+              <button type="button" onClick={() => setStep("phone")} className="text-muted hover:text-ink">
                 {t.auth.change}
               </button>
-              <button type="button" onClick={sendCode} disabled={busy} className="text-indigo-600 hover:text-indigo-800">
+              <button type="button" onClick={sendCode} disabled={busy} className="text-accent hover:text-accent-bright">
                 {t.auth.resend}
               </button>
             </div>
@@ -171,10 +171,10 @@ export default function SignInDialog({ onClose }: { onClose: () => void }) {
               saveName();
             }}
           >
-            <p className="text-sm leading-relaxed text-slate-600">{t.auth.nameHint}</p>
+            <p className="text-sm leading-relaxed text-muted">{t.auth.nameHint}</p>
             <input ref={firstInput} className={input} maxLength={40} value={name} onChange={(e) => setName(e.target.value)} placeholder={t.comments.displayName} />
             <div className="flex gap-2">
-              <button type="button" onClick={onClose} className="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50">
+              <button type="button" onClick={onClose} className="flex-1 rounded-xl border border-line px-4 py-2.5 text-sm font-medium text-ink/85 hover:bg-surface-2">
                 {t.auth.skip}
               </button>
               <button type="submit" disabled={busy} className={primary + " flex-1"}>
