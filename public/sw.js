@@ -6,7 +6,7 @@
  *    cached copy of that page, then to the offline page.
  * Nothing user-specific is cached; the site has no accounts yet.
  */
-const VERSION = "v3";
+const VERSION = "v4";
 const STATIC = `politica-static-${VERSION}`;
 const PAGES = `politica-pages-${VERSION}`;
 const IMAGES = `politica-images-${VERSION}`;

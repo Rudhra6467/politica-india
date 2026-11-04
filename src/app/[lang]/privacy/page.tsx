@@ -47,7 +47,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ lang: 
 
       <H2>Your rights</H2>
       <p>
-        You can ask for a copy of your data, correct your display name, or delete your account and everything linked to it by writing to <a className="text-indigo-700 underline" href={`mailto:${CONTACT}`}>{CONTACT}</a> from a message that includes the last four digits of your number; we will confirm by SMS before acting. You can also complain to the Data Protection Board of India.
+        You can ask for a copy of your data, correct your display name, or delete your account and everything linked to it by writing to <a className="text-accent underline" href={`mailto:${CONTACT}`}>{CONTACT}</a> from a message that includes the last four digits of your number; we will confirm by SMS before acting. You can also complain to the Data Protection Board of India.
       </p>
 
       <H2>Children</H2>

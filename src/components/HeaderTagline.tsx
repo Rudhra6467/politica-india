@@ -20,15 +20,15 @@ export default function HeaderTagline() {
 
   return (
     <div className="relative text-right" ref={ref}>
-      <div className="text-xs sm:text-sm text-slate-600 leading-snug inline-flex items-center gap-1 sm:gap-1.5">
+      <div className="text-xs sm:text-sm text-muted leading-snug inline-flex items-center gap-1 sm:gap-1.5">
         <span className="hidden xs:inline sm:inline max-w-[9rem] sm:max-w-none truncate sm:whitespace-normal">
           Digital Accountability Starts Here
         </span>
-        <span className="sm:hidden text-slate-500">Sources</span>
+        <span className="sm:hidden text-muted">Sources</span>
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-slate-300 text-xs font-semibold text-slate-500 hover:border-indigo-400 hover:text-indigo-600 hover:bg-indigo-50 transition shrink-0"
+          className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-line text-xs font-semibold text-muted hover:border-accent/60 hover:text-accent-bright hover:bg-accent/10 transition shrink-0"
           aria-label="About data sources"
           title="About data sources"
         >
@@ -37,38 +37,38 @@ export default function HeaderTagline() {
       </div>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 z-50 w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-slate-200 bg-white p-4 text-left shadow-lg text-sm text-slate-600 leading-relaxed">
-          <p className="font-medium text-slate-800 mb-2">Where this information comes from</p>
+        <div className="absolute right-0 top-full mt-2 z-50 w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-line bg-surface p-4 text-left shadow-lg text-sm text-muted leading-relaxed">
+          <p className="font-medium text-ink mb-2">Where this information comes from</p>
           <ul className="space-y-1.5 text-xs">
             <li>
-              <span className="font-medium text-slate-700">Verified record</span> — Election
+              <span className="font-medium text-ink/85">Verified record</span> — Election
               Commission of India Form 26 affidavits (assets, liabilities, education, criminal
               cases).
             </li>
             <li>
-              <span className="font-medium text-slate-700">Promises & announcements</span> — tracked
+              <span className="font-medium text-ink/85">Promises & announcements</span> — tracked
               from public statements and reported progress where available.
             </li>
             <li>
-              <span className="font-medium text-slate-700">Community</span> — likes, dislikes and
+              <span className="font-medium text-ink/85">Community</span> — likes, dislikes and
               comments from users. Reaction only, not official data.
             </li>
           </ul>
-          <p className="mt-3 text-[11px] text-slate-500">
+          <p className="mt-3 text-[11px] text-muted">
             This platform reflects claims and citizen reaction. It does not rank or endorse
             candidates.
           </p>
           <Link
             href="/methodology"
             onClick={() => setOpen(false)}
-            className="mt-3 inline-block text-xs font-medium text-indigo-600 hover:text-indigo-800"
+            className="mt-3 inline-block text-xs font-medium text-accent hover:text-accent-bright"
           >
             Full methodology →
           </Link>
           <button
             type="button"
             onClick={() => setOpen(false)}
-            className="mt-2 block text-xs text-slate-500 hover:text-slate-600"
+            className="mt-2 block text-xs text-muted hover:text-muted"
           >
             Close
           </button>

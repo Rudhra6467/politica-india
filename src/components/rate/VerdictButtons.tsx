@@ -5,9 +5,9 @@ import { useRating } from "./useRating";
 
 /** Kept / Partly / Not kept → stored as 5 / 3 / 1 stars on promise:<id>. One tap, one verdict. */
 const VERDICTS = [
-  { stars: 5, key: "kept", on: "border-emerald-500 bg-emerald-500 text-white", off: "border-slate-200 bg-white text-slate-700 hover:border-emerald-300 hover:bg-emerald-50", dot: "bg-emerald-500" },
-  { stars: 3, key: "partly", on: "border-amber-500 bg-amber-500 text-white", off: "border-slate-200 bg-white text-slate-700 hover:border-amber-300 hover:bg-amber-50", dot: "bg-amber-500" },
-  { stars: 1, key: "notKept", on: "border-rose-500 bg-rose-500 text-white", off: "border-slate-200 bg-white text-slate-700 hover:border-rose-300 hover:bg-rose-50", dot: "bg-rose-500" },
+  { stars: 5, key: "kept", on: "border-emerald-500 bg-emerald-500 text-white", off: "border-line bg-surface text-ink/85 hover:border-emerald-500/50 hover:bg-emerald-500/15", dot: "bg-emerald-500" },
+  { stars: 3, key: "partly", on: "border-amber-500 bg-amber-500 text-white", off: "border-line bg-surface text-ink/85 hover:border-amber-500/50 hover:bg-amber-500/15", dot: "bg-amber-500" },
+  { stars: 1, key: "notKept", on: "border-rose-500 bg-rose-500 text-white", off: "border-line bg-surface text-ink/85 hover:border-rose-500/50 hover:bg-rose-500/15", dot: "bg-rose-500" },
 ] as const;
 
 export default function VerdictButtons({ promiseId, compact = false }: { promiseId: string; compact?: boolean }) {
@@ -18,7 +18,7 @@ export default function VerdictButtons({ promiseId, compact = false }: { promise
 
   return (
     <div>
-      {!compact && <p className="mb-1.5 text-xs font-semibold text-slate-800">{t.rate.delivered}</p>}
+      {!compact && <p className="mb-1.5 text-xs font-semibold text-ink">{t.rate.delivered}</p>}
       <div className="grid grid-cols-3 gap-1.5" role="radiogroup" aria-label={t.rate.delivered}>
         {VERDICTS.map((v) => {
           const on = mine === v.stars;
@@ -37,12 +37,12 @@ export default function VerdictButtons({ promiseId, compact = false }: { promise
               }
             >
               <span>{t.rate[v.key]}</span>
-              {share != null && <span className={"text-[10px] font-medium tabular " + (on ? "text-white/90" : "text-slate-500")}>{share}%</span>}
+              {share != null && <span className={"text-[10px] font-medium tabular " + (on ? "text-white/90" : "text-muted")}>{share}%</span>}
             </button>
           );
         })}
       </div>
-      <p className="mt-1 min-h-[1rem] text-[11px] text-slate-500">
+      <p className="mt-1 min-h-[1rem] text-[11px] text-muted">
         {!hydrated
           ? ""
           : mine

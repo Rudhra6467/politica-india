@@ -37,10 +37,10 @@ export default function BottomNav() {
   ];
 
   const cls = (active: boolean) =>
-    "flex flex-1 flex-col items-center justify-center gap-0.5 py-1.5 text-[10px] font-medium transition " + (active ? "text-sindoor" : "text-slate-500 hover:text-slate-800");
+    "flex flex-1 flex-col items-center justify-center gap-0.5 py-1.5 text-[10px] font-medium transition " + (active ? "text-gold" : "text-muted hover:text-ink");
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden" aria-label="Bottom">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-line/70 bg-bg/85 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden" aria-label="Bottom">
       <div className="mx-auto flex max-w-lg">
         {tabs.map((tab) => (
           <Link key={tab.key} href={href(tab.to)} className={cls(tab.active)} aria-current={tab.active ? "page" : undefined}>

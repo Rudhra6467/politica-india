@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Noto_Sans_Telugu, Noto_Sans_Devanagari } from "next/font/google";
+import localFont from "next/font/local";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/react";
@@ -18,9 +18,11 @@ import BottomNav from "@/components/rate/BottomNav";
 import "../globals.css";
 import { Suspense } from "react";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "optional" });
-const telugu = Noto_Sans_Telugu({ subsets: ["telugu"], variable: "--font-telugu", display: "swap", weight: ["400", "500", "600", "700"] });
-const devanagari = Noto_Sans_Devanagari({ subsets: ["devanagari"], variable: "--font-devanagari", display: "swap", weight: ["400", "500", "600", "700"] });
+// All fonts are self-hosted variable woff2 files (OFL, see src/fonts/*.txt): no build-time fetch from Google.
+const display = localFont({ src: "../../fonts/BricolageGrotesque.woff2", variable: "--font-display", weight: "400 800", display: "swap" });
+const inter = localFont({ src: "../../fonts/Inter.woff2", variable: "--font-sans", weight: "400 700", display: "swap" });
+const telugu = localFont({ src: "../../fonts/NotoSansTelugu.woff2", variable: "--font-telugu", weight: "400 700", display: "swap" });
+const devanagari = localFont({ src: "../../fonts/NotoSansDevanagari.woff2", variable: "--font-devanagari", weight: "400 700", display: "swap" });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://politica-qn61.vercel.app";
 
@@ -65,7 +67,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#0B0D12",
   width: "device-width",
   initialScale: 1,
 };
@@ -87,30 +89,30 @@ export default async function RootLayout({ children, params }: { children: React
     { href: h("/methodology"), label: t.nav.methodology },
   ];
 
-  const fontClass =
-    locale === "te" ? `${inter.variable} ${telugu.variable} font-telugu` : locale === "hi" ? `${inter.variable} ${devanagari.variable} font-devanagari` : `${inter.variable}`;
+  const base = `${inter.variable} ${display.variable}`;
+  const fontClass = locale === "te" ? `${base} ${telugu.variable} font-telugu` : locale === "hi" ? `${base} ${devanagari.variable} font-devanagari` : base;
 
   return (
     <html lang={locale === "en" ? "en-IN" : locale} className={fontClass}>
-      <body className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
+      <body className="min-h-screen bg-bg font-sans text-ink antialiased">
         <LocaleProvider locale={locale} dict={t} index={index}>
         <CommunityProvider mode={mode}>
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:shadow-lift"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-[100] focus:rounded-lg focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:shadow-lift"
           >
             {t.nav.skip}
           </a>
 
-          <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur">
+          <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-xl">
             <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-2.5 sm:gap-5">
               <Link href={h("/")} className="flex shrink-0 items-center gap-2 transition hover:opacity-80" aria-label={t.nav.home}>
                 <VelMark className="h-7 w-auto sm:h-8" />
-                <span className="hidden text-lg font-bold leading-none tracking-tight sm:inline sm:text-xl">
+                <span className="hidden font-display text-lg font-bold leading-none tracking-tight sm:inline sm:text-xl">
                   <span className="text-sindoor">P</span>
-                  <span className="text-slate-900">olitica </span>
+                  <span className="text-ink">olitica </span>
                   <span className="text-sindoor">I</span>
-                  <span className="text-slate-900">ndia</span>
+                  <span className="text-ink">ndia</span>
                 </span>
               </Link>
 
@@ -123,7 +125,7 @@ export default async function RootLayout({ children, params }: { children: React
                   <Link
                     key={n.href}
                     href={n.href}
-                    className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
+                    className="rounded-lg px-3 py-1.5 text-sm font-medium text-muted transition hover:bg-surface-2 hover:text-ink"
                   >
                     {n.label}
                   </Link>
@@ -141,7 +143,7 @@ export default async function RootLayout({ children, params }: { children: React
             {children}
           </main>
 
-          <footer className="mt-12 border-t border-slate-200 bg-white pb-16 sm:mt-16 md:pb-0">
+          <footer className="mt-12 border-t border-line bg-surface pb-16 sm:mt-16 md:pb-0">
             <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-3">
               <div>
                 <div className="flex items-center gap-2">
@@ -150,7 +152,7 @@ export default async function RootLayout({ children, params }: { children: React
                     <span className="text-sindoor">P</span>olitica <span className="text-sindoor">I</span>ndia
                   </span>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-slate-500">{t.footer.tagline}</p>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{t.footer.tagline}</p>
                 <div className="mt-4">
                   <Suspense fallback={null}>
                     <LanguageSwitcher />
@@ -158,30 +160,30 @@ export default async function RootLayout({ children, params }: { children: React
                 </div>
               </div>
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t.footer.explore}</h2>
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">{t.footer.explore}</h2>
                 <ul className="mt-3 space-y-2 text-sm">
-                  <li><Link href={h("/candidates")} className="text-slate-600 hover:text-indigo-700">{t.footer.allRepresentatives}</Link></li>
-                  <li><Link href={h("/candidates?state=Andhra%20Pradesh")} className="text-slate-600 hover:text-indigo-700">Andhra Pradesh</Link></li>
-                  <li><Link href={h("/candidates?state=Telangana")} className="text-slate-600 hover:text-indigo-700">Telangana</Link></li>
-                  <li><Link href={h("/promises")} className="text-slate-600 hover:text-indigo-700">{t.rate.navPromises}</Link></li>
-                  <li><Link href={h("/mood")} className="text-slate-600 hover:text-indigo-700">{t.rate.mood}</Link></li>
-                  <li><Link href={h("/methodology")} className="text-slate-600 hover:text-indigo-700">{t.nav.methodology}</Link></li>
-                  <li><Link href={h("/privacy")} className="text-slate-600 hover:text-indigo-700">{t.legal.privacy}</Link></li>
-                  <li><Link href={h("/terms")} className="text-slate-600 hover:text-indigo-700">{t.legal.terms}</Link></li>
-                  <li><Link href={h("/grievance")} className="text-slate-600 hover:text-indigo-700">{t.legal.grievance}</Link></li>
+                  <li><Link href={h("/candidates")} className="text-muted hover:text-accent-bright">{t.footer.allRepresentatives}</Link></li>
+                  <li><Link href={h("/candidates?state=Andhra%20Pradesh")} className="text-muted hover:text-accent-bright">Andhra Pradesh</Link></li>
+                  <li><Link href={h("/candidates?state=Telangana")} className="text-muted hover:text-accent-bright">Telangana</Link></li>
+                  <li><Link href={h("/promises")} className="text-muted hover:text-accent-bright">{t.rate.navPromises}</Link></li>
+                  <li><Link href={h("/mood")} className="text-muted hover:text-accent-bright">{t.rate.mood}</Link></li>
+                  <li><Link href={h("/methodology")} className="text-muted hover:text-accent-bright">{t.nav.methodology}</Link></li>
+                  <li><Link href={h("/privacy")} className="text-muted hover:text-accent-bright">{t.legal.privacy}</Link></li>
+                  <li><Link href={h("/terms")} className="text-muted hover:text-accent-bright">{t.legal.terms}</Link></li>
+                  <li><Link href={h("/grievance")} className="text-muted hover:text-accent-bright">{t.legal.grievance}</Link></li>
                 </ul>
               </div>
               <div>
-                <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t.footer.sourcesTrust}</h2>
-                <ul className="mt-3 space-y-2 text-sm text-slate-600">
+                <h2 className="text-xs font-semibold uppercase tracking-wider text-muted">{t.footer.sourcesTrust}</h2>
+                <ul className="mt-3 space-y-2 text-sm text-muted">
                   <li>{t.footer.declarations}</li>
                   <li>{t.footer.results}</li>
                   <li>{t.footer.photos}</li>
-                  <li className="text-slate-500">{t.footer.disclaimer}</li>
+                  <li className="text-muted">{t.footer.disclaimer}</li>
                 </ul>
               </div>
             </div>
-            <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-500">{t.footer.bottom}</div>
+            <div className="border-t border-line/60 py-4 text-center text-xs text-muted">{t.footer.bottom}</div>
           </footer>
           <Suspense fallback={null}>
             <BottomNav />

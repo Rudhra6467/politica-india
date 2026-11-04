@@ -188,3 +188,15 @@ they come to rate. Everything else is one tap deeper.
   editorial score or ranking. Run `npm run db:push` (or `db:setup`) in production to add the table.
 
 **Next:** usability test with five citizens on phones, MSG91 SMS, then widen coverage beyond the 29 pilot leaders.
+
+## Phase D.1 — Visual makeover (done)
+
+A new identity on top of the rating-first structure: night palette (`bg`, `surface`, `line`, `ink`,
+`muted`, `faint`, `accent`, `gold` in `tailwind.config.ts`), gold stars with a soft glow, photo-forward
+leader tiles with the name set on the photo, Bricolage Grotesque for headlines (Latin only; Telugu and
+Hindi headlines keep their script face). Every component reads colours from the semantic names, never
+from raw greys, so the next palette change is a config edit.
+
+All four fonts are now self-hosted variable woff2 files under `src/fonts/` (OFL licences alongside),
+which removes the Google Fonts fetch that intermittently broke `next build` in CI and locally.
+Service worker cache bumped to v4 so installed PWAs pick up the new look on next open.

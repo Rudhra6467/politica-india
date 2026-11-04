@@ -28,7 +28,7 @@ export default function AccountButton() {
         type="button"
         onClick={openSignIn}
         disabled={!loaded}
-        className="shrink-0 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-indigo-300 hover:text-indigo-700 disabled:opacity-50"
+        className="shrink-0 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-ink/85 shadow-sm transition hover:border-accent/60 hover:text-accent-bright disabled:opacity-50"
       >
         {t.auth.signIn}
       </button>
@@ -43,18 +43,18 @@ export default function AccountButton() {
         onClick={() => setOpen(!open)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-sm hover:border-slate-400"
+        className="flex items-center gap-1.5 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-xs font-semibold text-ink/85 shadow-sm hover:border-faint"
       >
-        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] text-white">{label.slice(0, 1).toUpperCase()}</span>
+        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent text-bg text-[10px] text-white">{label.slice(0, 1).toUpperCase()}</span>
         <span className="max-w-[7rem] truncate">{label}</span>
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 top-full z-50 mt-1.5 w-48 overflow-hidden rounded-xl border border-slate-200 bg-white py-1 text-sm shadow-lift">
-          <div className="px-3 py-1.5 text-[11px] text-slate-500">
+        <div role="menu" className="absolute right-0 top-full z-50 mt-1.5 w-48 overflow-hidden rounded-xl border border-line bg-surface py-1 text-sm shadow-lift">
+          <div className="px-3 py-1.5 text-[11px] text-muted">
             {t.auth.signedInAs} ···{user.phoneLast4}
           </div>
           {user.isAdmin && (
-            <Link role="menuitem" href={href("/admin/moderation")} className="block px-3 py-1.5 text-slate-700 hover:bg-slate-50" onClick={() => setOpen(false)}>
+            <Link role="menuitem" href={href("/admin/moderation")} className="block px-3 py-1.5 text-ink/85 hover:bg-surface-2" onClick={() => setOpen(false)}>
               Moderation
             </Link>
           )}
@@ -65,7 +65,7 @@ export default function AccountButton() {
               setOpen(false);
               signOut();
             }}
-            className="block w-full px-3 py-1.5 text-left text-slate-700 hover:bg-slate-50"
+            className="block w-full px-3 py-1.5 text-left text-ink/85 hover:bg-surface-2"
           >
             {t.auth.signOut}
           </button>

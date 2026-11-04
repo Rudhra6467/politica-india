@@ -23,8 +23,8 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
     <div className="space-y-6">
       <InstallPrompt />
       <section className="text-center sm:text-left">
-        <h1 className="text-2xl font-bold leading-tight tracking-tight text-slate-900 sm:text-4xl">{t.rate.tagline}</h1>
-        <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-slate-600 sm:mx-0 sm:text-base">{t.rate.sub}</p>
+        <h1 className="font-display text-[2rem] font-bold leading-[1.02] tracking-tight text-ink sm:text-5xl">{t.rate.tagline}</h1>
+        <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-muted sm:mx-0 sm:text-base">{t.rate.sub}</p>
       </section>
 
       <Suspense fallback={null}>
@@ -32,21 +32,21 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
       </Suspense>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <Link href={h("/promises")} className="group rounded-3xl border border-slate-200 bg-white p-4 shadow-card transition hover:border-indigo-200 hover:shadow-lift">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t.rate.navPromises}</span>
-          <span className="mt-1 block text-lg font-bold text-slate-900 group-hover:text-indigo-700">{t.rate.promisesTitle} →</span>
-          <span className="mt-0.5 block text-xs text-slate-500">{stats.promises} {t.home.statPromises.toLowerCase()}</span>
+        <Link href={h("/promises")} className="group rounded-3xl border border-line bg-surface p-4 shadow-card transition hover:border-accent/60 hover:shadow-lift">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted">{t.rate.navPromises}</span>
+          <span className="mt-1 block text-lg font-bold text-ink group-hover:text-accent-bright">{t.rate.promisesTitle} →</span>
+          <span className="mt-0.5 block text-xs text-muted">{stats.promises} {t.home.statPromises.toLowerCase()}</span>
         </Link>
-        <Link href={h("/mood")} className="group rounded-3xl border border-slate-200 bg-white p-4 shadow-card transition hover:border-indigo-200 hover:shadow-lift">
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">{t.rate.navMood}</span>
-          <span className="mt-1 block text-lg font-bold text-slate-900 group-hover:text-indigo-700">{t.rate.mood} →</span>
-          <span className="mt-0.5 block text-xs text-slate-500">{t.rate.moodSub}</span>
+        <Link href={h("/mood")} className="group rounded-3xl border border-line bg-surface p-4 shadow-card transition hover:border-accent/60 hover:shadow-lift">
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted">{t.rate.navMood}</span>
+          <span className="mt-1 block text-lg font-bold text-ink group-hover:text-accent-bright">{t.rate.mood} →</span>
+          <span className="mt-0.5 block text-xs text-muted">{t.rate.moodSub}</span>
         </Link>
       </div>
 
-      <p className="text-center text-[11px] text-slate-500">
+      <p className="text-center text-[11px] text-muted">
         {t.home.lastUpdated} {stats.lastUpdated} · {t.home.footnote}{" "}
-        <Link href={h("/methodology")} className="font-medium text-indigo-600 hover:text-indigo-800">
+        <Link href={h("/methodology")} className="font-medium text-accent hover:text-accent-bright">
           {t.home.methodologyLink}
         </Link>
       </p>

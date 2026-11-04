@@ -23,36 +23,36 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
   return (
     <div className="mx-auto max-w-3xl space-y-8 pb-16">
       <div>
-        <Link href={localeHref(locale, "/")} className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800">
+        <Link href={localeHref(locale, "/")} className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-ink">
           <span aria-hidden>←</span> {t.party.home}
         </Link>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">{m.title}</h1>
-        <p className="mt-2 text-sm leading-relaxed text-slate-600">{m.intro}</p>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{m.title}</h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted">{m.intro}</p>
       </div>
 
       {m.sections.map((s) => (
         <section key={s.heading} className="space-y-2.5">
-          <h2 className="text-base font-semibold text-slate-900">{s.heading}</h2>
+          <h2 className="text-base font-semibold text-ink">{s.heading}</h2>
           {s.layers && (
             <div className="space-y-2.5">
               {s.layers.map((l) => (
-                <div key={l.title} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div key={l.title} className="rounded-xl border border-line bg-surface p-4 shadow-sm">
                   <div className="mb-1 flex items-center gap-2">
                     <span className={`h-2 w-2 rounded-full ${l.dot}`} />
-                    <h3 className="text-sm font-semibold text-slate-800">{l.title}</h3>
+                    <h3 className="text-sm font-semibold text-ink">{l.title}</h3>
                   </div>
-                  <p className="text-sm leading-relaxed text-slate-600">{l.body}</p>
+                  <p className="text-sm leading-relaxed text-muted">{l.body}</p>
                 </div>
               ))}
             </div>
           )}
           {s.paragraphs?.map((p, i) => (
-            <p key={i} className="text-sm leading-relaxed text-slate-600">
+            <p key={i} className="text-sm leading-relaxed text-muted">
               {p}
             </p>
           ))}
           {s.bullets && (
-            <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-slate-600">
+            <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-muted">
               {s.bullets.map((b) => (
                 <li key={b}>{b}</li>
               ))}
@@ -61,8 +61,8 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
         </section>
       ))}
 
-      <section className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-        <p className="text-sm font-medium leading-relaxed text-slate-700">{m.closing}</p>
+      <section className="rounded-xl border border-line bg-surface-2 p-4">
+        <p className="text-sm font-medium leading-relaxed text-ink/85">{m.closing}</p>
       </section>
     </div>
   );

@@ -38,8 +38,8 @@ function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
 }
 
-const inputCls = "w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100";
-const postBtn = "rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-40";
+const inputCls = "w-full rounded-lg border border-line px-3 py-2 text-sm focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/40";
+const postBtn = "rounded-lg bg-accent text-bg px-4 py-2 text-sm font-medium text-white transition hover:bg-accent-bright disabled:opacity-40";
 
 export default function CommentSection({ targetKey }: { targetKey: string }) {
   const { mode } = useCommunity();
@@ -90,19 +90,19 @@ function LiveComments({ targetKey }: { targetKey: string }) {
   return (
     <div className="space-y-3">
       {comments === null ? (
-        <p className="text-xs text-slate-500">…</p>
+        <p className="text-xs text-muted">…</p>
       ) : comments.length > 0 ? (
         <ul className="space-y-2">
           {comments.map((c) => (
-            <li key={c.id} className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
+            <li key={c.id} className="rounded-lg border border-line/60 bg-surface-2 px-3 py-2">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-slate-800">{c.author}</span>
-                {c.status === "PENDING" && <span className="rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-700">{t.auth.pendingReview}</span>}
-                <span className="ml-auto text-[10px] text-slate-500">{fmtDate(c.createdAt)}</span>
+                <span className="text-sm font-medium text-ink">{c.author}</span>
+                {c.status === "PENDING" && <span className="rounded bg-amber-500/25 px-1.5 py-0.5 text-[10px] font-medium text-amber-300">{t.auth.pendingReview}</span>}
+                <span className="ml-auto text-[10px] text-muted">{fmtDate(c.createdAt)}</span>
               </div>
-              <p className="mt-0.5 text-sm text-slate-600">{c.body}</p>
+              <p className="mt-0.5 text-sm text-muted">{c.body}</p>
               {!c.mine && c.status === "APPROVED" && (
-                <button type="button" onClick={() => report(c.id)} disabled={reported.has(c.id)} className="mt-1 text-[11px] text-slate-500 hover:text-rose-600 disabled:text-emerald-700">
+                <button type="button" onClick={() => report(c.id)} disabled={reported.has(c.id)} className="mt-1 text-[11px] text-muted hover:text-rose-300 disabled:text-emerald-300">
                   {reported.has(c.id) ? t.auth.reported : t.auth.report}
                 </button>
               )}
@@ -121,9 +121,9 @@ function LiveComments({ targetKey }: { targetKey: string }) {
           maxLength={600}
           className={inputCls}
         />
-        {err && <p className="text-xs text-rose-600">{err}</p>}
+        {err && <p className="text-xs text-rose-400">{err}</p>}
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] text-slate-500">{t.auth.moderationNote}</span>
+          <span className="text-[10px] text-muted">{t.auth.moderationNote}</span>
           <button type="submit" disabled={busy || text.trim().length < 5} className={postBtn}>
             {t.comments.post}
           </button>
@@ -160,39 +160,39 @@ function PilotComments({ promiseId }: { promiseId: string }) {
       {comments.length > 0 && (
         <ul className="space-y-2">
           {comments.map((c) => (
-            <li key={c.id} className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-2">
+            <li key={c.id} className="rounded-lg border border-line/60 bg-surface-2 px-3 py-2">
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-slate-800">{c.name}</span>
-                {c.verified && <span className="rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">{t.comments.verified}</span>}
-                <span className="ml-auto text-[10px] text-slate-500">{fmtDate(c.createdAt)}</span>
+                <span className="text-sm font-medium text-ink">{c.name}</span>
+                {c.verified && <span className="rounded bg-emerald-500/25 px-1.5 py-0.5 text-[10px] font-medium text-emerald-300">{t.comments.verified}</span>}
+                <span className="ml-auto text-[10px] text-muted">{fmtDate(c.createdAt)}</span>
               </div>
-              <p className="mt-0.5 text-sm text-slate-600">{c.text}</p>
+              <p className="mt-0.5 text-sm text-muted">{c.text}</p>
             </li>
           ))}
         </ul>
       )}
 
       {!isVerified ? (
-        <div className="rounded-lg border border-dashed border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-500">
+        <div className="rounded-lg border border-dashed border-line bg-surface px-3 py-2.5 text-xs text-muted">
           <p>{t.comments.reserved}</p>
-          <button type="button" onClick={toggle} className="mt-2 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition hover:bg-indigo-700">
+          <button type="button" onClick={toggle} className="mt-2 rounded-lg bg-accent text-bg px-3 py-1.5 text-xs font-medium text-white transition hover:bg-accent-bright">
             {t.comments.simulate}
           </button>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-2">
-          <div className="flex items-center justify-between gap-2 text-[11px] text-slate-500">
+          <div className="flex items-center justify-between gap-2 text-[11px] text-muted">
             <span>
-              {t.comments.postingAs} <span className="font-medium text-emerald-700">{t.comments.verified}</span> {t.comments.pilotMock}
+              {t.comments.postingAs} <span className="font-medium text-emerald-300">{t.comments.verified}</span> {t.comments.pilotMock}
             </span>
-            <button type="button" onClick={toggle} className="text-slate-500 hover:text-slate-600">
+            <button type="button" onClick={toggle} className="text-muted hover:text-muted">
               {t.comments.remove}
             </button>
           </div>
           <input type="text" placeholder={t.comments.displayName} value={name} onChange={(e) => setName(e.target.value)} maxLength={40} className={inputCls} />
           <textarea placeholder={t.comments.placeholder} value={text} onChange={(e) => setText(e.target.value)} rows={2} maxLength={600} className={inputCls} />
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-slate-500">{t.comments.storedLocally}</span>
+            <span className="text-[10px] text-muted">{t.comments.storedLocally}</span>
             <button type="submit" disabled={!text.trim() || !name.trim()} className={postBtn}>
               {t.comments.post}
             </button>

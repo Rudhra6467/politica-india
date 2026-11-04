@@ -15,18 +15,18 @@ export default async function GrievancePage({ params }: { params: Promise<{ lang
       <p>
         In line with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, Politica India has a grievance officer for complaints about content on this site, including user comments, and for requests to correct published records.
       </p>
-      <dl className="grid gap-2 rounded-2xl border border-slate-200 bg-white p-4 shadow-card sm:grid-cols-[10rem_1fr]">
-        <dt className="font-medium text-slate-900">Grievance officer</dt>
+      <dl className="grid gap-2 rounded-2xl border border-line bg-surface p-4 shadow-card sm:grid-cols-[10rem_1fr]">
+        <dt className="font-medium text-ink">Grievance officer</dt>
         <dd>{OFFICER}</dd>
-        <dt className="font-medium text-slate-900">Email</dt>
+        <dt className="font-medium text-ink">Email</dt>
         <dd>
-          <a className="text-indigo-700 underline" href={`mailto:${CONTACT}`}>
+          <a className="text-accent underline" href={`mailto:${CONTACT}`}>
             {CONTACT}
           </a>
         </dd>
-        <dt className="font-medium text-slate-900">Acknowledgement</dt>
+        <dt className="font-medium text-ink">Acknowledgement</dt>
         <dd>Within 24 hours</dd>
-        <dt className="font-medium text-slate-900">Resolution</dt>
+        <dt className="font-medium text-ink">Resolution</dt>
         <dd>Within 15 days; within 72 hours for content of the kinds listed in Rule 3(2)(b)</dd>
       </dl>
 

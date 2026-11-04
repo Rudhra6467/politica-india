@@ -19,12 +19,12 @@ export default function RateFeed({ states }: { states: string[] }) {
   return (
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+        <h2 className="text-lg font-bold tracking-tight text-ink sm:text-xl">
           {t.rate.feedTitle} {state}
         </h2>
         <StatePicker states={states} value={state} onChange={setState} labelOf={labelOf} />
       </div>
-      <div className={"mt-4 grid gap-3 sm:grid-cols-2 " + (ready ? "" : "opacity-60")}>
+      <div className={"mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 " + (ready ? "" : "opacity-60")}>
         {rows.map((c, i) => (
           <LeaderCard key={c.id} c={c} priority={i < 4} />
         ))}

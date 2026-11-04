@@ -58,13 +58,13 @@ export default async function MoodPage({ params }: { params: Params }) {
 
   return (
     <div>
-      <h1 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">{t.rate.mood}</h1>
-      <p className="mt-0.5 text-xs text-slate-500">{t.rate.moodSub}</p>
+      <h1 className="text-xl font-bold tracking-tight text-ink sm:text-2xl">{t.rate.mood}</h1>
+      <p className="mt-0.5 text-xs text-muted">{t.rate.moodSub}</p>
 
       {rows.length === 0 ? (
-        <div className="mt-6 rounded-3xl border border-dashed border-slate-200 bg-white px-4 py-10 text-center">
-          <p className="text-sm text-slate-600">{t.rate.moodEmpty}</p>
-          <Link href={h("/")} className="mt-3 inline-block rounded-full bg-slate-900 px-5 py-2 text-sm font-semibold text-white">
+        <div className="mt-6 rounded-3xl border border-dashed border-line bg-surface px-4 py-10 text-center">
+          <p className="text-sm text-muted">{t.rate.moodEmpty}</p>
+          <Link href={h("/")} className="mt-3 inline-block rounded-full bg-ink px-5 py-2 text-sm font-semibold text-white">
             {t.rate.navRate} →
           </Link>
         </div>
@@ -72,18 +72,18 @@ export default async function MoodPage({ params }: { params: Params }) {
         <ol className="mt-4 space-y-2">
           {rows.map((r, i) => (
             <li key={r.id}>
-              <Link href={h(`/candidates/${r.c!.id}`)} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3 py-2.5 shadow-card transition hover:border-indigo-200">
-                <span className="w-5 text-center text-xs font-bold tabular text-slate-400">{i + 1}</span>
-                <CandidateAvatar name={r.c!.name} photoUrl={r.c!.photoUrl} size="md" partyAbbr={r.c!.partyAbbr} />
+              <Link href={h(`/candidates/${r.c!.id}`)} className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-3 py-3 shadow-card transition hover:border-faint">
+                <span className="w-5 shrink-0 text-center font-display text-base font-bold tabular text-faint">{i + 1}</span>
+                <CandidateAvatar name={r.c!.name} photoUrl={r.c!.photoUrl} size="lg" partyAbbr={r.c!.partyAbbr} />
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center gap-1.5">
-                    <span className="truncate text-sm font-semibold text-slate-900">{r.c!.name}</span>
+                    <span className="truncate font-display text-base font-bold text-ink">{r.c!.name}</span>
                     <PartyBadge abbr={r.c!.partyAbbr} size="sm" />
                   </span>
-                  <span className="block truncate text-[11px] text-slate-500">{r.c!.constituency}</span>
-                </span>
-                <span className="shrink-0 text-right">
-                  <StarMeter avg={r.avg} count={r.count} />
+                  <span className="block truncate text-[11px] text-muted">{r.c!.constituency}</span>
+                  <span className="mt-1 block">
+                    <StarMeter avg={r.avg} count={r.count} />
+                  </span>
                 </span>
               </Link>
             </li>
